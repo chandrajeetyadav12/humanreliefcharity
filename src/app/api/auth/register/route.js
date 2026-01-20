@@ -1,0 +1,124 @@
+import dbConnect from "@/lib/dbConnect";
+import User from "@/models/User";
+import bcrypt from "bcryptjs";
+import cloudinary from "@/lib/cloudinary";
+import { NextResponse } from "next/server";
+
+export async function POST(request) {
+  try {
+    await dbConnect();
+
+    const formData = await request.formData();
+
+    // REQUIRED FIELDS
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const mobile = formData.get("mobile");
+    const transactionId = formData.get("transactionId");
+    const referralCode = formData.get("referralCode");
+    const acceptTerms = formData.get("acceptTerms");
+
+    if (!name || !email || !password || !mobile || !transactionId || !referralCode || !acceptTerms) {
+      return NextResponse.json(
+        { message: "Required fields missing" },
+        { status: 400 }
+      );
+    }
+
+    if (!/^\d{8}$/.test(referralCode)) {
+      return NextResponse.json(
+        { message: "Referral code must be 8 digits" },
+        { status: 400 }
+      );
+    }
+
+    // OPTIONAL FIELD VALIDATION
+    const adharNumber = formData.get("adharNumber");
+    if (adharNumber && !/^\d{12}$/.test(adharNumber)) {
+      return NextResponse.json(
+        { message: "Aadhaar number must be 12 digits" },
+        { status: 400 }
+      );
+    }
+
+    // UNIQUE CHECKS
+    if (await User.findOne({ email })) {
+      return NextResponse.json(
+        { message: "Email already exists" },
+        { status: 400 }
+      );
+    }
+
+    if (await User.findOne({ referralCode })) {
+      return NextResponse.json(
+        { message: "Referral code already used" },
+        { status: 400 }
+      );
+    }
+
+    // FILE UPLOAD (OPTIONAL)
+    let paymentReceipt = undefined;
+    const file = formData.get("paymentReceipt");
+
+    if (file && file.size > 0) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const uploadResult = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({ folder: "receipts" }, (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+          })
+          .end(buffer);
+      });
+
+      paymentReceipt = {
+        public_id: uploadResult.public_id,
+        url: uploadResult.secure_url,
+      };
+    }
+
+    // PASSWORD HASH
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      mobile,
+      transactionId,
+      referralCode,
+      acceptTerms: acceptTerms === "true",
+
+      // OPTIONAL FIELDS
+      adharNumber, // <--- added here
+      fatherorhusbandname: formData.get("fatherorhusbandname"),
+      dob: formData.get("dob"),
+      gender: formData.get("gender"),
+      occupation: formData.get("occupation"),
+      governmentDepartment: formData.get("governmentDepartment"),
+      officeNameAddress: formData.get("officeNameAddress"),
+      state: formData.get("state"),
+      district: formData.get("district"),
+      permanentAddress: formData.get("permanentAddress"),
+      nomineeName: formData.get("nomineeName"),
+      nomineeRelation: formData.get("nomineeRelation"),
+      nomineeMobile: formData.get("nomineeMobile"),
+
+      paymentReceipt,
+    });
+
+    return NextResponse.json(
+      { message: "User registered successfully", user },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Server error" },
+      { status: 500 }
+    );
+  }
+}

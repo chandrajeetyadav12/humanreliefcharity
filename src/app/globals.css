@@ -40,3 +40,46 @@ a {
     color-scheme: dark;
   }
 }
+
+.topheader{
+  height: 50px;
+  background-color:lightblue;
+  display: flex;
+  align-items: center;
+
+}
+.leftt_top_header{
+  width: 30%;
+  color: #fff;
+}
+.rightheader {
+  width: 70%;
+}.rightheader ul{
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  color: #ffffff;
+}
+.headerMain_Contianer{
+  height: 100px;
+  display: flex;
+  align-items: center;
+  background-color: #3e2723;
+}
+.logocontainer{
+  width: 15%;
+  color: #fff;
+}
+.mainheader_MenuContainer{
+  width: 85%;
+  display: flex;
+  gap: 20px;
+}
+.mainheader_MenuContainer a{
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mainheader_MenuContainer a:hover{
+  color: yellow;
+}
