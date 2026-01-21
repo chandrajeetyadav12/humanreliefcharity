@@ -34,14 +34,26 @@ export async function POST(request) {
     }
 
     // OPTIONAL FIELD VALIDATION
-    const adharNumber = formData.get("adharNumber");
+    const adharNumberRaw = formData.get("adharNumber");
+    const adharNumber =
+      adharNumberRaw && adharNumberRaw.trim() !== ""
+        ? adharNumberRaw.trim()
+        : undefined;
     if (adharNumber && !/^\d{12}$/.test(adharNumber)) {
       return NextResponse.json(
         { message: "Aadhaar number must be 12 digits" },
         { status: 400 }
       );
     }
-
+    if (adharNumber) {
+      const adharExists = await User.findOne({ adharNumber });
+      if (adharExists) {
+        return NextResponse.json(
+          { message: "Aadhaar already registered" },
+          { status: 400 }
+        );
+      }
+    }
     // UNIQUE CHECKS
     if (await User.findOne({ email })) {
       return NextResponse.json(

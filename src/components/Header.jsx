@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 import HomeIcon from "@mui/icons-material/Home";
@@ -103,6 +102,7 @@ export default function Header() {
         ref={sidebarRef}
         className={`sidebar ${sidebarOpen ? "active" : ""}`}
       >
+        <Link href="/">Home</Link>
         <Link href="#">About us</Link>
         <Link href="#">Contact us</Link>
         <Link href="#">Beti Vivah Sahyog Suchi</Link>

@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,16 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 
 const schema = yup.object({
-  email: yup.string().email("Invalid email").required("Email is required"),
+  identifier: yup
+    .string()
+    .required("Email or Aadhaar is required")
+    .test(
+      "email-or-aadhaar",
+      "Enter valid Email or 12-digit Aadhaar",
+      (value) =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ||
+        /^\d{12}$/.test(value)
+    ),
   password: yup.string().min(6).required("Password is required"),
 });
 
@@ -26,17 +34,20 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
-      await login(data);
+      await login({
+        identifier: data.identifier,
+        password: data.password,
+      });
+
       toast.success("Login successful");
-      // router.push("/dashboard");
+      router.push("/");
     } catch (err) {
-      toast.error("Invalid email or password");
+      toast.error("Invalid credentials");
     }
   };
 
   return (
     <div className="container my-5">
-
       <div className="col-md-5 mx-auto my-4">
         <div className="border rounded shadow p-4 bg-white">
           <h3 className="mb-3">Login</h3>
@@ -44,10 +55,10 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
               className="form-control mb-2"
-              placeholder="Email"
-              {...register("email")}
+              placeholder="Email or Aadhaar"
+              {...register("identifier")}
             />
-            <p className="text-danger">{errors.email?.message}</p>
+            <p className="text-danger">{errors.identifier?.message}</p>
 
             <input
               type="password"

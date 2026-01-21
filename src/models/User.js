@@ -7,7 +7,16 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     adharNumber: {
       type: String,
-      match: [/^\d{12}$/, "Aadhar must be 12 digits"],
+      trim: true,
+      match: [/^\d{12}$/, "Aadhaar must be 12 digits"],
+      unique: true,
+      sparse: true,
+      default: undefined,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "active", "rejected"],
+      default: "pending",
     },
 
     fatherorhusbandname: String,
@@ -57,7 +66,7 @@ const UserSchema = new mongoose.Schema(
 
     acceptTerms: { type: Boolean, required: true },
 
-    role: { type: String, default: "user" },
+    role: { type: String,enum: ["admin", "user"], default: "user" },
   },
   { timestamps: true }
 );

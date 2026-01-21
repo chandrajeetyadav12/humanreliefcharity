@@ -20,7 +20,11 @@ const schema = yup.object({
     .required("रेफरल कोड आवश्यक है"),
   adharNumber: yup
     .string()
-    .matches(/^\d{12}$/, "आधार नंबर 12 अंकों का होना चाहिए")
+      .transform((value) => (value === "" ? undefined : value)) 
+  .matches(/^\d{12}$/, {
+    message: "आधार नंबर 12 अंकों का होना चाहिए",
+    excludeEmptyString: true,
+  })
     .notRequired(),
   acceptTerms: yup.boolean().oneOf([true], "नियम स्वीकार करें"),
 });
@@ -48,7 +52,7 @@ export default function RegisterPage() {
       formData.append("acceptTerms", data.acceptTerms);
 
       // OPTIONAL
-      if (data.adharNumber) formData.append("adharNumber", data.adharNumber);
+      if (data.adharNumber?.trim()) formData.append("adharNumber", data.adharNumber.trim());
       if (data.fatherorhusbandname) formData.append("fatherorhusbandname", data.fatherorhusbandname);
       if (data.dob) formData.append("dob", data.dob);
       if (data.gender) formData.append("gender", data.gender);
@@ -150,7 +154,7 @@ export default function RegisterPage() {
           <div className="row mb-3">
             <div className="col-md-6">
               <label className="form-label">आधार नंबर</label>
-              <input className="form-control" placeholder="12 अंकों का आधार नंबर" {...register("adharNumber")} />
+              <input className="form-control" placeholder="12 अंकों का आधार नंबर(यदि हो)"  {...register("adharNumber")} />
               <p className="text-danger">{errors.adharNumber?.message}</p>
             </div>
             <div className="col-md-6">
@@ -228,7 +232,7 @@ export default function RegisterPage() {
             <p className="text-danger">{errors.acceptTerms?.message}</p>
           </div>
 
-          <button className="btn btn-success w-100">पंजीकरण करें</button>
+          <button className="btn btn-success w-100">Register</button>
         </form>
       </div>
     </div>

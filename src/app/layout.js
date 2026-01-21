@@ -26,9 +26,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
          <AuthProvider>
+          <div className="app-wrapper">
         <Header />
+        <main className="main-content">
         {children}
-        {/* <Footer/> */}
+        </main>
+        <Footer/>
+        </div>
         <ToastContainer position="top-right" autoClose={3000} />
         </AuthProvider>
       </body>
