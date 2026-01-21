@@ -1,52 +1,117 @@
 "use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-// import { useContext } from "react";
-// import { AuthContext } from "@/context/AuthContext";
+
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
+import HomeIcon from "@mui/icons-material/Home";
+
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdClose } from "react-icons/io";
 
 export default function Header() {
-    //   const { user, logout } = useContext(AuthContext);
+  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
 
-    return (
-        <header className="">
-           
-            <div className="topheader px-2">
-                <div className="leftt_top_header">
-                <p>address uttar pradesh allahabad</p>
-                </div>
-                <div className="rightheader">
-                 <ul>
-                    <li>facebook</li>
-                    <li>twitter</li>
-                    <li>instagram</li>
-                 </ul>
-                </div>
-            </div>
-            <div className="headerMain_Contianer px-2">
-                <div className="logocontainer">Human Relief</div>
-                <div className="mainheader_MenuContainer">
-                    <Link href="#">About us</Link>
-                    <Link href="#">Contact us</Link>
-                    <Link href="#">Beti Vivah Sahyog Suchi</Link>
-                    <Link href="#">Untimely Death Sahyog Suchi</Link>
-                    <Link href="#">Registered members List</Link>
-                    <Link href="/register">Registration</Link>
-                    <Link href="/login">Login</Link>
-                    <Link href="#">QR Code for Donation</Link>
+  // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1006);
+    };
 
-                </div>
-                {/* <div className="rightSideMenuContainer">
-                <Link href="/">Human Relief</Link>
-            </div> */}
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
+  // Close sidebar on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        closeSidebar();
+      }
+    };
 
-                {/* {user ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
+    if (sidebarOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [sidebarOpen]);
+
+  const openSidebar = () => {
+    setSidebarOpen(true);
+    document.body.classList.add("no-scroll");
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+    document.body.classList.remove("no-scroll");
+  };
+
+  return (
+    <>
+      {/* TOP HEADER */}
+      <div className="topheader">
+        <ul>
+          <li><CallIcon /> <span>+91 98765 43210</span></li>
+          <li><EmailIcon /> hrct@gmail.com</li>
+          <li><HomeIcon /> Varanasi (UP) - 270093</li>
+        </ul>
+      </div>
+
+      {/* MAIN HEADER */}
+      <header className="mainHeader">
+        <div className="logo">Human Relief</div>
+
+        {/* DESKTOP MENU */}
+        {!isMobile && (
+          <nav className="desktopMenu">
+            <Link href="#">About us</Link>
+            <Link href="#">Contact us</Link>
+            <Link href="#">Beti Vivah Sahyog Suchi</Link>
+            <Link href="#">Untimely Death Sahyog Suchi</Link>
+            <Link href="#">Registered Members</Link>
+            <Link href="/register">Registration</Link>
+            <Link href="/login">Login</Link>
+            <Link href="#">QR Code</Link>
+          </nav>
+        )}
+
+        {/* MOBILE ICON */}
+        {isMobile && (
+          <div className="hamburger">
+            {sidebarOpen ? (
+              <IoMdClose size={26} onClick={closeSidebar} />
+            ) : (
+              <GiHamburgerMenu size={26} onClick={openSidebar} />
+            )}
+          </div>
+        )}
+      </header>
+
+      {/* OVERLAY */}
+      {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
+
+      {/* MOBILE SIDEBAR */}
+      <aside
+        ref={sidebarRef}
+        className={`sidebar ${sidebarOpen ? "active" : ""}`}
+      >
+        <Link href="#">About us</Link>
+        <Link href="#">Contact us</Link>
+        <Link href="#">Beti Vivah Sahyog Suchi</Link>
+        <Link href="#">Untimely Death Sahyog Suchi</Link>
+        <Link href="#">Registered Members</Link>
+        <Link href="/register">Registration</Link>
         <Link href="/login">Login</Link>
-      )} */}
-            </div>
-
-        </header>
-    );
+        <Link href="#">QR Code</Link>
+      </aside>
+    </>
+  );
 }

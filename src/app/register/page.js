@@ -224,7 +224,7 @@ export default function RegisterPage() {
           {/* Accept Terms */}
           <div className="form-check mb-3">
             <input type="checkbox" className="form-check-input" {...register("acceptTerms")} />
-            <label className="form-check-label">मैं नियम व शर्तें स्वीकार करता हूँ</label>
+            <label className="form-check-label">मैं नियम व शर्तें स्वीकार करता हूँ </label>
             <p className="text-danger">{errors.acceptTerms?.message}</p>
           </div>
 
