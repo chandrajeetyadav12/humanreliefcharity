@@ -17,6 +17,17 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
 }
+.logoutBtn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.logoutBtn:hover {
+  text-decoration: underline;
+}
 
 body {
   color: var(--foreground);

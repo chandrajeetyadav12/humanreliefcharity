@@ -31,6 +31,7 @@ export default function AuthProvider({ children }) {
     });
 
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+    return res.data.user;
   };
 
   const logout = async () => {

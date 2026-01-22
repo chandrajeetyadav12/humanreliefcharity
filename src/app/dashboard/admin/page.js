@@ -1,8 +1,9 @@
-export default function AdminDashboard() {
+import React from 'react'
+
+const page = () => {
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
-      <p>Approve applications, manage users</p>
-    </div>
-  );
+    <div>admin home page</div>
+  )
 }
+
+export default page

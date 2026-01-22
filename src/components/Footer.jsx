@@ -22,7 +22,7 @@ const Footer = () => {
                 <Link href="/member" className="text-white text-decoration-none">Member List</Link>
               </li>
               <li>
-                <Link href="#" className="text-white text-decoration-none">Contact Us</Link>
+                <Link href="/contact" className="text-white text-decoration-none">Contact Us</Link>
               </li>
               <li>
                 <Link href="#" className="text-white text-decoration-none">About Us</Link>
