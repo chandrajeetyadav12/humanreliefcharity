@@ -68,7 +68,7 @@ export default function LoginPage() {
             />
             <p className="text-danger">{errors.password?.message}</p>
 
-            <button className="btn btn-success w-100">Login</button>
+            <button className="globalBtnColor">Login</button>
           </form>
         </div>
       </div>

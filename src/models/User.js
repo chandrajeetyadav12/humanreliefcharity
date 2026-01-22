@@ -50,11 +50,17 @@ const UserSchema = new mongoose.Schema(
     nomineeRelation: String,
     nomineeMobile: String,
 
-    transactionId: { type: String, required: true },
+    transactionId: {
+      type: String, required: function () {
+        return this.role === "user";
+      },
+    },//check
 
     referralCode: {
       type: String,
-      required: true,
+      trim: true,
+      sparse: true,   // VERY IMPORTANT
+      default: undefined,
       unique: true,
       match: [/^\d{8}$/, "Referral code must be 8 digits"],
     },
@@ -64,9 +70,14 @@ const UserSchema = new mongoose.Schema(
       url: String,
     },
 
-    acceptTerms: { type: Boolean, required: true },
+    acceptTerms: {
+      type: Boolean,
+      required: function () {
+        return this.role === "user";
+      },
+    },
 
-    role: { type: String,enum: ["admin", "user"], default: "user" },
+    role: { type: String, enum: ["admin", "user"], default: "user" },
   },
   { timestamps: true }
 );

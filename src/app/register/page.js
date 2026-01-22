@@ -16,15 +16,19 @@ const schema = yup.object({
   transactionId: yup.string().required("ट्रांजेक्शन आईडी आवश्यक है"),
   referralCode: yup
     .string()
-    .matches(/^\d{8}$/, "8 अंकों का रेफरल कोड डालें")
-    .required("रेफरल कोड आवश्यक है"),
+    .transform((value) => (value === "" ? undefined : value))
+    .matches(/^\d{8}$/, {
+      message: "8 अंकों का रेफरल कोड डालें",
+      excludeEmptyString: true,
+    })
+    .notRequired(),
   adharNumber: yup
     .string()
-      .transform((value) => (value === "" ? undefined : value)) 
-  .matches(/^\d{12}$/, {
-    message: "आधार नंबर 12 अंकों का होना चाहिए",
-    excludeEmptyString: true,
-  })
+    .transform((value) => (value === "" ? undefined : value))
+    .matches(/^\d{12}$/, {
+      message: "आधार नंबर 12 अंकों का होना चाहिए",
+      excludeEmptyString: true,
+    })
     .notRequired(),
   acceptTerms: yup.boolean().oneOf([true], "नियम स्वीकार करें"),
 });
@@ -48,10 +52,13 @@ export default function RegisterPage() {
       formData.append("password", data.password);
       formData.append("mobile", data.mobile);
       formData.append("transactionId", data.transactionId);
-      formData.append("referralCode", data.referralCode);
       formData.append("acceptTerms", data.acceptTerms);
 
       // OPTIONAL
+      if (data.referralCode?.trim()) {
+        formData.append("referralCode", data.referralCode.trim());
+      }
+
       if (data.adharNumber?.trim()) formData.append("adharNumber", data.adharNumber.trim());
       if (data.fatherorhusbandname) formData.append("fatherorhusbandname", data.fatherorhusbandname);
       if (data.dob) formData.append("dob", data.dob);
@@ -208,7 +215,7 @@ export default function RegisterPage() {
           {/* Referral & Payment */}
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label">रेफरल कोड (8 अंक)</label>
+              <label className="form-label">रेफरल कोड (8 अंक) (यदि हो)</label>
               <input className="form-control" placeholder="रेफरल कोड" {...register("referralCode")} />
               <p className="text-danger">{errors.referralCode?.message}</p>
             </div>
@@ -232,7 +239,7 @@ export default function RegisterPage() {
             <p className="text-danger">{errors.acceptTerms?.message}</p>
           </div>
 
-          <button className="btn btn-success w-100">Register</button>
+          <button className="globalBtnColor">Register</button>
         </form>
       </div>
     </div>

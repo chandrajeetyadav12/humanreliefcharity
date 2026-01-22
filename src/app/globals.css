@@ -25,6 +25,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.globalBtnColor{
+  background-color: #0a0a0a;
+  color: #fff;
+  padding: 4px;
+  border-radius: 5px;
+}
+.globalBtnColor:hover{
+background-color: #3e2723;
+}
 
 * {
   box-sizing: border-box;

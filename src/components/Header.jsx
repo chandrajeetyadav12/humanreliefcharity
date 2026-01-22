@@ -72,10 +72,10 @@ export default function Header() {
         {!isMobile && (
           <nav className="desktopMenu">
             <Link href="#">About us</Link>
-            <Link href="#">Contact us</Link>
+            <Link href="/contact">Contact us</Link>
             <Link href="#">Beti Vivah Sahyog Suchi</Link>
             <Link href="#">Untimely Death Sahyog Suchi</Link>
-            <Link href="#">Registered Members</Link>
+            <Link href="/member">Registered Members</Link>
             <Link href="/register">Registration</Link>
             <Link href="/login">Login</Link>
             <Link href="#">QR Code</Link>

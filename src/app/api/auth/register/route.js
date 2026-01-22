@@ -6,9 +6,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
+
     await dbConnect();
 
     const formData = await request.formData();
+    const role = formData.get("role") || "user";
+
 
     // REQUIRED FIELDS
     const name = formData.get("name");
@@ -16,17 +19,30 @@ export async function POST(request) {
     const password = formData.get("password");
     const mobile = formData.get("mobile");
     const transactionId = formData.get("transactionId");
-    const referralCode = formData.get("referralCode");
     const acceptTerms = formData.get("acceptTerms");
 
-    if (!name || !email || !password || !mobile || !transactionId || !referralCode || !acceptTerms) {
+    if (!name || !email || !password || !mobile) {
       return NextResponse.json(
         { message: "Required fields missing" },
         { status: 400 }
       );
     }
+    // Required ONLY for user
+    if (role === "user") {
+      if (!transactionId || acceptTerms !== "true") {
+        return NextResponse.json(
+          { message: "Transaction ID and Accept Terms are required for users" },
+          { status: 400 }
+        );
+      }
+    }
+    const referralCodeRaw = formData.get("referralCode");
+    const referralCode =
+      referralCodeRaw && referralCodeRaw.trim() !== ""
+        ? referralCodeRaw.trim()
+        : undefined;
 
-    if (!/^\d{8}$/.test(referralCode)) {
+    if (referralCode && !/^\d{8}$/.test(referralCode)) {
       return NextResponse.json(
         { message: "Referral code must be 8 digits" },
         { status: 400 }
@@ -62,12 +78,16 @@ export async function POST(request) {
       );
     }
 
-    if (await User.findOne({ referralCode })) {
-      return NextResponse.json(
-        { message: "Referral code already used" },
-        { status: 400 }
-      );
+    if (referralCode) {
+      const exists = await User.findOne({ referralCode });
+      if (exists) {
+        return NextResponse.json(
+          { message: "Referral code already used" },
+          { status: 400 }
+        );
+      }
     }
+
 
     // FILE UPLOAD (OPTIONAL)
     let paymentReceipt = undefined;
@@ -100,9 +120,10 @@ export async function POST(request) {
       email,
       password: hashedPassword,
       mobile,
-      transactionId,
+      role,
+      transactionId: role === "user" ? transactionId : undefined,
+      acceptTerms: role === "user" ? acceptTerms === "true" : undefined,
       referralCode,
-      acceptTerms: acceptTerms === "true",
 
       // OPTIONAL FIELDS
       adharNumber, // <--- added here
