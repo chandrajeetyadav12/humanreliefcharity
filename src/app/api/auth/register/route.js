@@ -87,6 +87,28 @@ export async function POST(request) {
         );
       }
     }
+    // USER PROFILE IMAGE (OPTIONAL)
+    let userImage = undefined;
+    const imageFile = formData.get("userImage");
+
+    if (imageFile && imageFile.size > 0) {
+      const bytes = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const uploadResult = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({ folder: "user_profiles" }, (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+          })
+          .end(buffer);
+      });
+
+      userImage = {
+        public_id: uploadResult.public_id,
+        url: uploadResult.secure_url,
+      };
+    }
 
 
     // FILE UPLOAD (OPTIONAL)
@@ -141,6 +163,7 @@ export async function POST(request) {
       nomineeMobile: formData.get("nomineeMobile"),
 
       paymentReceipt,
+      userImage
     });
 
     return NextResponse.json(

@@ -58,6 +58,10 @@ export default function RegisterPage() {
       if (data.referralCode?.trim()) {
         formData.append("referralCode", data.referralCode.trim());
       }
+      if (data.userImage?.[0]) {
+        formData.append("userImage", data.userImage[0]);
+      }
+
 
       if (data.adharNumber?.trim()) formData.append("adharNumber", data.adharNumber.trim());
       if (data.fatherorhusbandname) formData.append("fatherorhusbandname", data.fatherorhusbandname);
@@ -224,6 +228,15 @@ export default function RegisterPage() {
               <input type="file" className="form-control" {...register("paymentReceipt")} />
             </div>
           </div>
+          <div className="mb-3">
+            <label className="form-label">प्रोफाइल फोटो (यदि हो)</label>
+            <input
+              type="file"
+              className="form-control"
+              accept="image/*"
+              {...register("userImage")}
+            />
+          </div>
 
           {/* Password */}
           <div className="mb-3">
@@ -231,6 +244,7 @@ export default function RegisterPage() {
             <input type="password" className="form-control" placeholder="पासवर्ड" {...register("password")} />
             <p className="text-danger">{errors.password?.message}</p>
           </div>
+
 
           {/* Accept Terms */}
           <div className="form-check mb-3">

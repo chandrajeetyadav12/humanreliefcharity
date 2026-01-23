@@ -64,6 +64,11 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       match: [/^\d{8}$/, "Referral code must be 8 digits"],
     },
+    userImage: {
+      public_id: String,
+      url: String,
+    },
+
 
     paymentReceipt: {
       public_id: String,
