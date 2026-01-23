@@ -34,18 +34,21 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
-      const user =await login({
+      const user = await login({
         identifier: data.identifier,
         password: data.password,
       });
 
       toast.success("Login successful");
-          if (user.role === "admin") {
-      router.push("/dashboard/admin");
-    } else {
-      router.push("/dashboard/user");
-    }
-    } catch (err) {
+      if (user.role === "admin") {
+        router.push("/dashboard/admin");
+      } else {
+        router.push("/dashboard/user");
+      }
+    } catch (error) {
+      const msg =
+        error.response?.data?.message || "Login failed";
+      toast.error(msg);
       toast.error("Invalid credentials");
     }
   };

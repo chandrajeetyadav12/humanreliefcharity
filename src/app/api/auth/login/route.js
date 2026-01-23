@@ -24,6 +24,13 @@ export async function POST(req) {
       // Email login
       user = await User.findOne({ email: identifier });
     }
+    //  BLOCK USER LOGIN IF NOT ACTIVE (ADMIN ALWAYS ALLOWED)
+    if (user.role === "user" && user.status !== "active") {
+      return NextResponse.json(
+        { message: "Your account is not verified by admin yet" },
+        { status: 403 }
+      );
+    }
 
     if (!user) {
       return NextResponse.json(
