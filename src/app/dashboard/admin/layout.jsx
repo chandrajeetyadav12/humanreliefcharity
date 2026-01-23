@@ -1,10 +1,13 @@
+
 export default function AdminLayout({ children }) {
   return (
-    <div className="d-flex">
-      <aside className="p-3 border-end" style={{ width: 250 }}>
+    <div className="d-block d-lg-flex flex-grow-1 min-vh-100 admin-main">
+      <aside className="p-3 border-end bg-light userLayoutAside">
         <h5>Admin Panel</h5>
-        <ul className="list-unstyled">
+        <ul className="list-unstyled userAsideUL">
           <li><a href="/dashboard/admin/users">Users</a></li>
+          <li><a href="/dashboard/admin/profile">Profile</a></li>
+
         </ul>
       </aside>
 

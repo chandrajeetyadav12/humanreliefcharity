@@ -5,6 +5,7 @@ import axios from "axios";
 
 export default function MembersPage() {
   const [members, setMembers] = useState([]);
+  // console.log(members)
 
   useEffect(() => {
     axios
@@ -32,29 +33,35 @@ export default function MembersPage() {
             </tr>
           </thead>
           <tbody>
-            {members.length === 0 ? (
+            {members.filter(m => m.status === "active").length === 0 ? (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan="6" className="text-center">
                   No active members yet.
                 </td>
               </tr>
             ) : (
-              members.map((m, i) => (
-                <tr key={m._id}>
-                  <td>{i + 1}</td>
-                  <td>{m.name ? m.name : "Member"}</td>
-                  <td>{m.occupation}</td>
-                  <td>{m.status}</td>
-
-                  <td>
-                    {m.district ? m.district + ", " : ""}
-                    {m.state || ""}
-                  </td>
-                  <td>{m.createdAt ? new Date(m.createdAt).toLocaleDateString() : "-"}</td>
-                </tr>
-              ))
+              members
+                .filter(m => m.status === "active")
+                .map((m, i) => (
+                  <tr key={m._id}>
+                    <td>{i + 1}</td>
+                    <td>{m.name || "Member"}</td>
+                    <td>{m.occupation}</td>
+                    <td>{m.status}</td>
+                    <td>
+                      {m.district ? `${m.district}, ` : ""}
+                      {m.state || ""}
+                    </td>
+                    <td>
+                      {m.createdAt
+                        ? new Date(m.createdAt).toLocaleDateString()
+                        : "-"}
+                    </td>
+                  </tr>
+                ))
             )}
           </tbody>
+
         </table>
       </div>
     </div>

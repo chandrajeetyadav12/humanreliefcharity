@@ -29,7 +29,7 @@ export default function AdminUsersPage() {
     <div className="container my-5">
       <h3>Admin – User Verification</h3>
 
-      <div className="table-responsive">
+      <div className="table-responsive ">
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
             <tr>

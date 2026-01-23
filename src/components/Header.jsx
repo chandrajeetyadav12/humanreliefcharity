@@ -23,7 +23,7 @@ export default function Header() {
   // Detect screen size
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1006);
+      setIsMobile(window.innerWidth < 1026);
     };
 
     handleResize();
@@ -139,8 +139,30 @@ export default function Header() {
         <Link href="#">Beti Vivah Sahyog Suchi</Link>
         <Link href="#">Untimely Death Sahyog Suchi</Link>
         <Link href="/member">Registered Members</Link>
-        <Link href="/register">Registration</Link>
-        <Link href="/login">Login</Link>
+                  {!isAuthenticated && (
+            <>
+              <Link href="/register">Registration</Link>
+              <Link href="/login">Login</Link>
+            </>
+          )}
+                    {/* LOGGED IN USER */}
+          {isAuthenticated && user?.role === "user" && (
+            <>
+              <Link href="/dashboard/user">Dashboard</Link>
+              <button onClick={handleLogout} className="logoutBtn">
+                Logout
+              </button>
+            </>
+          )}
+                    {isAuthenticated && user?.role === "admin" && (
+            <>
+              <Link href="/dashboard/admin">Admin Panel</Link>
+              <button onClick={handleLogout} className="logoutBtn">
+                Logout
+              </button>
+            </>
+          )}
+     
         <Link href="#">QR Code</Link>
       </aside>
     </>

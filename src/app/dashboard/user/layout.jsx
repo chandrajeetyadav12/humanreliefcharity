@@ -1,10 +1,10 @@
 export default function UserLayout({ children }) {
   return (
-    <div className="d-flex min-vh-100">
-      <aside className="p-3 border-end bg-light" style={{ width: 250 }}>
+    <div className="d-block d-lg-flex flex-grow-1 min-vh-100">
+      <aside className="p-3 border-end bg-light userLayoutAside" >
         <h5 className="mb-3">Member Panel</h5>
 
-        <ul className="list-unstyled">
+        <ul className="list-unstyled userAsideUL">
           <li className="mb-2">
             <a href="/dashboard/user">Dashboard</a>
           </li>
@@ -16,6 +16,7 @@ export default function UserLayout({ children }) {
           <li className="mb-2">
             <a href="/dashboard/user/status">Application Status</a>
           </li>
+          
         </ul>
       </aside>
 
