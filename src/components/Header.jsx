@@ -107,6 +107,14 @@ export default function Header() {
               </button>
             </>
           )}
+                    {isAuthenticated && user?.role === "founder" && (
+            <>
+              <Link href="/dashboard/founder">Founder Panel</Link>
+              <button onClick={handleLogout} className="logoutBtn">
+                Logout
+              </button>
+            </>
+          )}
             {/* <Link href="/register">Registration</Link> */}
             {/* <Link href="/login">Login</Link> */}
             <Link href="#">QR Code</Link>

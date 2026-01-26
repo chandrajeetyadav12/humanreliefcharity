@@ -42,7 +42,11 @@ export default function LoginPage() {
       toast.success("Login successful");
       if (user.role === "admin") {
         router.push("/dashboard/admin");
-      } else {
+      }
+      else if(user.role === "founder"){
+         router.push("/dashboard/founder");
+      }
+       else {
         router.push("/dashboard/user");
       }
     } catch (error) {

@@ -82,7 +82,7 @@ const UserSchema = new mongoose.Schema(
       },
     },
 
-    role: { type: String, enum: ["admin", "user"], default: "user" },
+    role: { type: String, enum: ["admin", "user","founder"], default: "user" },
   },
   { timestamps: true }
 );

@@ -12,8 +12,8 @@ export function middleware(request) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Not admin
-    if (decoded.role !== "admin") {
+    // Not admin +founder allowed
+      if (!["admin", "founder"].includes(decoded.role)) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
@@ -25,5 +25,5 @@ export function middleware(request) {
 
 // Only protect admin routes
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/founder/:path*"],
 };
