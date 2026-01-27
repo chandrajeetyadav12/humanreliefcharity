@@ -11,7 +11,7 @@ const { id } = await params;
     if (!token) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role !== "admin") {
+    if (!["admin", "founder"].includes(decoded.role)) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 

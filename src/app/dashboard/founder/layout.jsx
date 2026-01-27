@@ -11,7 +11,7 @@ export default function FounderLayout({ children }) {
           </li>
 
           <li>
-            <a href="/dashboard/founder/profiles">My Profile</a>
+            <a href="/dashboard/founder/profile">My Profile</a>
           </li>
 
           <li>
