@@ -13,6 +13,9 @@ export default function FounderLayout({ children }) {
           <li>
             <a href="/dashboard/founder/profile">My Profile</a>
           </li>
+            <li>
+            <a href="/dashboard/founder/pending-avedan">Pendin Avedan</a>
+          </li>
 
           <li>
             <a href="/dashboard/founder/admins">Admins</a>

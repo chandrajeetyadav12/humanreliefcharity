@@ -1,14 +1,17 @@
 import dbConnect from "@/lib/dbConnect";
 import Avedan from "@/models/Avedan";
 import { NextResponse } from "next/server";
-
+import { getAuth } from "@/lib/auth";
 export async function PATCH(req) {
   try {
     await dbConnect();
+    const auth = getAuth(req); // get admin from token
+    if (!auth || auth.role !== "admin") {
+      return NextResponse.json({ message: "Access denied" }, { status: 403 });
+    }
+    const { avedanId } = await req.json();
 
-    const { avedanId, adminId } = await req.json();
-
-    if (!avedanId || !adminId) {
+    if (!avedanId ) {
       return NextResponse.json(
         { message: "Missing data" },
         { status: 400 }
@@ -25,7 +28,7 @@ export async function PATCH(req) {
     }
 
     avedan.status = "admin_verified";
-    avedan.adminVerifiedBy = adminId;
+    avedan.adminVerifiedBy = auth.userId;
 
     // mark documents verified
     avedan.documents = avedan.documents.map(doc => ({

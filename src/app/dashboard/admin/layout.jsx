@@ -7,6 +7,8 @@ export default function AdminLayout({ children }) {
         <ul className="list-unstyled userAsideUL">
           <li><a href="/dashboard/admin/users">Users</a></li>
           <li><a href="/dashboard/admin/profile">Profile</a></li>
+          <li><a href="/dashboard/admin/pending-avedan">pending-avedan</a></li>
+
 
         </ul>
       </aside>

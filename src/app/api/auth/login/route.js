@@ -24,6 +24,12 @@ export async function POST(req) {
       // Email login
       user = await User.findOne({ email: identifier });
     }
+    if (!user) {
+      return NextResponse.json(
+        { message: "Invalid credentials" },
+        { status: 401 }
+      );
+    }
     //  BLOCK USER LOGIN IF NOT ACTIVE (ADMIN ALWAYS ALLOWED)
     if (user.role === "user" && user.status !== "active") {
       return NextResponse.json(
@@ -32,12 +38,7 @@ export async function POST(req) {
       );
     }
 
-    if (!user) {
-      return NextResponse.json(
-        { message: "Invalid credentials" },
-        { status: 401 }
-      );
-    }
+
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });

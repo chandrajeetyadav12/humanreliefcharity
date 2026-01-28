@@ -1,14 +1,18 @@
 import dbConnect from "@/lib/dbConnect";
 import Avedan from "@/models/Avedan";
 import { NextResponse } from "next/server";
-
+import { getAuth } from "@/lib/auth";
 export async function PATCH(req) {
   try {
     await dbConnect();
+    //  Get founder from token
+    const auth = getAuth(req);
+    if (!auth || auth.role !== "founder") {
+      return NextResponse.json({ message: "Access denied" }, { status: 403 });
+    }
+    const { avedanId,decision } = await req.json();
 
-    const { avedanId, founderId, decision } = await req.json();
-
-    if (!avedanId || !founderId || !["approved", "rejected"].includes(decision)) {
+    if (!avedanId || !["approved", "rejected"].includes(decision)) {
       return NextResponse.json(
         { message: "Invalid request" },
         { status: 400 }
@@ -26,7 +30,7 @@ export async function PATCH(req) {
 
     if (decision === "approved") {
       avedan.status = "founder_approved";
-      avedan.founderApprovedBy = founderId;
+      avedan.founderApprovedBy = auth.userId;
     //   avedan.bankDetails.upiQrUrl = upiQrUrl;
 
       // UPI QR becomes visible ONLY now
