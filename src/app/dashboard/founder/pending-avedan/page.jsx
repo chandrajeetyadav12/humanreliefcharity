@@ -145,7 +145,7 @@ export default function FounderPendingAvedanPage() {
                                                         {selectedAvedan.documents.map((doc, i) => (
                                                             <li key={i}>
                                                                 <b>{doc.label}</b>{" "}
-                                                                {doc.verified ? "✅" : "❌"} <br />
+                                                                {doc.verified ? "✔" : "❌"} <br />
                                                                 <a href={doc.file.url} target="_blank">
                                                                     View Document
                                                                 </a>
@@ -156,18 +156,18 @@ export default function FounderPendingAvedanPage() {
                                                     <hr />
 
                                                     {/* BANK DETAILS (Founder Approved Only) */}
-                                                    {selectedAvedan.status === "founder_approved" && (
+                                                    {selectedAvedan.status === "admin_verified" && (
                                                         <>
                                                             <h6>Bank Details</h6>
                                                             <p>
-                                                                <b>Account Holder:</b> {selectedAvedan.bankDetails.accountHolderName}<br />
-                                                                <b>Bank:</b> {selectedAvedan.bankDetails.bankName}<br />
-                                                                <b>Account No:</b> {selectedAvedan.bankDetails.accountNumber}<br />
-                                                                <b>IFSC:</b> {selectedAvedan.bankDetails.ifsc}
+                                                                <b>Account Holder:</b> {selectedAvedan?.bankDetails?.accountHolderName}<br />
+                                                                <b>Bank:</b> {selectedAvedan?.bankDetails?.bankName}<br />
+                                                                <b>Account No:</b> {selectedAvedan?.bankDetails?.accountNumber}<br />
+                                                                <b>IFSC:</b> {selectedAvedan?.bankDetails?.ifsc}
                                                             </p>
 
                                                             <img
-                                                                src={selectedAvedan.bankDetails.upiQrUrl}
+                                                                src={selectedAvedan?.bankDetails?.upiQrUrl}
                                                                 alt="UPI QR"
                                                                 width={180}
                                                             />

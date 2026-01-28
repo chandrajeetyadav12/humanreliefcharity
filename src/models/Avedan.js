@@ -68,7 +68,7 @@ const AvedanSchema = new mongoose.Schema(
       bankName: String,
       accountNumber: String,
       ifsc: String,
-      upiQrUrl: String, // visible ONLY after founder approval
+      upiQrUrl: String,//store candiate QR
     },
 
     status: {
