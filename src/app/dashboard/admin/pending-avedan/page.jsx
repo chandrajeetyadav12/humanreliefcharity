@@ -75,6 +75,7 @@ export default function PendingAvedanPage() {
                     Verify
                   </button>
                 </td>
+                <td>view</td>
               </tr>
             ))}
           </tbody>

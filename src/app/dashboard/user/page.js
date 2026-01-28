@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
-
+import FounderApprovedAvedans from "../components/avedan/FounderApprovedAvedans";
 export default function UserDashboard() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,6 +59,8 @@ export default function UserDashboard() {
           </div>
         </div>
       )}
+      {/* founderApprovedavedanlist */}
+      {/* <FounderApprovedAvedans/> */}
     </div>
   );
 }

@@ -13,6 +13,11 @@ import * as yup from "yup";
 // ----------------------
 const schema = yup.object().shape({
   description: yup.string().required("Description is required"),
+  requiredAmount: yup
+    .number()
+    .typeError("Required amount must be a number")
+    .positive("Amount must be greater than 0")
+    .required("Required amount is required"),
   accountHolderName: yup.string().required("Account holder name is required"),
   bankName: yup.string().required("Bank name is required"),
   accountNumber: yup.string().required("Account number is required"),
@@ -27,8 +32,9 @@ export default function ApplyAvedanPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [userId, setUserId] = useState(null);
+  const [fileKey, setFileKey] = useState(Date.now());
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -52,6 +58,8 @@ export default function ApplyAvedanPage() {
     formData.append("userId", userId);
     formData.append("type", type);
     formData.append("description", formDataFields.description);
+    //  NEW: REQUIRED AMOUNT
+    formData.append("requiredAmount", formDataFields.requiredAmount);
 
     // Bank details
     formData.append("accountHolderName", formDataFields.accountHolderName);
@@ -90,6 +98,9 @@ export default function ApplyAvedanPage() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage(res.data.message);
+      reset();
+      setFiles({});
+      setFileKey(Date.now())
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.message || "Submission failed");
@@ -113,6 +124,18 @@ export default function ApplyAvedanPage() {
           />
           <div className="invalid-feedback">{errors.description?.message}</div>
         </div>
+        <div className="mb-3">
+          <label>Required Amount (₹)</label>
+          <input
+            type="number"
+            className={`form-control ${errors.requiredAmount ? "is-invalid" : ""}`}
+            {...register("requiredAmount")}
+          />
+          <div className="invalid-feedback">
+            {errors.requiredAmount?.message}
+          </div>
+        </div>
+
 
         <h5>Bank Details</h5>
 
@@ -163,15 +186,15 @@ export default function ApplyAvedanPage() {
           <>
             <div className="mb-3">
               <label>Applicant Aadhaar</label>
-              <input type="file" name="aadhaar_applicant" className="form-control" onChange={handleFileChange} />
+              <input key={fileKey} type="file" name="aadhaar_applicant" className="form-control" onChange={handleFileChange} />
             </div>
             <div className="mb-3">
               <label>Bride Aadhaar</label>
-              <input type="file" name="aadhaar_bride" className="form-control" onChange={handleFileChange} />
+              <input key={fileKey} type="file" name="aadhaar_bride" className="form-control" onChange={handleFileChange} />
             </div>
             <div className="mb-3">
               <label>Marriage Card</label>
-              <input type="file" name="marriage_card" className="form-control" onChange={handleFileChange} />
+              <input key={fileKey} type="file" name="marriage_card" className="form-control" onChange={handleFileChange} />
             </div>
           </>
         )}
@@ -180,18 +203,18 @@ export default function ApplyAvedanPage() {
           <>
             <div className="mb-3">
               <label>Applicant Aadhaar</label>
-              <input type="file" name="aadhaar_applicant" className="form-control" onChange={handleFileChange} />
+              <input key={fileKey} type="file" name="aadhaar_applicant" className="form-control" onChange={handleFileChange} />
             </div>
             <div className="mb-3">
               <label>Death Certificate</label>
-              <input type="file" name="death_certificate" className="form-control" onChange={handleFileChange} />
+              <input key={fileKey} type="file" name="death_certificate" className="form-control" onChange={handleFileChange} />
             </div>
           </>
         )}
 
         <div className="mb-3">
           <label>UPI QR</label>
-          <input type="file" name="upiQrFile" className="form-control" onChange={handleFileChange} />
+          <input key={fileKey} type="file" name="upiQrFile" className="form-control" onChange={handleFileChange} />
         </div>
 
         <button className="btn btn-primary" disabled={loading}>

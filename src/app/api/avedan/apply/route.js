@@ -36,13 +36,14 @@ export async function POST(req) {
         const userId = formData.get("userId");
         const type = formData.get("type");
         const description = formData.get("description");
-
+        //  NEW: REQUIRED AMOUNT
+        const requiredAmount = Number(formData.get("requiredAmount"));
         // -----------------------------
         // BASIC VALIDATION
         // -----------------------------
-        if (!userId || !type) {
+        if (!userId || !type || !requiredAmount || requiredAmount <= 0) {
             return NextResponse.json(
-                { message: "userId and type are required" },
+                { message: "userId,requiredAmount and type  are required" },
                 { status: 400 }
             );
         }
@@ -143,6 +144,9 @@ export async function POST(req) {
             applicant: userId,
             type,
             description,
+            requiredAmount,
+            collectedAmount: 0,
+            isCompleted: false,
             documents,
             bankDetails,
             status: "pending",
