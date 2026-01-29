@@ -42,18 +42,18 @@ export default function UserDashboard() {
       {/* USER ACTIVE → SHOW AVEDAN APPLY */}
       {user.role === "user" && user.status === "active" && (
         <div className="mt-4">
-          <h4>Apply for Avedan</h4>
+          <h4>जन-कल्याण सहायता आवेदन</h4>
 
           <div className="d-flex gap-3 mt-3">
             <Link href="/dashboard/user/avedan/apply?type=beti_vivah">
               <button className="btn btn-success">
-                Apply Beti Vivah Avedan
+                बेटी विवाह सहयोग हेतु आवेदन
               </button>
             </Link>
 
             <Link href="/dashboard/user/avedan/apply?type=untimely_death">
-              <button className="btn btn-warning">
-                Apply Untimely Death Avedan
+              <button className="btn btn-warning text-white">
+               आकस्मिक (असमय) निधन हेतु आवेदन
               </button>
             </Link>
           </div>

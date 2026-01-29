@@ -8,14 +8,18 @@ export default function MembersPage() {
   // console.log(members)
 
   useEffect(() => {
-    axios
-      .get("/api/members")
-      .then((res) => {
-        console.log(res)
-        setMembers(res.data.users)
-      })
-      .catch((err) => console.error(err));
+    const timer = setTimeout(() => {
+      axios
+        .get("/api/members")
+        .then(res => setMembers(res.data.users))
+        .catch(err => {
+          if (err?.response?.status !== 404) console.error(err);
+        });
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
+
 
   return (
     <div className="container my-5">

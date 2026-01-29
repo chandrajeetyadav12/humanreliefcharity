@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useRouter } from "next/navigation";
 export default function FounderApprovedAvedans() {
   const [avedans, setAvedans] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ const router=useRouter()
   useEffect(() => {
     const fetchAvedans = async () => {
       try {
@@ -26,7 +26,7 @@ export default function FounderApprovedAvedans() {
 
   return (
     <div className="container my-4">
-      <h3 className="mb-4 text-center">Available Avedans for Donation</h3>
+      <h3 className="mb-4 text-center">वर्तमान में उपलब्ध सहायता आवेदन</h3>
 
       {avedans.length === 0 && (
         <div className="alert alert-info text-center">
@@ -78,7 +78,7 @@ export default function FounderApprovedAvedans() {
 
                 <button
                   className="btn btn-primary mt-auto w-100"
-                  onClick={() => (window.location.href = `/donate/${av._id}`)}
+                  onClick={() =>router.push(`/dashboard/donate/${av._id}`)}
                 >
                   Donate Now
                 </button>
