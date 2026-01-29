@@ -5,16 +5,20 @@ import Avedan from "@/models/Avedan";
 import User from "@/models/User";
 import cloudinary from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
-
+import { getAuth } from "@/lib/auth";
 
 export async function POST(req) {
     await dbConnect();
+    const auth = getAuth(req);
+    if (!auth || auth.role !== "user") {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
-
+    const userId = auth.userId;
     const formData = await req.formData();
 
 
-    const userId = formData.get("userId");
+    // const userId = formData.get("userId");
     const avedanId = formData.get("avedanId");
     const amount = formData.get("amount");
     const paymentMode = formData.get("paymentMode");
