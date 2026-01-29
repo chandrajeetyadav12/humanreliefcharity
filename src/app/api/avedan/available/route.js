@@ -23,7 +23,7 @@ export async function GET(req) {
       // optional safety flag
     })
       .select(
-        "title description amountRequired bankDetails upiDetails createdAt"
+        "title description requiredAmount bankDetails upiDetails createdAt"
       )
       .sort({ createdAt: -1 });
 

@@ -38,6 +38,8 @@ export async function POST(req) {
         const description = formData.get("description");
         //  NEW: REQUIRED AMOUNT
         const requiredAmount = Number(formData.get("requiredAmount"));
+        console.log("REQ AMOUNT:", requiredAmount, typeof requiredAmount);
+
         // -----------------------------
         // BASIC VALIDATION
         // -----------------------------

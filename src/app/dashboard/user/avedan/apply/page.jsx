@@ -55,6 +55,7 @@ export default function ApplyAvedanPage() {
     }
 
     const formData = new FormData();
+
     formData.append("userId", userId);
     formData.append("type", type);
     formData.append("description", formDataFields.description);
@@ -97,6 +98,7 @@ export default function ApplyAvedanPage() {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log(res)
       setMessage(res.data.message);
       reset();
       setFiles({});

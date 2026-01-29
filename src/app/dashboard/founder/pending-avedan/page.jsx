@@ -133,7 +133,8 @@ export default function FounderPendingAvedanPage() {
                                                     <h6>Avedan</h6>
                                                     <p>
                                                         <b>Type:</b> {selectedAvedan.type}<br />
-                                                        <b>Description:</b> {selectedAvedan.description}<br />
+                                                        <b>Description:</b> {selectedAvedan?.description}<br />
+                                                        <b>Required Amount:</b>{selectedAvedan?.requiredAmount}<br/>
                                                         <b>Status:</b> {selectedAvedan.status}
                                                     </p>
 
