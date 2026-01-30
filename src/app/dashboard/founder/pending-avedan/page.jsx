@@ -63,7 +63,7 @@ export default function FounderPendingAvedanPage() {
             {avedans.length === 0 ? (
                 <p>No verified Avedan for approval.</p>
             ) : (
-                <div>
+                <div className="table-responsive">
                     <table className="table table-bordered">
                         <thead>
                             <tr>
@@ -187,15 +187,7 @@ export default function FounderPendingAvedanPage() {
                                             Close
                                         </button>
 
-                                        {/* ADMIN ACTION */}
-                                        {selectedAvedan?.status === "pending" && (
-                                            <button
-                                                className="btn btn-success"
-                                                onClick={() => verifyAvedan(selectedAvedan._id)}
-                                            >
-                                                Verify
-                                            </button>
-                                        )}
+                                      
 
                                         {/* FOUNDER ACTION */}
                                         {selectedAvedan?.status === "admin_verified" && (

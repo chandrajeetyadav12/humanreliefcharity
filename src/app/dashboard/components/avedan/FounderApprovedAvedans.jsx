@@ -11,7 +11,7 @@ export default function FounderApprovedAvedans() {
       try {
         const res = await axios.get("/api/avedan/available", { withCredentials: true, });
         setAvedans(res.data.avedans || []);
-        console.log("avail:", res)
+        // console.log("avail:", res)
       } catch (err) {
         console.error(err);
       } finally {
@@ -21,7 +21,6 @@ export default function FounderApprovedAvedans() {
 
     fetchAvedans();
   }, []);
-
   if (loading) return <p>Loading...</p>;
 
   return (

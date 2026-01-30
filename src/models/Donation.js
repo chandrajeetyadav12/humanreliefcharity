@@ -32,6 +32,11 @@ const DonationSchema = new mongoose.Schema(
             public_id: String,
             url: String,
         },
+        status: {
+            type: String,
+            enum: ["pending", "admin_verified", "founder_approved", "rejected"],
+            default: "pending",
+        },
 
         verifiedByAdmin: {
             type: Boolean,
@@ -40,6 +45,18 @@ const DonationSchema = new mongoose.Schema(
         founderApprovedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
+        },
+        rejectionReason: {
+            type: String,
+        },
+
+        rejectedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+
+        rejectedAt: {
+            type: Date,
         },
     },
     { timestamps: true }

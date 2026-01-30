@@ -113,7 +113,7 @@ export default function ApplyAvedanPage() {
 
   return (
     <div className="container mt-4">
-      <h2>Apply for {type === "beti_vivah" ? "Beti Vivah" : "Untimely Death"} Avedan</h2>
+      <h2>{type === "beti_vivah" ? "बेटी विवाह सहयोग हेतु आवेदन" : "आकस्मिक (असमय) निधन हेतु आवेदन"}</h2>
       {message && <div className="alert alert-info">{message}</div>}
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-3">

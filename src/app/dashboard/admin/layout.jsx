@@ -8,6 +8,8 @@ export default function AdminLayout({ children }) {
           <li><a href="/dashboard/admin/users">Users</a></li>
           <li><a href="/dashboard/admin/profile">Profile</a></li>
           <li><a href="/dashboard/admin/pending-avedan">pending-avedan</a></li>
+          <li><a href="/dashboard/admin/donations/pending">pending-donation</a></li>
+
 
 
         </ul>

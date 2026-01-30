@@ -11,7 +11,7 @@ export async function POST(req) {
     await dbConnect();
     const auth = getAuth(req);
     if (!auth || auth.role !== "user") {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const userId = auth.userId;
@@ -20,7 +20,7 @@ export async function POST(req) {
 
     // const userId = formData.get("userId");
     const avedanId = formData.get("avedanId");
-    const amount = formData.get("amount");
+    const amount = Number(formData.get("amount"));
     const paymentMode = formData.get("paymentMode");
     const transactionId = formData.get("transactionId");
     const receiptFile = formData.get("receipt");
@@ -32,7 +32,7 @@ export async function POST(req) {
     }
 
 
-    const avedan = await Avedan.findById(avedanId);
+    const avedan = await Avedan.findById(avedanId).populate("applicant", "name");;
     if (!avedan || avedan.status !== "founder_approved") {
         return NextResponse.json({ message: "Invalid avedan" }, { status: 400 });
     }
@@ -67,8 +67,34 @@ export async function POST(req) {
         paymentMode,
         transactionId,
         receipt,
+        status: "pending",
+    });
+    // Update collected amount
+    // avedan.collectedAmount += amount;
+
+     // Auto complete if goal reached
+    // if (avedan.collectedAmount >= avedan.requiredAmount) {
+    //     avedan.isCompleted = true;
+    // }
+
+    // await avedan.save();
+
+    // return NextResponse.json({ message: "Donation submitted", donation });
+    return NextResponse.json({
+        success: true,
+        message: "Donation submitted",
+        donation: {
+            _id: donation._id,
+            amount: donation.amount,
+            status: donation.status,
+            paymentMode: donation.paymentMode,
+            transactionId: donation.transactionId,
+            avedan: {
+                id: avedan._id,
+                type: avedan.type,
+                applicantName: avedan.applicant.name,
+            },
+        },
     });
 
-
-    return NextResponse.json({ message: "Donation submitted", donation });
 }
