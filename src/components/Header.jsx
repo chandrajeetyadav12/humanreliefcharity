@@ -5,21 +5,16 @@ import Link from "next/link";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 import HomeIcon from "@mui/icons-material/Home";
-import { useRouter } from "next/navigation";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 export default function Header() {
-  const router = useRouter();
-  const { user, isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
-  const handleLogout = async () => {
-    await logout();
-    router.push("/login");
-  };
+
   // Detect screen size
   useEffect(() => {
     const handleResize = () => {
@@ -89,34 +84,10 @@ export default function Header() {
               <Link href="/login">Login</Link>
             </>
           )}
-                    {/* LOGGED IN USER */}
-          {isAuthenticated && user?.role === "user" && (
-            <>
-              <Link href="/dashboard/user">Dashboard</Link>
-              <button onClick={handleLogout} className="logoutBtn">
-                Logout
-              </button>
-            </>
-          )}
-                    {/* LOGGED IN ADMIN */}
-          {isAuthenticated && user?.role === "admin" && (
-            <>
-              <Link href="/dashboard/admin">Admin Panel</Link>
-              <button onClick={handleLogout} className="logoutBtn">
-                Logout
-              </button>
-            </>
-          )}
-                    {isAuthenticated && user?.role === "founder" && (
-            <>
-              <Link href="/dashboard/founder">Founder Panel</Link>
-              <button onClick={handleLogout} className="logoutBtn">
-                Logout
-              </button>
-            </>
-          )}
-            {/* <Link href="/register">Registration</Link> */}
-            {/* <Link href="/login">Login</Link> */}
+
+
+
+            
             <Link href="#">QR Code</Link>
           </nav>
         )}
@@ -153,23 +124,7 @@ export default function Header() {
               <Link href="/login">Login</Link>
             </>
           )}
-                    {/* LOGGED IN USER */}
-          {isAuthenticated && user?.role === "user" && (
-            <>
-              <Link href="/dashboard/user">Dashboard</Link>
-              <button onClick={handleLogout} className="logoutBtn">
-                Logout
-              </button>
-            </>
-          )}
-                    {isAuthenticated && user?.role === "admin" && (
-            <>
-              <Link href="/dashboard/admin">Admin Panel</Link>
-              <button onClick={handleLogout} className="logoutBtn">
-                Logout
-              </button>
-            </>
-          )}
+
      
         <Link href="#">QR Code</Link>
       </aside>
