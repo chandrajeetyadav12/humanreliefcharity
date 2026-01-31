@@ -77,7 +77,7 @@ export default function FounderApprovedAvedans() {
 
                 <button
                   className="btn btn-primary mt-auto w-100"
-                  onClick={() =>router.push(`/dashboard/donate/${av._id}`)}
+                  onClick={() =>router.push(`/dashboard/user/donates/${av._id}`)}
                 >
                   Donate Now
                 </button>
