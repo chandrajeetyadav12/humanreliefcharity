@@ -1,9 +1,20 @@
-import React from 'react'
+"use client";
 
-const page = () => {
-  return (
-    <div>admin home page</div>
-  )
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "@/context/AuthContext";
+
+export default function FounderDashboard() {
+  const { user, loading } = useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && (!user || user.role !== "admin")) {
+      router.replace("/login");
+    }
+  }, [user, loading]);
+
+  if (loading || !user) return null;
+
+  return <div>Admin Dashboard</div>;
 }
-
-export default page

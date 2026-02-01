@@ -10,10 +10,24 @@ import { IoMdClose } from "react-icons/io";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 export default function Header() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+  const getDashboardLink = () => {
+    if (!user) return "/";
+
+    switch (user.role) {
+      case "admin":
+        return "/dashboard/admin";
+      case "founder":
+        return "/dashboard/founder";
+      case "user":
+        return "/dashboard/user";
+      default:
+        return "/";
+    }
+  };
 
   // Detect screen size
   useEffect(() => {
@@ -53,7 +67,9 @@ export default function Header() {
     setSidebarOpen(false);
     document.body.classList.remove("no-scroll");
   };
-
+  if (loading) {
+    return null;
+  }
   return (
     <>
       {/* TOP HEADER */}
@@ -77,17 +93,33 @@ export default function Header() {
             <Link href="#">Beti Vivah Sahyog Suchi</Link>
             <Link href="#">Untimely Death Sahyog Suchi</Link>
             <Link href="/member">Registered Members</Link>
-                      {/* NOT LOGGED IN */}
-          {!isAuthenticated && (
-            <>
-              <Link href="/register">Registration</Link>
-              <Link href="/login">Login</Link>
-            </>
-          )}
+            {/* <Link href="/register">Registration</Link> */}
+            {/* <Link href="/login">Login</Link> */}
+            {/* NOT LOGGED IN */}
+            {/* {!isAuthenticated && (
+              <>
+                <Link href="/register">Registration</Link>
+                <Link href="/login">Login</Link>
+              </>
+            )} */}
+            {!loading && !isAuthenticated && (
+              <>
+                <Link href="/register">Registration</Link>
+                <Link href="/login">Login</Link>
+              </>
+            )}
+
+            {!loading && isAuthenticated && (
+              <>
+                {/* <Link href="/dashboard">Dashboard</Link> */}
+                {/* <Link href="/dashboard/founder">Dashboard</Link> */}
+                <Link href={getDashboardLink()}>Dashboard</Link>
+                <button onClick={logout}>Logout</button>
+              </>
+            )}
 
 
 
-            
             <Link href="#">QR Code</Link>
           </nav>
         )}
@@ -118,14 +150,30 @@ export default function Header() {
         <Link href="#">Beti Vivah Sahyog Suchi</Link>
         <Link href="#">Untimely Death Sahyog Suchi</Link>
         <Link href="/member">Registered Members</Link>
-                  {!isAuthenticated && (
-            <>
-              <Link href="/register">Registration</Link>
-              <Link href="/login">Login</Link>
-            </>
-          )}
+        {/* <Link href="/register">Registration</Link> */}
+        {/* <Link href="/login">Login</Link> */}
+        {/* {!isAuthenticated && (
+          <>
+            <Link href="/register">Registration</Link>
+            <Link href="/login">Login</Link>
+          </>
+        )} */}
+        {!loading && !isAuthenticated && (
+          <>
+            <Link href="/register">Registration</Link>
+            <Link href="/login">Login</Link>
+          </>
+        )}
 
-     
+        {!loading && isAuthenticated && (
+          <>
+            {/* <Link href="/dashboard/founder">Dashboard</Link> */}
+            <Link href={getDashboardLink()}>Dashboard</Link>
+            <button onClick={logout}>Logout</button>
+          </>
+        )}
+
+
         <Link href="#">QR Code</Link>
       </aside>
     </>

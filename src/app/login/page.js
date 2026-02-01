@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -23,9 +23,14 @@ const schema = yup.object({
 });
 
 export default function LoginPage() {
-  const { login } = useContext(AuthContext);
+  const { login,user, loading, isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
-
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && isAuthenticated && user) {
+      router.replace(`/dashboard/${user.role}`);
+    }
+  }, [loading, isAuthenticated, user, router]);
   const {
     register,
     handleSubmit,
@@ -55,8 +60,9 @@ export default function LoginPage() {
       toast.error(msg);
       toast.error("Invalid credentials");
     }
-  };
 
+  };
+if (loading || isAuthenticated) return null;
   return (
     <div className="container my-5">
       <div className="col-md-5 mx-auto my-4">
