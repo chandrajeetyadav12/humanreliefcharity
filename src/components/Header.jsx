@@ -114,7 +114,7 @@ export default function Header() {
                 {/* <Link href="/dashboard">Dashboard</Link> */}
                 {/* <Link href="/dashboard/founder">Dashboard</Link> */}
                 <Link href={getDashboardLink()}>Dashboard</Link>
-                <button onClick={logout}>Logout</button>
+                <button className="logoutBtn" onClick={logout}>Logout</button>
               </>
             )}
 
@@ -169,7 +169,7 @@ export default function Header() {
           <>
             {/* <Link href="/dashboard/founder">Dashboard</Link> */}
             <Link href={getDashboardLink()}>Dashboard</Link>
-            <button onClick={logout}>Logout</button>
+            <button className="logoutBtn" onClick={logout}>Logout</button>
           </>
         )}
 

@@ -54,6 +54,9 @@ export default function FounderLayout({ children }) {
           <li>
             <Link href="/dashboard/founder/users">Users</Link>
           </li>
+           <li>
+            <Link href="/dashboard/founder/donations">Pending Donations</Link>
+          </li>
           <li>
             <Link href="/dashboard/founder/settings">
               System Settings

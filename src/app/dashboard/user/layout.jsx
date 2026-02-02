@@ -46,6 +46,9 @@ export default function UserLayout({ children }) {
           <li className="mb-2">
             <a href="/dashboard/user/status">Application Status</a>
           </li>
+           <li className="mb-2">
+            <a href="/dashboard/user/my-donations">My Donations</a>
+          </li>
         </ul>
 
         {/* LOGOUT */}

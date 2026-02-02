@@ -2,16 +2,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+
 export default function FounderApprovedAvedans() {
   const [avedans, setAvedans] = useState([]);
   const [loading, setLoading] = useState(true);
- const router=useRouter()
+  const router = useRouter();
+
   useEffect(() => {
     const fetchAvedans = async () => {
       try {
-        const res = await axios.get("/api/avedan/available", { withCredentials: true, });
+        const res = await axios.get("/api/avedan/available", {
+          withCredentials: true,
+        });
         setAvedans(res.data.avedans || []);
-        // console.log("avail:", res)
       } catch (err) {
         console.error(err);
       } finally {
@@ -21,6 +24,7 @@ export default function FounderApprovedAvedans() {
 
     fetchAvedans();
   }, []);
+console.log(avedans)
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -34,59 +38,83 @@ export default function FounderApprovedAvedans() {
       )}
 
       <div className="row">
-        {avedans.map((av) => (
-          <div key={av._id} className="col-md-6 col-lg-4 mb-4">
-            <div className="card h-100 shadow-sm">
-              <div className="card-body d-flex flex-column">
-                <p className="card-text">{av.description}</p>
+        {avedans.map((av) => {
+          console.log(av?.collectedAmount)
+          //  NEW: remaining amount calculation
+          const remainingAmount =
+            av.requiredAmount - (av?.collectedAmount || 0);
 
-                <p className="fw-bold text-success">
-                  Required Amount: ₹{av?.requiredAmount}
-                </p>
+          return (
+            <div key={av._id} className="col-md-6 col-lg-4 mb-4">
+              <div className="card h-100 shadow-sm">
+                <div className="card-body d-flex flex-column">
+                  <p className="card-text">{av.description}</p>
 
-                <hr />
+                  <p className="fw-bold text-success">
+                    Required: ₹{av.requiredAmount}
+                  </p>
 
-                <h6 className="fw-bold mb-2">Bank Details</h6>
-                <p className="mb-1">
-                  <b>Account Holder:</b> {av?.bankDetails.accountHolderName}
-                </p>
-                <p className="mb-1">
-                  <b>Account No:</b> {av?.bankDetails.accountNumber}
-                </p>
-                <p className="mb-1">
-                  <b>Bank:</b> {av?.bankDetails.bankName}
-                </p>
-                <p className="mb-2">
-                  <b>IFSC:</b> {av?.bankDetails.ifsc}
-                </p>
+                  {/*  NEW */}
+                  <p className="fw-bold text-primary">
+                    Collected: ₹{av.collectedAmount || 0}
+                  </p>
 
-                {av?.bankDetails?.upiQrUrl && (
-                  <div>
-                    <b>QR code:</b>
-                    <div className=" my-3 text-center">
-                      <img
-                        src={av.bankDetails.upiQrUrl}
-                        alt="UPI QR Code"
-                        className="img-fluid rounded border"
-                        style={{ maxWidth: "140px" }}
-                      />
+                  {/*  NEW */}
+                  <p className="fw-bold text-danger">
+                    Remaining: ₹{remainingAmount}
+                  </p>
+
+                  <hr />
+
+                  <h6 className="fw-bold mb-2">Bank Details</h6>
+                  <p className="mb-1">
+                    <b>Account Holder:</b>{" "}
+                    {av?.bankDetails.accountHolderName}
+                  </p>
+                  <p className="mb-1">
+                    <b>Account No:</b> {av?.bankDetails.accountNumber}
+                  </p>
+                  <p className="mb-1">
+                    <b>Bank:</b> {av?.bankDetails.bankName}
+                  </p>
+                  <p className="mb-2">
+                    <b>IFSC:</b> {av?.bankDetails.ifsc}
+                  </p>
+
+                  {av?.bankDetails?.upiQrUrl && (
+                    <div>
+                      <b>QR code:</b>
+                      <div className="my-3 text-center">
+                        <img
+                          src={av.bankDetails.upiQrUrl}
+                          alt="UPI QR Code"
+                          className="img-fluid rounded border"
+                          style={{ maxWidth: "140px" }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                )}
-
-                <button
-                  className="btn btn-primary mt-auto w-100"
-                  onClick={() =>router.push(`/dashboard/user/donates/${av._id}`)}
-                >
-                  Donate Now
-                </button>
+                  {/*  UPDATED: disable if completed */}
+                  <button
+                    className="btn btn-primary mt-auto w-100"
+                    disabled={remainingAmount <= 0}
+                    onClick={() =>
+                      router.push(
+                        `/dashboard/user/donates/${av._id}`
+                      )
+                    }
+                  >
+                    {remainingAmount <= 0
+                      ? "Target Completed"
+                      : "Donate Now"}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
-
   );
 }

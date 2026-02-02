@@ -18,6 +18,7 @@ export async function GET(req, { params }) {
     const avedan = await Avedan.findOne({
       _id: id,
       status: "founder_approved",
+      isCompleted: false,
     }).select(
       "title description requiredAmount collectedAmount bankDetails upiDetails"
     );

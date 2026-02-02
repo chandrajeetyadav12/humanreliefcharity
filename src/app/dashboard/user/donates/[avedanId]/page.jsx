@@ -107,7 +107,7 @@ export default function DonatePage() {
       // router.push("/dashboard/my-donations");
     } catch (error) {
       console.error(error);
-       toast.error("Donation failed");
+      toast.error("Donation failed");
     } finally {
       setSubmitting(false);
     }
@@ -115,7 +115,10 @@ export default function DonatePage() {
 
   if (loading) return <p>Loading...</p>;
   if (!avedan) return null;
-
+  const remainingAmount =
+    avedan.requiredAmount - avedan.collectedAmount;
+    console.log(avedan.collectedAmount)
+    console.log(avedan)
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -131,100 +134,114 @@ export default function DonatePage() {
                 <span><strong>Required:</strong> ₹{avedan.requiredAmount}</span>
                 <span><strong>Collected:</strong> ₹{avedan.collectedAmount}</span>
               </div>
+
+              <p className="fw-bold text-danger mt-2">
+                Remaining: ₹{remainingAmount}
+              </p>
+              <p>
+                Bank Holder name:{avedan?.bankDetails?.accountHolderName}
+              </p>
             </div>
           </div>
 
           {/* DONATION FORM */}
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h5 className="mb-3">Make a Donation</h5>
+          {remainingAmount <= 0 ? (
+            <div className="alert alert-success mt-3">
+              Donation target completed
+            </div>
+          ) : (
+            <div className="card shadow-sm">
+              <div className="card-body">
+                <h5 className="mb-3">Make a Donation</h5>
 
-              <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
 
-                {/* Amount */}
-                <div className="mb-3">
-                  <label htmlFor="amount" className="form-label">
-                    Amount
-                  </label>
-                  <input
-                    id="amount"
-                    type="number"
-                    className={`form-control ${errors.amount ? "is-invalid" : ""}`}
-                    placeholder="Enter amount"
-                    {...register("amount")}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.amount?.message}
-                  </div>
-                </div>
-
-                {/* Payment Mode */}
-                <div className="mb-3">
-                  <label htmlFor="paymentMode" className="form-label">
-                    Payment Mode
-                  </label>
-                  <select
-                    id="paymentMode"
-                    className={`form-select ${errors.paymentMode ? "is-invalid" : ""}`}
-                    {...register("paymentMode")}
-                  >
-                    <option value="">Select Payment Mode</option>
-                    <option value="upi">UPI</option>
-                    <option value="bank_transfer">Bank Transfer</option>
-                    <option value="cash">Cash</option>
-                  </select>
-                  <div className="invalid-feedback">
-                    {errors.paymentMode?.message}
-                  </div>
-                </div>
-
-                {/* Transaction ID */}
-                {paymentMode !== "cash" && (
+                  {/* Amount */}
                   <div className="mb-3">
-                    <label htmlFor="transactionId" className="form-label">
-                      Transaction ID
+                    <label htmlFor="amount" className="form-label">
+                      Amount
                     </label>
                     <input
-                      id="transactionId"
-                      type="text"
-                      className={`form-control ${errors.transactionId ? "is-invalid" : ""}`}
-                      placeholder="Enter transaction ID"
-                      {...register("transactionId")}
+                      id="amount"
+                      type="number"
+                      className={`form-control ${errors.amount ? "is-invalid" : ""}`}
+                      placeholder="Enter amount"
+                      {...register("amount")}
                     />
                     <div className="invalid-feedback">
-                      {errors.transactionId?.message}
+                      {errors.amount?.message}
                     </div>
                   </div>
-                )}
 
-                {/* Receipt */}
-                <div className="mb-4">
-                  <label htmlFor="receipt" className="form-label">
-                    Upload Receipt
-                  </label>
-                  <input
-                    id="receipt"
-                    type="file"
-                    className={`form-control ${errors.receipt ? "is-invalid" : ""}`}
-                    accept="image/*,application/pdf"
-                    {...register("receipt")}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.receipt?.message}
+                  {/* Payment Mode */}
+                  <div className="mb-3">
+                    <label htmlFor="paymentMode" className="form-label">
+                      Payment Mode
+                    </label>
+                    <select
+                      id="paymentMode"
+                      className={`form-select ${errors.paymentMode ? "is-invalid" : ""}`}
+                      {...register("paymentMode")}
+                    >
+                      <option value="">Select Payment Mode</option>
+                      <option value="upi">UPI</option>
+                      <option value="bank_transfer">Bank Transfer</option>
+                      <option value="cash">Cash</option>
+                    </select>
+                    <div className="invalid-feedback">
+                      {errors.paymentMode?.message}
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100"
-                  disabled={submitting}
-                >
-                  {submitting ? "Submitting..." : "Confirm Donation"}
-                </button>
+                  {/* Transaction ID */}
+                  {paymentMode !== "cash" && (
+                    <div className="mb-3">
+                      <label htmlFor="transactionId" className="form-label">
+                        Transaction ID
+                      </label>
+                      <input
+                        id="transactionId"
+                        type="text"
+                        className={`form-control ${errors.transactionId ? "is-invalid" : ""}`}
+                        placeholder="Enter transaction ID"
+                        {...register("transactionId")}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.transactionId?.message}
+                      </div>
+                    </div>
+                  )}
 
-              </form>
+                  {/* Receipt */}
+                  <div className="mb-4">
+                    <label htmlFor="receipt" className="form-label">
+                      Upload Receipt
+                    </label>
+                    <input
+                      id="receipt"
+                      type="file"
+                      className={`form-control ${errors.receipt ? "is-invalid" : ""}`}
+                      accept="image/*,application/pdf"
+                      {...register("receipt")}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.receipt?.message}
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100"
+                    disabled={submitting}
+                  >
+                    {submitting ? "Submitting..." : "Confirm Donation"}
+                  </button>
+
+                </form>
+              </div>
             </div>
-          </div>
+          )}
+
 
         </div>
       </div>

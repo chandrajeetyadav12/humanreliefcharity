@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-
+import { useState } from "react";
 // Yup validation schema
 const schema = yup.object({
   name: yup.string().required("नाम आवश्यक है"),
@@ -35,7 +35,7 @@ const schema = yup.object({
 
 export default function RegisterPage() {
   const router = useRouter();
-
+const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -44,6 +44,7 @@ export default function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const formData = new FormData();
 
       // REQUIRED
@@ -85,6 +86,9 @@ export default function RegisterPage() {
       router.push("/login");
     } catch (err) {
       toast.error(err?.response?.data?.message || "पंजीकरण असफल");
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -253,7 +257,7 @@ export default function RegisterPage() {
             <p className="text-danger">{errors.acceptTerms?.message}</p>
           </div>
 
-          <button className="globalBtnColor">Register</button>
+          <button disabled={loading} className="globalBtnColor">{loading ? "Registering..." : "Register"}</button>
         </form>
       </div>
     </div>

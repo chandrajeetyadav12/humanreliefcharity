@@ -44,7 +44,7 @@ export default function AdminPendingDonationsPage() {
         { withCredentials: true }
       );
 
-      toast.success(`Donation ${action}d`);
+      toast.success(`Donation ${action}ed`);
       setSelectedDonation(null);
       setRejectionReason("");
       fetchPendingDonations();
@@ -161,9 +161,9 @@ export default function AdminPendingDonationsPage() {
               <div className="modal-footer">
                 <button
                   className="btn btn-success"
-                  onClick={() => handleAction("approve")}
+                  onClick={() => handleAction("verify")}
                 >
-                  Approve
+                  Verify
                 </button>
                 <button
                   className="btn btn-danger"

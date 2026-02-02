@@ -230,6 +230,7 @@ a {
 .userAsideUL li a{
 text-decoration: none;
 color: #000;
+white-space: nowrap;
 }
 @media(max-width:1194px) {
   .topheader {

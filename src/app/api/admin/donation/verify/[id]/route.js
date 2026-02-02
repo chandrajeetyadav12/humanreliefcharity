@@ -28,7 +28,7 @@ const { id: donationId } = await context.params;
     );
   }
 
-  if (action === "approve") {
+  if (action === "verify") {
     donation.status = "admin_verified";
     donation.verifiedByAdmin = true
   }
