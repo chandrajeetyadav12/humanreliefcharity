@@ -64,18 +64,57 @@ export async function POST(req) {
         // -----------------------------
         // PREVENT DUPLICATE PENDING
         // -----------------------------
-        const exists = await Avedan.findOne({
+        // const exists = await Avedan.findOne({
+        //     applicant: userId,
+        //     type,
+        //     status: "pending",
+        // });
+
+        // if (exists) {
+        //     return NextResponse.json(
+        //         { message: "You already have a pending application" },
+        //         { status: 400 }
+        //     );
+        // }
+
+
+        // checks for already exists and not apply before three months
+        // 1️⃣ Block pending
+        const pendingExists = await Avedan.findOne({
             applicant: userId,
             type,
             status: "pending",
         });
 
-        if (exists) {
+        if (pendingExists) {
             return NextResponse.json(
                 { message: "You already have a pending application" },
                 { status: 400 }
             );
         }
+
+        // 2️⃣ Block re-apply before 3 months
+        const lastAvedan = await Avedan.findOne({
+            applicant: userId,
+            type,
+        })
+            .sort({ createdAt: -1 })
+            .select("createdAt");
+
+        if (lastAvedan) {
+            const threeMonthsLater = new Date(lastAvedan.createdAt);
+            threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+            if (new Date() < threeMonthsLater) {
+                return NextResponse.json(
+                    {
+                        message: `You can reapply after ${threeMonthsLater.toDateString()}`,
+                    },
+                    { status: 400 }
+                );
+            }
+        }
+
 
         // -----------------------------
         // DOCUMENT UPLOAD

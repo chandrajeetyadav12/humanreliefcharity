@@ -17,6 +17,8 @@ export default function AdminPendingDonationsPage() {
       const res = await axios.get("/api/admin/donation/pending", {
         withCredentials: true,
       });
+      // console.log(res)
+      // console.log(selectedDonation)
       setDonations(res.data.donations);
     } catch (err) {
       toast.error("Failed to load pending donations");
@@ -116,6 +118,10 @@ export default function AdminPendingDonationsPage() {
                 <p><b>Email:</b> {selectedDonation.donor.email}</p>
                 <p><b>Transaction ID:</b> {selectedDonation.transactionId}</p>
                 <p><b>Avedan:</b> {selectedDonation.avedan.type}</p>
+                <p><b>Applicant Name:</b>{selectedDonation.avedan.applicant.name}</p>
+               <p><b>Applicant Mobile Number:</b>{selectedDonation.avedan.applicant.mobile}</p>
+               <p><b>Applicant Mobile Email:</b>{selectedDonation.avedan.applicant.email}</p>
+
                 <p><b>Amount:</b> ₹{selectedDonation.amount}</p>
                 <p><b>Payment Mode:</b> {selectedDonation.paymentMode}</p>
                 <p><b>Status:</b> {selectedDonation.status}</p>

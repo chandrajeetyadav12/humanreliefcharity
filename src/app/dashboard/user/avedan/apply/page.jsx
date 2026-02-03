@@ -98,13 +98,12 @@ export default function ApplyAvedanPage() {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(res)
+      // console.log(res)
       setMessage(res.data.message);
       reset();
       setFiles({});
       setFileKey(Date.now())
     } catch (err) {
-      console.error(err);
       setMessage(err.response?.data?.message || "Submission failed");
     } finally {
       setLoading(false);

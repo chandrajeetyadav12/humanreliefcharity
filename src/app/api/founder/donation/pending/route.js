@@ -12,10 +12,18 @@ export async function GET(req) {
     }
 
     const donations = await Donation.find({
-        status: "admin_verified"       
+        status: "admin_verified"
     })
         .populate("donor", "name email")
-        .populate("avedan", "type")
+        .populate({
+            path: "avedan",
+            select: "type requiredAmount collectedAmount status applicant",
+            populate: {
+                path: "applicant",
+                select: "name email mobile",
+            },
+        })
+        // .populate("avedan", "type")
         .sort({ createdAt: -1 });
     console.log("FOUND DONATIONS:", donations.length);
     return NextResponse.json({ donations });

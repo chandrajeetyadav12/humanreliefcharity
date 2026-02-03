@@ -134,6 +134,11 @@ export default function FounderPendingDonationsPage() {
                 <p><b>Donor:</b> {selectedDonation.donor?.name}</p>
                 <p><b>Email:</b> {selectedDonation.donor?.email}</p>
                 <p><b>Amount:</b> ₹{selectedDonation.amount}</p>
+                <p><b>Avedan:</b> {selectedDonation.avedan.type}</p>
+                <p><b>Applicant Name:</b>{selectedDonation.avedan.applicant.name}</p>
+               <p><b>Applicant Mobile Number:</b>{selectedDonation.avedan.applicant.mobile}</p>
+               <p><b>Applicant Mobile Email:</b>{selectedDonation.avedan.applicant.email}</p>
+
                 <p><b>Payment Mode:</b> {selectedDonation.paymentMode}</p>
                 <p><b>Transaction ID:</b> {selectedDonation.transactionId}</p>
                 <p><b>Status:</b> {selectedDonation.status}</p>
