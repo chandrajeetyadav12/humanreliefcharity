@@ -81,8 +81,16 @@ const UserSchema = new mongoose.Schema(
         return this.role === "user";
       },
     },
+    block: {
+      type: String,
+      required: function () {
+        return this.role === "user";
+      },
+      trim: true,
+    },
 
-    role: { type: String, enum: ["admin", "user","founder"], default: "user" },
+
+    role: { type: String, enum: ["admin", "user", "founder"], default: "user" },
   },
   { timestamps: true }
 );

@@ -14,6 +14,7 @@ const schema = yup.object({
   password: yup.string().min(6, "कम से कम 6 अक्षर").required("पासवर्ड आवश्यक है"),
   mobile: yup.string().required("मोबाइल नंबर आवश्यक है"),
   transactionId: yup.string().required("ट्रांजेक्शन आईडी आवश्यक है"),
+  block: yup.string().required("ब्लॉक आवश्यक है"),
   referralCode: yup
     .string()
     .transform((value) => (value === "" ? undefined : value))
@@ -35,7 +36,7 @@ const schema = yup.object({
 
 export default function RegisterPage() {
   const router = useRouter();
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -54,6 +55,7 @@ const [loading, setLoading] = useState(false);
       formData.append("mobile", data.mobile);
       formData.append("transactionId", data.transactionId);
       formData.append("acceptTerms", data.acceptTerms);
+      formData.append("block", data.block);
 
       // OPTIONAL
       if (data.referralCode?.trim()) {
@@ -87,7 +89,7 @@ const [loading, setLoading] = useState(false);
     } catch (err) {
       toast.error(err?.response?.data?.message || "पंजीकरण असफल");
     }
-    finally{
+    finally {
       setLoading(false);
     }
   };
@@ -189,6 +191,16 @@ const [loading, setLoading] = useState(false);
               <input className="form-control" placeholder="जिला" {...register("district")} />
             </div>
           </div>
+          <div className="col-md-6">
+            <label className="form-label">ब्लॉक</label>
+            <input
+              className="form-control"
+              placeholder="ब्लॉक का नाम"
+              {...register("block")}
+            />
+            <p className="text-danger">{errors.block?.message}</p>
+          </div>
+
 
           {/* Permanent Address */}
           <div className="mb-3">

@@ -20,6 +20,7 @@ export async function POST(request) {
     const mobile = formData.get("mobile");
     const transactionId = formData.get("transactionId");
     const acceptTerms = formData.get("acceptTerms");
+    const block = formData.get("block");
 
     if (!name || !email || !password || !mobile) {
       return NextResponse.json(
@@ -29,9 +30,9 @@ export async function POST(request) {
     }
     // Required ONLY for user
     if (role === "user") {
-      if (!transactionId || acceptTerms !== "true") {
+      if (!transactionId || acceptTerms !== "true"|| !block) {
         return NextResponse.json(
-          { message: "Transaction ID and Accept Terms are required for users" },
+          { message: "Transaction ID,block and Accept Terms are required for users" },
           { status: 400 }
         );
       }
@@ -143,6 +144,7 @@ export async function POST(request) {
       password: hashedPassword,
       mobile,
       role,
+      block: role === "user" ? block : undefined,
       transactionId: role === "user" ? transactionId : undefined,
       acceptTerms: role === "user" ? acceptTerms === "true" : undefined,
       referralCode,
