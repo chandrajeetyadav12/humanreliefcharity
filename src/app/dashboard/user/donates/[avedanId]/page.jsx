@@ -104,7 +104,7 @@ export default function DonatePage() {
       );
 
       await fetchAvedan(); // refresh amounts
-      // router.push("/dashboard/my-donations");
+      router.push("/dashboard/user/my-donations");
     } catch (error) {
       console.error(error);
       toast.error("Donation failed");

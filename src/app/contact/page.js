@@ -144,7 +144,7 @@ export default function ContactPage() {
                   {/* Address */}
                   <li className="d-flex align-items-start gap-2 text-lg-center">
                     <HomeIcon sx={{color:"black"}}/>
-                    <span>
+                    <span className="text-dark fw-semibold">
                       Plot no.15, Block-A, Natvar Singh ki Kothi,
                       <br />
                       Krishna Nagar, Bharatpur

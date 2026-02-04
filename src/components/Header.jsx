@@ -92,8 +92,8 @@ export default function Header() {
           <nav className="desktopMenu">
             <Link href="#">About us</Link>
             <Link href="/contact">Contact us</Link>
-            <Link href="#">Beti Vivah Sahyog Suchi</Link>
-            <Link href="#">Untimely Death Sahyog Suchi</Link>
+            <Link href="/sahyog/beti_vivah">Beti Vivah Sahyog Suchi</Link>
+            <Link href="/sahyog/untimely_death">Untimely Death Sahyog Suchi</Link>
             <Link href="/member">Registered Members</Link>
             {/* <Link href="/register">Registration</Link> */}
             {/* <Link href="/login">Login</Link> */}
@@ -149,8 +149,8 @@ export default function Header() {
         <Link href="/">Home</Link>
         <Link href="#">About us</Link>
         <Link href="/contact">Contact us</Link>
-        <Link href="#">Beti Vivah Sahyog Suchi</Link>
-        <Link href="#">Untimely Death Sahyog Suchi</Link>
+        <Link href="/sahyog/beti_vivah">Beti Vivah Sahyog Suchi</Link>
+        <Link href="/sahyog/untimely_death">Untimely Death Sahyog Suchi</Link>
         <Link href="/member">Registered Members</Link>
         {/* <Link href="/register">Registration</Link> */}
         {/* <Link href="/login">Login</Link> */}

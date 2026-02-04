@@ -42,11 +42,11 @@ const Footer = () => {
           <div className="col-md-4 text-center text-md-start">
             
 
-            <p className="mb-1"><HomeIcon sx={{color:"white"}}/>:-  Plot no.15 , block -A, Natvar singh ki kothi,
+            <p className="mb-1"><HomeIcon sx={{color:"white"}}/>  Plot no.15 , block -A, Natvar singh ki kothi,
               Krishna Nagar Bharatpur
               Rajasthan 321001</p>
-            <p className="mb-0"><CallIcon sx={{ color: "white" }} />: +91 7599382068</p>
-            <p className="mb-0"><EmailIcon sx={{color:"white"}}/>: hrctrajasthanofficial@gmail.com</p>
+            <p className="mb-0"><CallIcon sx={{ color: "white" }} /> +91 7599382068</p>
+            <p className="mb-0"><EmailIcon sx={{color:"white"}}/> hrctrajasthanofficial@gmail.com</p>
           </div>
 
         </div>
