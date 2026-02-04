@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
+import HomeIcon from "@mui/icons-material/Home";
 /* ------------------ Validation Schema ------------------ */
 const schema = yup.object({
   name: yup.string().required("Name is required"),
@@ -102,6 +104,64 @@ export default function ContactPage() {
           </form>
         </div>
       </div>
+      <div className="container my-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-lg-10">
+            <div className="card shadow border-0">
+              <div className="card-body p-4">
+                <h4 className="card-title text-center mb-4 fw-bold">
+                  Contact Us
+                </h4>
+
+                <ul className="list-unstyled d-block d-lg-flex justify-content-between gap-4 mb-0">
+
+                  {/* Helpline */}
+                  <li className="d-flex align-items-start gap-2  text-lg-center">
+                    <CallIcon sx={{color:"black"}}/>
+                    <span>
+                      <a
+                        href="tel:7599382068"
+                        className="text-decoration-none text-dark fw-semibold"
+                      >
+                        7599382068
+                      </a>
+                    </span>
+                  </li>
+
+                  {/* Email */}
+                  <li className="d-flex align-items-start gap-2 text-lg-center">
+                    <EmailIcon sx={{color:"black"}} />
+                    <span>
+                      <a
+                        href="mailto:hrctrajasthanofficial@gmail.com"
+                        className="text-decoration-none text-dark fw-semibold text-wrap"
+                      >
+                        hrctrajasthanofficial@gmail.com
+                      </a>
+                    </span>
+                  </li>
+
+                  {/* Address */}
+                  <li className="d-flex align-items-start gap-2 text-lg-center">
+                    <HomeIcon sx={{color:"black"}}/>
+                    <span>
+                      Plot no.15, Block-A, Natvar Singh ki Kothi,
+                      <br />
+                      Krishna Nagar, Bharatpur
+                      <br />
+                      (Rajasthan) – 321001
+                    </span>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   );
 }

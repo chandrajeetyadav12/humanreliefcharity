@@ -1,16 +1,19 @@
 import React from 'react'
 import Link from 'next/link'
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
+import HomeIcon from "@mui/icons-material/Home";
 const Footer = () => {
   return (
-  <footer className="footer bg-dark text-white py-4">
+    <footer className="footer bg-dark text-white py-4">
       <div className="container">
         <div className="row">
 
           {/* Column 1: Logo */}
           <div className="col-md-4 mb-3 mb-md-0 text-center text-md-start">
-            <h5>Human Relief Charity </h5>
-            <p>Making the world better together</p>
-                <Link href="/register" className="text-white text-decoration-none">Register</Link>
+            <h5>HUMAN RELIEF CHARITABLE TEAM  </h5>
+            <p>Making the world better together with HUMAN RELIEF CHARITABLE TRUE SANSTHAN</p>
+            <Link href="/register" className="text-white text-decoration-none">Register</Link>
 
           </div>
 
@@ -37,11 +40,13 @@ const Footer = () => {
 
           {/* Column 3: Contact Info */}
           <div className="col-md-4 text-center text-md-start">
-            <h5>Contact Us</h5>
-            <p className="mb-1">123 Charity Street</p>
-            <p className="mb-1">City, State, 123456</p>
-            <p className="mb-0">Phone: +91 9876543210</p>
-            <p className="mb-0">Email: info@hrct.com</p>
+            
+
+            <p className="mb-1"><HomeIcon sx={{color:"white"}}/>:-  Plot no.15 , block -A, Natvar singh ki kothi,
+              Krishna Nagar Bharatpur
+              Rajasthan 321001</p>
+            <p className="mb-0"><CallIcon sx={{ color: "white" }} />: +91 7599382068</p>
+            <p className="mb-0"><EmailIcon sx={{color:"white"}}/>: hrctrajasthanofficial@gmail.com</p>
           </div>
 
         </div>

@@ -1,31 +1,41 @@
 import dbConnect from "@/lib/dbConnect";
 import Avedan from "@/models/Avedan";
 import User from "@/models/User";
-import cloudinary from "@/lib/cloudinary";
+import s3 from "@/lib/s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import crypto from "crypto";
+
 import { NextResponse } from "next/server";
 
+
 async function uploadDoc(file, documentType, label) {
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
-    const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-            .upload_stream({ folder: "avedan_documents" }, (err, res) => {
-                if (err) reject(err);
-                resolve(res);
-            })
-            .end(buffer);
-    });
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${documentType}/${crypto.randomUUID()}.${fileExt}`;
 
-    return {
-        documentType,
-        label,
-        file: {
-            public_id: result.public_id,
-            url: result.secure_url,
-        },
-    };
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_S3_BUCKET,
+    Key: `avedan_documents/${fileName}`,
+    Body: buffer,
+    ContentType: file.type,
+  });
+
+  await s3.send(command);
+
+  const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/avedan_documents/${fileName}`;
+
+  return {
+    documentType,
+    label,
+    file: {
+      key: `avedan_documents/${fileName}`,
+      url,
+    },
+  };
 }
+
 
 export async function POST(req) {
     try {
@@ -79,7 +89,7 @@ export async function POST(req) {
 
 
         // checks for already exists and not apply before three months
-        // 1️⃣ Block pending
+        //  Block pending
         const pendingExists = await Avedan.findOne({
             applicant: userId,
             type,
@@ -93,7 +103,7 @@ export async function POST(req) {
             );
         }
 
-        // 2️⃣ Block re-apply before 3 months
+        //  Block re-apply before 3 months
         const lastAvedan = await Avedan.findOne({
             applicant: userId,
             type,

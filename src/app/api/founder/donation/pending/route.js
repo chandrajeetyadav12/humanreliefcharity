@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Donation from "@/models/Donation";
+import Avedan from "@/models/Avedan";
 import { NextResponse } from "next/server";
 import { getAuth } from "@/lib/auth";
 

@@ -3,7 +3,11 @@ import dbConnect from "@/lib/dbConnect";
 import Donation from "@/models/Donation";
 import Avedan from "@/models/Avedan";
 import User from "@/models/User";
-import cloudinary from "@/lib/cloudinary";
+// import cloudinary from "@/lib/cloudinary";
+import s3 from "@/lib/s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import crypto from "crypto";
+
 import { NextResponse } from "next/server";
 import { getAuth } from "@/lib/auth";
 
@@ -38,26 +42,52 @@ export async function POST(req) {
     }
 
 
+    // let receipt;
+    // if (receiptFile && receiptFile.size > 0) {
+    //     const buffer = Buffer.from(await receiptFile.arrayBuffer());
+
+
+    //     const uploaded = await new Promise((resolve, reject) => {
+    //         cloudinary.uploader
+    //             .upload_stream({ folder: "donation_receipts" }, (err, result) => {
+    //                 if (err) reject(err);
+    //                 resolve(result);
+    //             })
+    //             .end(buffer);
+    //     });
+
+
+    //     receipt = {
+    //         public_id: uploaded.public_id,
+    //         url: uploaded.secure_url,
+    //     };
+    // }
     let receipt;
-    if (receiptFile && receiptFile.size > 0) {
-        const buffer = Buffer.from(await receiptFile.arrayBuffer());
 
+if (receiptFile && receiptFile.size > 0) {
+  const bytes = await receiptFile.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
-        const uploaded = await new Promise((resolve, reject) => {
-            cloudinary.uploader
-                .upload_stream({ folder: "donation_receipts" }, (err, result) => {
-                    if (err) reject(err);
-                    resolve(result);
-                })
-                .end(buffer);
-        });
+  const ext = receiptFile.name.split(".").pop();
+  const key = `donation_receipts/${crypto.randomUUID()}.${ext}`;
 
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_S3_BUCKET,
+    Key: key,
+    Body: buffer,
+    ContentType: receiptFile.type,
+  });
 
-        receipt = {
-            public_id: uploaded.public_id,
-            url: uploaded.secure_url,
-        };
-    }
+  await s3.send(command);
+
+  const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+
+  receipt = {
+    key,
+    url,
+  };
+}
+
 
 
     const donation = await Donation.create({

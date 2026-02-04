@@ -33,11 +33,19 @@ export async function PATCH(req, { params }) {
     );
   }
 
-  if (action === "approve") {
-    donation.status = "founder_approved";
-    donation.founderApprovedBy = auth.userId;
-      //  Find related avedan
-  const avedan = await Avedan.findById(donation.avedan);
+
+if (action === "approve") {
+  donation.status = "founder_approved";
+  donation.founderApprovedBy = auth.userId;
+
+  // Atomic update – avoids validation on old documents
+  const avedan = await Avedan.findByIdAndUpdate(
+    donation.avedan,
+    {
+      $inc: { collectedAmount: donation.amount },
+    },
+    { new: true }
+  );
 
   if (!avedan) {
     return NextResponse.json(
@@ -45,19 +53,16 @@ export async function PATCH(req, { params }) {
       { status: 404 }
     );
   }
-    //  Increase collected amount
-  avedan.collectedAmount += donation.amount;
 
-  //  Auto-complete avedan if target reached
+  // Auto-complete if target reached
   if (avedan.collectedAmount >= avedan.requiredAmount) {
-    avedan.isCompleted = true;
-    avedan.status = "founder_approved";
-    avedan.founderApprovedBy = auth.userId;
+    await Avedan.findByIdAndUpdate(avedan._id, {
+      isCompleted: true,
+      status: "founder_approved",
+      founderApprovedBy: auth.userId,
+    });
   }
-
-  //  Save avedan
-  await avedan.save();
-  }
+}
 
   if (action === "reject") {
     if (!reason) {

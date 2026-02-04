@@ -29,7 +29,7 @@ const DonationSchema = new mongoose.Schema(
         transactionId: String,
 
         receipt: {
-            public_id: String,
+            key: String,
             url: String,
         },
         status: {

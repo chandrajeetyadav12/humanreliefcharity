@@ -75,9 +75,11 @@ export default function Header() {
       {/* TOP HEADER */}
       <div className="topheader">
         <ul>
-          <li><CallIcon /> <span>+91 98765 43210</span></li>
-          <li><EmailIcon /> hrct@gmail.com</li>
-          <li><HomeIcon /> Varanasi (UP) - 270093</li>
+          <li><CallIcon /> <span>7599382068</span></li>
+          <li><EmailIcon /> hrctrajasthanofficial@gmail.com</li>
+          <li><HomeIcon />Plot no.15 , block -A, Natvar singh ki kothi,
+            Krishna nagar bharatpur
+            (Rajasthan)- 321001</li>
         </ul>
       </div>
 

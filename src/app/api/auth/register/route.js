@@ -1,7 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import cloudinary from "@/lib/cloudinary";
+import { uploadToS3 } from "@/lib/s3Upload";
+
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -30,7 +31,7 @@ export async function POST(request) {
     }
     // Required ONLY for user
     if (role === "user") {
-      if (!transactionId || acceptTerms !== "true"|| !block) {
+      if (!transactionId || acceptTerms !== "true" || !block) {
         return NextResponse.json(
           { message: "Transaction ID,block and Accept Terms are required for users" },
           { status: 400 }
@@ -96,22 +97,19 @@ export async function POST(request) {
       const bytes = await imageFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const uploadResult = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder: "user_profiles" }, (err, result) => {
-            if (err) reject(err);
-            resolve(result);
-          })
-          .end(buffer);
-      });
+      const uploadResult = await uploadToS3(
+        buffer,
+        "user_profiles",
+        imageFile.type
+      );
 
       userImage = {
-        public_id: uploadResult.public_id,
-        url: uploadResult.secure_url,
+        key: uploadResult.key,
+        url: uploadResult.url,
       };
     }
 
-
+    // let userImage = undefined;
     // FILE UPLOAD (OPTIONAL)
     let paymentReceipt = undefined;
     const file = formData.get("paymentReceipt");
@@ -120,20 +118,18 @@ export async function POST(request) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const uploadResult = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder: "receipts" }, (err, result) => {
-            if (err) reject(err);
-            resolve(result);
-          })
-          .end(buffer);
-      });
+      const uploadResult = await uploadToS3(
+        buffer,
+        "receipts",
+        file.type
+      );
 
       paymentReceipt = {
-        public_id: uploadResult.public_id,
-        url: uploadResult.secure_url,
+        key: uploadResult.key,
+        url: uploadResult.url,
       };
     }
+
 
     // PASSWORD HASH
     const hashedPassword = await bcrypt.hash(password, 10);

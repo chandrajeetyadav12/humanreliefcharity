@@ -25,7 +25,7 @@ const DocumentSchema = new mongoose.Schema(
     },
 
     file: {
-      public_id: {
+      key: {
         type: String,
         required: true,
       },
