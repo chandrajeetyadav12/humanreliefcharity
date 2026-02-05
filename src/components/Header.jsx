@@ -85,44 +85,64 @@ export default function Header() {
 
       {/* MAIN HEADER */}
       <header className="mainHeader">
-        <div className="logo">Human Relief</div>
+        <div className="logo">HUMAN RELIEF CHARITABLE TEAM</div>
+       
+
+
 
         {/* DESKTOP MENU */}
         {!isMobile && (
           <nav className="desktopMenu">
-            <Link href="#">About us</Link>
+            <Link href="/aboutus">About us</Link>
             <Link href="/contact">Contact us</Link>
             <Link href="/sahyog/beti_vivah">Beti Vivah Sahyog Suchi</Link>
             <Link href="/sahyog/untimely_death">Untimely Death Sahyog Suchi</Link>
             <Link href="/member">Registered Members</Link>
-            {/* <Link href="/register">Registration</Link> */}
-            {/* <Link href="/login">Login</Link> */}
-            {/* NOT LOGGED IN */}
+
             {/* {!isAuthenticated && (
               <>
                 <Link href="/register">Registration</Link>
                 <Link href="/login">Login</Link>
               </>
             )} */}
-            {!loading && !isAuthenticated && (
+
+            {/* {!loading && !isAuthenticated && (
+              <>
+                <Link href="/register">Registration</Link>
+                <Link href="/login">Login</Link>
+              </>
+            )} */}
+
+            {/* {!loading && isAuthenticated && (
+              <>
+                <Link href={getDashboardLink()}>Dashboard</Link>
+                <button className="logoutBtn" onClick={logout}>Logout</button>
+              </>
+            )} */}
+            {/* AUTH SECTION */}
+            {loading ? (
+              // while auth is checking
+              <>
+                <span className="skeleton">Login</span>
+                <span className="skeleton">Register</span>
+              </>
+            ) : isAuthenticated ? (
+              // logged in
+              <>
+                <Link href={getDashboardLink()}>Dashboard</Link>
+                <button className="logoutBtn" onClick={logout}>Logout</button>
+              </>
+            ) : (
+              // not logged in
               <>
                 <Link href="/register">Registration</Link>
                 <Link href="/login">Login</Link>
               </>
             )}
 
-            {!loading && isAuthenticated && (
-              <>
-                {/* <Link href="/dashboard">Dashboard</Link> */}
-                {/* <Link href="/dashboard/founder">Dashboard</Link> */}
-                <Link href={getDashboardLink()}>Dashboard</Link>
-                <button className="logoutBtn" onClick={logout}>Logout</button>
-              </>
-            )}
 
 
-
-            <Link href="#">QR Code</Link>
+            {/* <Link href="#">QR Code</Link> */}
           </nav>
         )}
 
@@ -147,20 +167,38 @@ export default function Header() {
         className={`sidebar ${sidebarOpen ? "active" : ""}`}
       >
         <Link href="/">Home</Link>
-        <Link href="#">About us</Link>
+        <Link href="/aboutus">About us</Link>
         <Link href="/contact">Contact us</Link>
         <Link href="/sahyog/beti_vivah">Beti Vivah Sahyog Suchi</Link>
         <Link href="/sahyog/untimely_death">Untimely Death Sahyog Suchi</Link>
         <Link href="/member">Registered Members</Link>
-        {/* <Link href="/register">Registration</Link> */}
-        {/* <Link href="/login">Login</Link> */}
+
         {/* {!isAuthenticated && (
           <>
             <Link href="/register">Registration</Link>
             <Link href="/login">Login</Link>
           </>
         )} */}
-        {!loading && !isAuthenticated && (
+        {loading ? (
+          // while auth is checking
+          <>
+            <span className="skeleton">Login</span>
+            <span className="skeleton">Register</span>
+          </>
+        ) : isAuthenticated ? (
+          // logged in
+          <>
+            <Link href={getDashboardLink()}>Dashboard</Link>
+            <button className="logoutBtn" onClick={logout}>Logout</button>
+          </>
+        ) : (
+          // not logged in
+          <>
+            <Link href="/register">Registration</Link>
+            <Link href="/login">Login</Link>
+          </>
+        )}
+        {/* {!loading && !isAuthenticated && (
           <>
             <Link href="/register">Registration</Link>
             <Link href="/login">Login</Link>
@@ -169,14 +207,14 @@ export default function Header() {
 
         {!loading && isAuthenticated && (
           <>
-            {/* <Link href="/dashboard/founder">Dashboard</Link> */}
+            
             <Link href={getDashboardLink()}>Dashboard</Link>
             <button className="logoutBtn" onClick={logout}>Logout</button>
           </>
-        )}
+        )} */}
 
 
-        <Link href="#">QR Code</Link>
+        {/* <Link href="#">QR Code</Link> */}
       </aside>
     </>
   );

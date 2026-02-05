@@ -28,7 +28,7 @@ const Footer = () => {
                 <Link href="/contact" className="text-white text-decoration-none">Contact Us</Link>
               </li>
               <li>
-                <Link href="#" className="text-white text-decoration-none">About Us</Link>
+                <Link href="/aboutus" className="text-white text-decoration-none">About Us</Link>
 
               </li>
               <li>
@@ -53,7 +53,7 @@ const Footer = () => {
 
         {/* Footer bottom */}
         <div className="text-center mt-3">
-          <small>© {new Date().getFullYear()} Human relief charity. All rights reserved.</small>
+          <small>© {new Date().getFullYear()} HUMAN RELIEF CHARITABLE TRUE SANSTHAN. All rights reserved.</small>
         </div>
       </div>
     </footer>
