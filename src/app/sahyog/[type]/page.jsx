@@ -47,29 +47,45 @@ export default function SahyogPage() {
             </h2>
 
             {/* Filters */}
-            <div className="flex gap-4 mb-4">
-                <select
-                    value={district}
-                    onChange={(e) => setDistrict(e.target.value)}
-                    className="border px-2 py-1"
-                >
-                    <option value="">All Districts</option>
-                    {districts.map((d, idx) => (
-                        <option key={idx} value={d}>{d}</option>
-                    ))}
-                </select>
+          
+            <div className="row mb-4 g-3">
+                <div className="col-md-2">
+                    <label className="form-label fw-semibold">
+                        District
+                    </label>
+                    <select
+                        value={district}
+                        onChange={(e) => setDistrict(e.target.value)}
+                        className="form-select"
+                    >
+                        <option value="">All Districts</option>
+                        {districts.map((d, idx) => (
+                            <option key={idx} value={d}>
+                                {d}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-                <select
-                    value={block}
-                    onChange={(e) => setBlock(e.target.value)}
-                    className="border px-2 py-1"
-                >
-                    <option value="">All Blocks</option>
-                    {blocks.map((b, idx) => (
-                        <option key={idx} value={b}>{b}</option>
-                    ))}
-                </select>
+                <div className="col-md-2">
+                    <label className="form-label fw-semibold">
+                        Block
+                    </label>
+                    <select
+                        value={block}
+                        onChange={(e) => setBlock(e.target.value)}
+                        className="form-select"
+                    >
+                        <option value="">All Blocks</option>
+                        {blocks.map((b, idx) => (
+                            <option key={idx} value={b}>
+                                {b}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
+
 
             {/* Table */}
             {loading ? (
