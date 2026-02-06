@@ -96,6 +96,14 @@ const AvedanSchema = new mongoose.Schema(
       ],
       default: "pending",
     },
+    rejection: {
+      reason: String,
+      rejectedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      rejectedAt: Date,
+    },
 
     adminVerifiedBy: {
       type: mongoose.Schema.Types.ObjectId,

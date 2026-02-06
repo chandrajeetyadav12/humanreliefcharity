@@ -104,26 +104,26 @@ export async function POST(req) {
         }
 
         //  Block re-apply before 3 months
-        const lastAvedan = await Avedan.findOne({
-            applicant: userId,
-            type,
-        })
-            .sort({ createdAt: -1 })
-            .select("createdAt");
+        // const lastAvedan = await Avedan.findOne({
+        //     applicant: userId,
+        //     type,
+        // })
+        //     .sort({ createdAt: -1 })
+        //     .select("createdAt");
 
-        if (lastAvedan) {
-            const threeMonthsLater = new Date(lastAvedan.createdAt);
-            threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+        // if (lastAvedan) {
+        //     const threeMonthsLater = new Date(lastAvedan.createdAt);
+        //     threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
 
-            if (new Date() < threeMonthsLater) {
-                return NextResponse.json(
-                    {
-                        message: `You can reapply after ${threeMonthsLater.toDateString()}`,
-                    },
-                    { status: 400 }
-                );
-            }
-        }
+        //     if (new Date() < threeMonthsLater) {
+        //         return NextResponse.json(
+        //             {
+        //                 message: `You can reapply after ${threeMonthsLater.toDateString()}`,
+        //             },
+        //             { status: 400 }
+        //         );
+        //     }
+        // }
 
 
         // -----------------------------
