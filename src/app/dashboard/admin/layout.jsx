@@ -1,14 +1,14 @@
 
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 
 export default function AdminLayout({ children }) {
   const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
   const router = useRouter();
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     if (!loading) {
       if (!isAuthenticated) {
@@ -30,9 +30,29 @@ export default function AdminLayout({ children }) {
   if (!isAuthenticated || user?.role !== "admin") return null;
 
   return (
-    <div className="d-block d-lg-flex flex-grow-1 min-vh-100 admin-main">
+    <div className="userLayout">
+      {/* HAMBURGER (mobile only) */}
+      <button
+        className="hamburgerBtn d-lg-none"
+        onClick={() => setSidebarOpen(true)}
+      >
+        ☰
+      </button>
+                  {/* OVERLAY */}
+      {sidebarOpen && (
+        <div
+          className="sidebarOverlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       {/* SIDEBAR */}
-      <aside className="p-3 border-end bg-light userLayoutAside">
+      <aside className={`userLayoutAside ${sidebarOpen ? "open" : ""}`}>
+                <button
+          className="closeBtn d-lg-none"
+          onClick={() => setSidebarOpen(false)}
+        >
+          ✕
+        </button>
         <h5>Admin Panel</h5>
 
         <ul className="list-unstyled userAsideUL">
@@ -52,7 +72,7 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* CONTENT */}
-      <main className="flex-grow-1 p-4">{children}</main>
+      <main className="userLayoutMain">{children}</main>
     </div>
   );
 }

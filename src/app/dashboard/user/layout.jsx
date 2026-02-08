@@ -1,13 +1,13 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect,useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 
 export default function UserLayout({ children }) {
   const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
   const router = useRouter();
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     if (!loading) {
       if (!isAuthenticated) {
@@ -29,9 +29,30 @@ export default function UserLayout({ children }) {
   if (!isAuthenticated || user?.role !== "user") return null;
 
   return (
-    <div className="d-block d-lg-flex flex-grow-1 min-vh-100">
+    <div className="userLayout">
+            {/* HAMBURGER (mobile only) */}
+      <button
+        className="hamburgerBtn d-lg-none"
+        onClick={() => setSidebarOpen(true)}
+      >
+        ☰
+      </button>
+            {/* OVERLAY */}
+      {sidebarOpen && (
+        <div
+          className="sidebarOverlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       {/* SIDEBAR */}
-      <aside className="p-3 border-end bg-light userLayoutAside">
+      <aside  className={`userLayoutAside ${sidebarOpen ? "open" : ""}`}>
+                {/* Close button (mobile) */}
+        <button
+          className="closeBtn d-lg-none"
+          onClick={() => setSidebarOpen(false)}
+        >
+          ✕
+        </button>
         <h5 className="mb-3">Member Panel</h5>
 
         <ul className="list-unstyled userAsideUL">
@@ -46,7 +67,7 @@ export default function UserLayout({ children }) {
           <li className="mb-2">
             {/* <a href="/dashboard/user/status">Application Status</a> */}
           </li>
-           <li className="mb-2">
+          <li className="mb-2">
             <a href="/dashboard/user/my-donations">My Donations</a>
           </li>
         </ul>
@@ -63,7 +84,7 @@ export default function UserLayout({ children }) {
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-grow-1 p-4">{children}</main>
+      <main className="userLayoutMain">{children}</main>
     </div>
   );
 }

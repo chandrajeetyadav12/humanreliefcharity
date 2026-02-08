@@ -1,11 +1,12 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
 
 export default function FounderLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, isAuthenticated, loading, logout } =
     useContext(AuthContext);
   const router = useRouter();
@@ -31,9 +32,29 @@ export default function FounderLayout({ children }) {
   if (!isAuthenticated || user?.role !== "founder") return null;
 
   return (
-    <div className="d-block d-lg-flex flex-grow-1 min-vh-100 founder-main">
+    <div className="userLayout">
+      {/* HAMBURGER (mobile only) */}
+      <button
+        className="hamburgerBtn d-lg-none"
+        onClick={() => setSidebarOpen(true)}
+      >
+        ☰
+      </button>
+      {/* OVERLAY */}
+      {sidebarOpen && (
+        <div
+          className="sidebarOverlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       {/* SIDEBAR */}
-      <aside className="p-3 border-end bg-light userLayoutAside">
+      <aside className={`userLayoutAside ${sidebarOpen ? "open" : ""}`}>
+        <button
+          className="closeBtn d-lg-none"
+          onClick={() => setSidebarOpen(false)}
+        >
+          ✕
+        </button>
         <h5 className="mb-3">Founder Panel</h5>
 
         <ul className="list-unstyled userAsideUL">
@@ -54,7 +75,7 @@ export default function FounderLayout({ children }) {
           <li>
             <Link href="/dashboard/founder/users">Users</Link>
           </li>
-           <li>
+          <li>
             <Link href="/dashboard/founder/donations">Pending Donations</Link>
           </li>
           <li>
@@ -74,48 +95,9 @@ export default function FounderLayout({ children }) {
       </aside>
 
       {/* CONTENT */}
-      <main className="flex-grow-1 p-4">{children}</main>
+      <main className="userLayoutMain">{children}</main>
     </div>
   );
 }
 
-// export default function FounderLayout({ children }) {
-//   return (
-//     <div className="d-block d-lg-flex flex-grow-1 min-vh-100 founder-main">
-//       {/* SIDEBAR */}
-//       <aside className="p-3 border-end bg-light userLayoutAside">
-//         <h5 className="mb-3">Founder Panel</h5>
 
-//         <ul className="list-unstyled userAsideUL">
-//           <li>
-//             <a href="/dashboard/founder">Dashboard</a>
-//           </li>
-
-//           <li>
-//             <a href="/dashboard/founder/profile">My Profile</a>
-//           </li>
-//             <li>
-//             <a href="/dashboard/founder/pending-avedan">Pendin Avedan</a>
-//           </li>
-
-//           <li>
-//             <a href="/dashboard/founder/admins">Admins</a>
-//           </li>
-
-//           <li>
-//             <a href="/dashboard/founder/users">Users</a>
-//           </li>
-
-//           <li>
-//             <a href="/dashboard/founder/settings">System Settings</a>
-//           </li>
-//         </ul>
-//       </aside>
-
-//       {/* CONTENT */}
-//       <main className="flex-grow-1 p-4">
-//         {children}
-//       </main>
-//     </div>
-//   );
-// }
