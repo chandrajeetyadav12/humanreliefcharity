@@ -4,7 +4,11 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
-
+import { MdDashboard } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { RiPassPendingFill } from "react-icons/ri";
+import { FaUsersBetweenLines } from "react-icons/fa6";
 export default function FounderLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, isAuthenticated, loading, logout } =
@@ -55,34 +59,34 @@ export default function FounderLayout({ children }) {
         >
           ✕
         </button>
-        <h5 className="mb-3">Founder Panel</h5>
+        <h5 className="mb-3 text-white">Founder Panel</h5>
 
         <ul className="list-unstyled userAsideUL">
           <li>
-            <Link href="/dashboard/founder">Dashboard</Link>
+           <MdDashboard color="#fff"/> <Link href="/dashboard/founder">Dashboard</Link>
           </li>
           <li>
-            <Link href="/dashboard/founder/profile">My Profile</Link>
+            <CgProfile color="#fff"/><Link href="/dashboard/founder/profile">My Profile</Link>
           </li>
           <li>
-            <Link href="/dashboard/founder/pending-avedan">
+           <RiPassPendingFill color="#fff"/> <Link href="/dashboard/founder/pending-avedan">
               Pending Avedan
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/dashboard/founder/admins">Admins</Link>
+          </li> */}
+          <li>
+           <FaUsersBetweenLines color="#fff"/> <Link href="/dashboard/founder/users">Users</Link>
           </li>
           <li>
-            <Link href="/dashboard/founder/users">Users</Link>
+            <MdOutlinePendingActions color="#fff"/><Link href="/dashboard/founder/donations">Pending Donations</Link>
           </li>
-          <li>
-            <Link href="/dashboard/founder/donations">Pending Donations</Link>
-          </li>
-          <li>
+          {/* <li>
             <Link href="/dashboard/founder/settings">
               System Settings
             </Link>
-          </li>
+          </li> */}
         </ul>
 
         {/* LOGOUT */}

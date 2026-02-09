@@ -3,7 +3,9 @@
 import { useContext, useEffect,useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
-
+import { MdDashboard } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
+import { BiSolidDonateBlood } from "react-icons/bi";
 export default function UserLayout({ children }) {
   const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
   const router = useRouter();
@@ -53,22 +55,22 @@ export default function UserLayout({ children }) {
         >
           ✕
         </button>
-        <h5 className="mb-3">Member Panel</h5>
+        <h5 className="mb-3 text-white">Member Panel</h5>
 
         <ul className="list-unstyled userAsideUL">
           <li className="mb-2">
-            <a href="/dashboard/user">Dashboard</a>
+            <MdDashboard color="#fff"/><a href="/dashboard/user">Dashboard</a>
           </li>
 
           <li className="mb-2">
-            <a href="/dashboard/user/profile">Profile</a>
+            <CgProfile color="#fff"/><a href="/dashboard/user/profile">Profile</a>
           </li>
 
           <li className="mb-2">
             {/* <a href="/dashboard/user/status">Application Status</a> */}
           </li>
           <li className="mb-2">
-            <a href="/dashboard/user/my-donations">My Donations</a>
+           <BiSolidDonateBlood color="#fff"/><a href="/dashboard/user/my-donations">My Donations</a>
           </li>
         </ul>
 

@@ -4,6 +4,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { RiPassPendingFill } from "react-icons/ri";
+import { MdGroup } from "react-icons/md";
+import { MdDashboard } from "react-icons/md";
 
 export default function AdminLayout({ children }) {
   const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
@@ -53,13 +58,14 @@ export default function AdminLayout({ children }) {
         >
           ✕
         </button>
-        <h5>Admin Panel</h5>
+        <h5 className="text-white">Admin Panel</h5>
 
         <ul className="list-unstyled userAsideUL">
-          <li><a href="/dashboard/admin/users">Users</a></li>
-          <li><a href="/dashboard/admin/profile">Profile</a></li>
-          <li><a href="/dashboard/admin/pending-avedan">Pending Avedan</a></li>
-          <li><a href="/dashboard/admin/donations/pending">Pending Donations</a></li>
+          {/* <li><MdDashboard color="#fff"/></li> */}
+          <li><MdGroup color="#fff"/><a href="/dashboard/admin/users">Users</a></li>
+          <li><CgProfile color="#fff"/><a href="/dashboard/admin/profile">Profile</a></li>
+          <li><MdOutlinePendingActions color="#fff"/><a href="/dashboard/admin/pending-avedan">Pending Avedan</a></li>
+          <li><RiPassPendingFill color="#fff"/><a href="/dashboard/admin/donations/pending">Pending Donations</a></li>
         </ul>
 
         {/* LOGOUT */}

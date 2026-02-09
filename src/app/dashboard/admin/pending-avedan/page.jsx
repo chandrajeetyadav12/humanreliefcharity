@@ -141,6 +141,7 @@ export default function PendingAvedanPage() {
               <div className="modal-body">
                 <p><strong>Description:</strong> {selectedAvedan.description}</p>
                 <p><strong>Required Amount:</strong> ₹{selectedAvedan.requiredAmount}</p>
+                <p><strong>Applicant Name: </strong>{selectedAvedan.applicant?.name}</p>
 
                 <hr />
                 <h6>Uploaded Documents</h6>
