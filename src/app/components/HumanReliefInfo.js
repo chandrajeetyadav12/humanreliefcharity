@@ -1,3 +1,5 @@
+"use client";
+
 export default function HumanReliefInfo() {
     return (
         <div className="container my-5">
