@@ -117,8 +117,6 @@ export default function DonatePage() {
   if (!avedan) return null;
   const remainingAmount =
     avedan.requiredAmount - avedan.collectedAmount;
-    console.log(avedan.collectedAmount)
-    console.log(avedan)
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">

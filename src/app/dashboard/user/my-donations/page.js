@@ -60,7 +60,6 @@ export default function MyDonationsPage() {
                 {Object.keys(grouped).map((type) => {
                     const validDonations = grouped[type].filter(
                         (d) => {
-                            console.log(d.status)
                             return d.status !== "rejected"&& d.status!=="admin_verified"&& d.status!=="pending"
                         }
                     );

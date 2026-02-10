@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function MemberDashboard() {
     const { user, isAuthenticated, loading } = useContext(AuthContext);
     const router = useRouter();
-    console.log(user)
+    // console.log(user)
     useEffect(() => {
         if (!loading && !isAuthenticated) {
             router.push("/login");

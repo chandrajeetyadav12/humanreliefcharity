@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { UserInfo } from "../components/userInformations/UserInfo";
 import { AvedanInfo } from "../components/AvedanInformations/AvedanInfo";
+import DonationInfo from "../components/DonationInformations/DonationInfo";
 export default function FounderDashboard() {
   const { user, loading } = useContext(AuthContext);
   const router = useRouter();
@@ -20,5 +21,6 @@ export default function FounderDashboard() {
   return <div>
     <UserInfo panel="Admin Dashboard"/>
     <AvedanInfo role={user.role}/>
+    <DonationInfo role={user.role}/>
   </div>;
 }
