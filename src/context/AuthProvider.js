@@ -25,9 +25,9 @@ export default function AuthProvider({ children }) {
 
     loadUser();
   }, []);
-  useEffect(() => {
-    loadUser();
-  }, [pathname]);
+  // useEffect(() => {
+  //   loadUser();
+  // }, [pathname]);
 
   const login = async (data) => {
     const res = await axios.post("/api/auth/login", data, {
