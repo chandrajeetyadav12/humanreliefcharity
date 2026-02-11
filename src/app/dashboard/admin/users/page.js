@@ -81,7 +81,7 @@ export default function AdminUsersPage() {
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
             <tr>
-              <th>S.N</th>
+              <th>S.NO.</th>
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
