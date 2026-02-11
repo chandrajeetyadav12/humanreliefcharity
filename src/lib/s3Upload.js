@@ -8,7 +8,7 @@ export async function uploadToS3(fileBuffer, folder, mimeType) {
     crypto.randomBytes(16).toString("hex");
 
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET,
+    Bucket: process.env.BUCKET,
     Key: fileName,
     Body: fileBuffer,
     ContentType: mimeType,
@@ -18,6 +18,6 @@ export async function uploadToS3(fileBuffer, folder, mimeType) {
 
   return {
     key: fileName,
-    url: `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`,
+    url: `https://${process.env.BUCKET}.s3.${process.env.REGION}.amazonaws.com/${fileName}`,
   };
 }

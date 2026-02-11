@@ -72,7 +72,7 @@ if (receiptFile && receiptFile.size > 0) {
   const key = `donation_receipts/${crypto.randomUUID()}.${ext}`;
 
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET,
+    Bucket: process.env.BUCKET,
     Key: key,
     Body: buffer,
     ContentType: receiptFile.type,
@@ -80,7 +80,7 @@ if (receiptFile && receiptFile.size > 0) {
 
   await s3.send(command);
 
-  const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+  const url = `https://${process.env.BUCKET}.s3.${process.env.REGION}.amazonaws.com/${key}`;
 
   receipt = {
     key,

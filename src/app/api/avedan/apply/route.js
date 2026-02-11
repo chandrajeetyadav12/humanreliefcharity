@@ -16,7 +16,7 @@ async function uploadDoc(file, documentType, label) {
   const fileName = `${documentType}/${crypto.randomUUID()}.${fileExt}`;
 
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET,
+    Bucket: process.env.BUCKET,
     Key: `avedan_documents/${fileName}`,
     Body: buffer,
     ContentType: file.type,
@@ -24,7 +24,7 @@ async function uploadDoc(file, documentType, label) {
 
   await s3.send(command);
 
-  const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/avedan_documents/${fileName}`;
+  const url = `https://${process.env.BUCKET}.s3.${process.env.REGION}.amazonaws.com/avedan_documents/${fileName}`;
 
   return {
     documentType,
