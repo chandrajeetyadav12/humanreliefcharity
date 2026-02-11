@@ -25,5 +25,5 @@ export function middleware(request) {
 
 // Only protect admin routes
 export const config = {
-  matcher: ["/admin/:path*", "/founder/:path*","/api/:path*"],
+  matcher: ["/admin/:path*", "/founder/:path*"],
 };
