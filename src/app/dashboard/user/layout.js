@@ -1,15 +1,17 @@
 "use client";
 
-import { useContext, useEffect,useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { MdDashboard } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { BiSolidDonateBlood } from "react-icons/bi";
+import Link from "next/link";
 export default function UserLayout({ children }) {
   const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!loading) {
       if (!isAuthenticated) {
@@ -32,14 +34,14 @@ export default function UserLayout({ children }) {
 
   return (
     <div className="userLayout">
-            {/* HAMBURGER (mobile only) */}
+      {/* HAMBURGER (mobile only) */}
       <button
         className="hamburgerBtn d-lg-none"
         onClick={() => setSidebarOpen(true)}
       >
         ☰
       </button>
-            {/* OVERLAY */}
+      {/* OVERLAY */}
       {sidebarOpen && (
         <div
           className="sidebarOverlay"
@@ -47,8 +49,8 @@ export default function UserLayout({ children }) {
         />
       )}
       {/* SIDEBAR */}
-      <aside  className={`userLayoutAside ${sidebarOpen ? "open" : ""}`}>
-                {/* Close button (mobile) */}
+      <aside className={`userLayoutAside ${sidebarOpen ? "open" : ""}`}>
+        {/* Close button (mobile) */}
         <button
           className="closeBtn d-lg-none"
           onClick={() => setSidebarOpen(false)}
@@ -59,18 +61,18 @@ export default function UserLayout({ children }) {
 
         <ul className="list-unstyled userAsideUL">
           <li className="mb-2">
-            <MdDashboard color="#fff"/><a href="/dashboard/user">Dashboard</a>
+            <MdDashboard color="#fff" /><a href="/dashboard/user">Dashboard</a>
           </li>
 
           <li className="mb-2">
-            <CgProfile color="#fff"/><a href="/dashboard/user/profile">Profile</a>
+            <CgProfile color="#fff" /><a href="/dashboard/user/profile">Profile</a>
           </li>
 
           <li className="mb-2">
             {/* <a href="/dashboard/user/status">Application Status</a> */}
           </li>
           <li className="mb-2">
-           <BiSolidDonateBlood color="#fff"/><a href="/dashboard/user/my-donations">My Donations</a>
+            <BiSolidDonateBlood color="#fff" /><a href="/dashboard/user/my-donations">My Donations</a>
           </li>
         </ul>
 
@@ -86,7 +88,32 @@ export default function UserLayout({ children }) {
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="userLayoutMain">{children}</main>
+      <main className="userLayoutMain">
+        <div className="text-end profileContainer">
+          {/* <Link href="/dashboard/user/profile"> */}
+          <img
+            src={user?.userImage?.url || "/file.svg"}
+            alt="Profile"
+            className="rounded-circle"
+            width="40"
+            height="40"
+            onClick={() => setOpen(!open)}
+            style={{ objectFit: "cover", cursor: "pointer" }}
+          />
+          {/* </Link> */}
+          {open && (
+            <div className="profileDropdown">
+              <Link href="/dashboard/user/profile" className="dropdownItem">
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="dropdownItem logoutBtn">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+        {children}
+      </main>
     </div>
   );
 }

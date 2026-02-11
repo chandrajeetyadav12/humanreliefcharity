@@ -11,6 +11,7 @@ import { RiPassPendingFill } from "react-icons/ri";
 import { FaUsersBetweenLines } from "react-icons/fa6";
 export default function FounderLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { user, isAuthenticated, loading, logout } =
     useContext(AuthContext);
   const router = useRouter();
@@ -63,13 +64,13 @@ export default function FounderLayout({ children }) {
 
         <ul className="list-unstyled userAsideUL">
           <li>
-           <MdDashboard color="#fff"/> <Link href="/dashboard/founder">Dashboard</Link>
+            <MdDashboard color="#fff" /> <Link href="/dashboard/founder">Dashboard</Link>
           </li>
           <li>
-            <CgProfile color="#fff"/><Link href="/dashboard/founder/profile">My Profile</Link>
+            <CgProfile color="#fff" /><Link href="/dashboard/founder/profile">My Profile</Link>
           </li>
           <li>
-           <RiPassPendingFill color="#fff"/> <Link href="/dashboard/founder/pending-avedan">
+            <RiPassPendingFill color="#fff" /> <Link href="/dashboard/founder/pending-avedan">
               Pending Avedan
             </Link>
           </li>
@@ -77,10 +78,10 @@ export default function FounderLayout({ children }) {
             <Link href="/dashboard/founder/admins">Admins</Link>
           </li> */}
           <li>
-           <FaUsersBetweenLines color="#fff"/> <Link href="/dashboard/founder/users">Users</Link>
+            <FaUsersBetweenLines color="#fff" /> <Link href="/dashboard/founder/users">Users</Link>
           </li>
           <li>
-            <MdOutlinePendingActions color="#fff"/><Link href="/dashboard/founder/donations">Pending Donations</Link>
+            <MdOutlinePendingActions color="#fff" /><Link href="/dashboard/founder/donations">Pending Donations</Link>
           </li>
           {/* <li>
             <Link href="/dashboard/founder/settings">
@@ -99,7 +100,30 @@ export default function FounderLayout({ children }) {
       </aside>
 
       {/* CONTENT */}
-      <main className="userLayoutMain">{children}</main>
+      <main className="userLayoutMain">
+        <div className="profileContainer">
+          <img
+            src={user?.userImage?.url || "/file.svg"}
+            alt="Profile"
+            className="rounded-circle"
+            width="40"
+            height="40"
+            onClick={() => setOpen(!open)}
+            style={{ objectFit: "cover", cursor: "pointer" }}
+          />
+          {open && (
+            <div className="profileDropdown">
+              <Link href="/dashboard/founder/profile" className="dropdownItem">
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="dropdownItem logoutBtn">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+        {children}
+      </main>
     </div>
   );
 }

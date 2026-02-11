@@ -9,10 +9,13 @@ import { MdOutlinePendingActions } from "react-icons/md";
 import { RiPassPendingFill } from "react-icons/ri";
 import { MdGroup } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
+import Link from "next/link";
 
 export default function AdminLayout({ children }) {
   const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     if (!loading) {
@@ -78,7 +81,32 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* CONTENT */}
-      <main className="userLayoutMain">{children}</main>
+      <main className="userLayoutMain">
+                <div className="text-end profileContainer">
+          {/* <Link href="/dashboard/user/profile"> */}
+          <img
+            src={user?.userImage?.url || "/file.svg"}
+            alt="Profile"
+            className="rounded-circle"
+            width="40"
+            height="40"
+            onClick={() => setOpen(!open)}
+            style={{ objectFit: "cover", cursor: "pointer" }}
+          />
+          {/* </Link> */}
+          {open && (
+            <div className="profileDropdown">
+              <Link href="/dashboard/admin/profile" className="dropdownItem">
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="dropdownItem logoutBtn">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+        {children}
+        </main>
     </div>
   );
 }
