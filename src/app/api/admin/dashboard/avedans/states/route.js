@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 import dbConnect from "@/lib/dbConnect";
 import Avedan from "@/models/Avedan";
 import jwt from "jsonwebtoken";

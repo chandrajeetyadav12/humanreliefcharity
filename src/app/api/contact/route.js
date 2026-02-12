@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Contact from "@/models/Contact";
