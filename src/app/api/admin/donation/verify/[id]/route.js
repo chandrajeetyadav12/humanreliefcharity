@@ -1,4 +1,6 @@
 // app/api/admin/donation/verify/[id]/route.js
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 import dbConnect from "@/lib/dbConnect";
 import Donation from "@/models/Donation";
 import { NextResponse } from "next/server";

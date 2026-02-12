@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 import dbConnect from "@/lib/dbConnect";
 import Donation from "@/models/Donation";
 import Avedan from "@/models/Avedan";
