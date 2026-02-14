@@ -163,9 +163,10 @@ export async function POST(request) {
       paymentReceipt,
       userImage
     });
-
+    const userObj = user.toObject();
+    delete userObj.password;
     return NextResponse.json(
-      { message: "User registered successfully", user },
+      { message: "User registered successfully", user: userObj },
       { status: 201 }
     );
   } catch (error) {
