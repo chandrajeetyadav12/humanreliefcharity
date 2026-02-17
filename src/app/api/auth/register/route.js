@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import { uploadToS3 } from "@/lib/s3Upload";
-
+import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -13,22 +13,52 @@ export async function POST(request) {
     const formData = await request.formData();
     const role = formData.get("role") || "user";
 
+    const district = formData.get("district");
+
+    // Force state
+    const state = "Rajasthan";
+
+    // Validate district
+    if (!district || !rajasthanDistricts.includes(district)) {
+      return NextResponse.json(
+        { message: "Invalid district selected" },
+        { status: 400 }
+      );
+    }
 
     // REQUIRED FIELDS
     const name = formData.get("name");
-    const email = formData.get("email");
+    // const email = formData.get("email");
     const password = formData.get("password");
     const mobile = formData.get("mobile");
     const transactionId = formData.get("transactionId");
     const acceptTerms = formData.get("acceptTerms");
     const block = formData.get("block");
+    const adharNumber = formData.get("adharNumber");
 
-    if (!name || !email || !password || !mobile) {
+    if (!name || !adharNumber || !password) {
       return NextResponse.json(
-        { message: "Required fields missing" },
+        { message: "Name, Password and Aadhaar are required" },
         { status: 400 }
       );
     }
+
+
+    if (!/^\d{12}$/.test(adharNumber)) {
+      return NextResponse.json(
+        { message: "Aadhaar must be 12 digits" },
+        { status: 400 }
+      );
+    }
+
+    const adharExists = await User.findOne({ adharNumber });
+    if (adharExists) {
+      return NextResponse.json(
+        { message: "Aadhaar already registered" },
+        { status: 400 }
+      );
+    }
+
     // Required ONLY for user
     if (role === "user") {
       if (!transactionId || acceptTerms !== "true" || !block) {
@@ -51,34 +81,30 @@ export async function POST(request) {
       );
     }
 
-    // OPTIONAL FIELD VALIDATION
-    const adharNumberRaw = formData.get("adharNumber");
-    const adharNumber =
-      adharNumberRaw && adharNumberRaw.trim() !== ""
-        ? adharNumberRaw.trim()
-        : undefined;
-    if (adharNumber && !/^\d{12}$/.test(adharNumber)) {
-      return NextResponse.json(
-        { message: "Aadhaar number must be 12 digits" },
-        { status: 400 }
-      );
+
+    // UNIQUE CHECKS
+    const emailRaw = formData.get("email");
+    let email;
+
+    if (emailRaw) {
+      const trimmed = emailRaw.trim().toLowerCase();
+      if (trimmed !== "" && trimmed !== "undefined" && trimmed !== "null") {
+        email = trimmed;
+      }
     }
-    if (adharNumber) {
-      const adharExists = await User.findOne({ adharNumber });
-      if (adharExists) {
+
+    // Only check uniqueness if email is valid
+    if (email) {
+      const emailExists = await User.findOne({ email });
+      if (emailExists) {
         return NextResponse.json(
-          { message: "Aadhaar already registered" },
+          { message: "Email already exists" },
           { status: 400 }
         );
       }
     }
-    // UNIQUE CHECKS
-    if (await User.findOne({ email })) {
-      return NextResponse.json(
-        { message: "Email already exists" },
-        { status: 400 }
-      );
-    }
+
+
 
     if (referralCode) {
       const exists = await User.findOne({ referralCode });
@@ -133,10 +159,8 @@ export async function POST(request) {
 
     // PASSWORD HASH
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
+    const userData = {
       name,
-      email,
       password: hashedPassword,
       mobile,
       role,
@@ -144,27 +168,62 @@ export async function POST(request) {
       transactionId: role === "user" ? transactionId : undefined,
       acceptTerms: role === "user" ? acceptTerms === "true" : undefined,
       referralCode,
-
-      // OPTIONAL FIELDS
-      adharNumber, // <--- added here
+      adharNumber,
       fatherorhusbandname: formData.get("fatherorhusbandname"),
       dob: formData.get("dob"),
       gender: formData.get("gender"),
       occupation: formData.get("occupation"),
       governmentDepartment: formData.get("governmentDepartment"),
       officeNameAddress: formData.get("officeNameAddress"),
-      state: formData.get("state"),
-      district: formData.get("district"),
+      state,
+      district,
       permanentAddress: formData.get("permanentAddress"),
       nomineeName: formData.get("nomineeName"),
       nomineeRelation: formData.get("nomineeRelation"),
       nomineeMobile: formData.get("nomineeMobile"),
-
       paymentReceipt,
       userImage
-    });
+    };
+
+    // Only add email if valid
+    if (email) {
+      userData.email = email;
+    }
+
+    const user = await User.create(userData);
+
+    // const user = await User.create({
+    //   name,
+
+    //   password: hashedPassword,
+    //   mobile,
+    //   role,
+    //   block: role === "user" ? block : undefined,
+    //   transactionId: role === "user" ? transactionId : undefined,
+    //   acceptTerms: role === "user" ? acceptTerms === "true" : undefined,
+    //   referralCode,
+
+    //   // OPTIONAL FIELDS
+    //   adharNumber, // <--- added here
+    //   fatherorhusbandname: formData.get("fatherorhusbandname"),
+    //   dob: formData.get("dob"),
+    //   gender: formData.get("gender"),
+    //   occupation: formData.get("occupation"),
+    //   governmentDepartment: formData.get("governmentDepartment"),
+    //   officeNameAddress: formData.get("officeNameAddress"),
+    //   state,
+    //   district,
+    //   permanentAddress: formData.get("permanentAddress"),
+    //   nomineeName: formData.get("nomineeName"),
+    //   nomineeRelation: formData.get("nomineeRelation"),
+    //   nomineeMobile: formData.get("nomineeMobile"),
+
+    //   paymentReceipt,
+    //   userImage
+    // });
     const userObj = user.toObject();
     delete userObj.password;
+    delete userObj.adharNumber;
     return NextResponse.json(
       { message: "User registered successfully", user: userObj },
       { status: 201 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext,useEffect } from "react";
+import { useContext,useEffect,useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,8 @@ const schema = yup.object({
 
 export default function LoginPage() {
   const { login,user, loading, isAuthenticated } = useContext(AuthContext);
+  const [buttonLoading, setButtonLoading] = useState(false);
+
   const router = useRouter();
   // Redirect if already logged in
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
+      setButtonLoading(true)
       const user = await login({
         identifier: data.identifier,
         password: data.password,
@@ -59,6 +62,9 @@ export default function LoginPage() {
         error.response?.data?.message || "Login failed";
       toast.error(msg);
       toast.error("Invalid credentials");
+    }
+     finally {
+      setButtonLoading(false); // stop button loading
     }
 
   };
@@ -85,7 +91,7 @@ if (loading || isAuthenticated) return null;
             />
             <p className="text-danger">{errors.password?.message}</p>
 
-            <button className="globalBtnColor">Login</button>
+            <button className="globalBtnColor">{buttonLoading ? "Logging in..." : "Login"}</button>
           </form>
         </div>
       </div>

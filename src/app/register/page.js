@@ -7,13 +7,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
 // Yup validation schema
 const schema = yup.object({
   name: yup.string().required("नाम आवश्यक है"),
-  email: yup.string().email("सही ईमेल डालें").required("ईमेल आवश्यक है"),
+  email: yup
+    .string()
+    .email("सही ईमेल डालें")
+    .transform((value) => (value === "" ? undefined : value))
+    .notRequired(),
   password: yup.string().min(6, "कम से कम 6 अक्षर").required("पासवर्ड आवश्यक है"),
-  mobile: yup.string().required("मोबाइल नंबर आवश्यक है"),
+  mobile: yup
+    .string()
+    .transform((value) => (value === "" ? undefined : value))
+    .matches(/^\d{10}$/, {
+      message: "मोबाइल नंबर 10 अंकों का होना चाहिए",
+      excludeEmptyString: true,
+    })
+    .notRequired(),
+
   transactionId: yup.string().required("ट्रांजेक्शन आईडी आवश्यक है"),
+  district: yup.string().required("जिला आवश्यक है"),
+
   block: yup.string().required("ब्लॉक आवश्यक है"),
   referralCode: yup
     .string()
@@ -25,12 +40,9 @@ const schema = yup.object({
     .notRequired(),
   adharNumber: yup
     .string()
-    .transform((value) => (value === "" ? undefined : value))
-    .matches(/^\d{12}$/, {
-      message: "आधार नंबर 12 अंकों का होना चाहिए",
-      excludeEmptyString: true,
-    })
-    .notRequired(),
+    .required("आधार नंबर आवश्यक है")
+    .matches(/^\d{12}$/, "आधार नंबर 12 अंकों का होना चाहिए"),
+
   acceptTerms: yup.boolean().oneOf([true], "नियम स्वीकार करें"),
 });
 
@@ -171,7 +183,7 @@ export default function RegisterPage() {
           <div className="row mb-3">
             <div className="col-md-6">
               <label className="form-label">आधार नंबर</label>
-              <input className="form-control" placeholder="12 अंकों का आधार नंबर(यदि हो)"  {...register("adharNumber")} />
+              <input className="form-control" placeholder="12 अंकों का आधार नंबर"  {...register("adharNumber")} />
               <p className="text-danger">{errors.adharNumber?.message}</p>
             </div>
             <div className="col-md-6">
@@ -184,18 +196,30 @@ export default function RegisterPage() {
           <div className="row mb-3">
             <div className="col-md-6">
               <label className="form-label">राज्य</label>
-              <input className="form-control" placeholder="राज्य" {...register("state")} />
+              <input className="form-control"
+                value="Rajasthan"
+                readOnly
+              />
             </div>
             <div className="col-md-6">
               <label className="form-label">जिला</label>
-              <input className="form-control" placeholder="जिला" {...register("district")} />
+              {/* <input className="form-control" placeholder="जिला" {...register("district")} /> */}
+              <select className="form-control" {...register("district")}>
+                <option value="">जिला चुनें</option>
+                {rajasthanDistricts.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+              <p className="text-danger">{errors.district?.message}</p>
             </div>
           </div>
           <div className="col-md-6">
-            <label className="form-label">ब्लॉक</label>
+            <label className="form-label">ब्लाक /तहसील</label>
             <input
               className="form-control"
-              placeholder="ब्लॉक का नाम"
+              placeholder="ब्लाक/तहसील का नाम"
               {...register("block")}
             />
             <p className="text-danger">{errors.block?.message}</p>

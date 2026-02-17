@@ -1,17 +1,22 @@
 import mongoose from "mongoose";
-
+import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
 const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
+    email: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+      lowercase: true
+    },
     password: { type: String, required: true },
     adharNumber: {
       type: String,
+      required: true,
+      unique: true,
       trim: true,
       match: [/^\d{12}$/, "Aadhaar must be 12 digits"],
-      unique: true,
-      sparse: true,
-      default: undefined,
     },
     status: {
       type: String,
@@ -22,7 +27,7 @@ const UserSchema = new mongoose.Schema(
     fatherorhusbandname: String,
     dob: String,
 
-    mobile: { type: String, required: true },
+    mobile: { type: String, trim: true },
     gender: String,
 
     occupation: {
@@ -42,8 +47,19 @@ const UserSchema = new mongoose.Schema(
     governmentDepartment: String,
     officeNameAddress: String,
 
-    state: String,
-    district: String,
+    state: {
+      type: String,
+      default: "Rajasthan",
+      immutable: true,
+    },
+    district: {
+      type: String,
+      enum: rajasthanDistricts,
+      required: function () {
+        return this.role === "user";
+      },
+    },
+
     permanentAddress: String,
 
     nomineeName: String,
