@@ -6,6 +6,7 @@ export default function Header() {
   return (
     <>
       {/* TOP HEADER */}
+      <div className="headerWrapper">
       <div className="topheader">
         <ul>
           <li><CallIcon /> <span>7599382068</span></li>
@@ -16,6 +17,7 @@ export default function Header() {
         </ul>
       </div>
       <MainHeader/>
+      </div>
     </>
   );
 }

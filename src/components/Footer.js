@@ -52,7 +52,7 @@ const Footer = () => {
         </div>
 
         {/* Footer bottom */}
-        <div className="text-center mt-3">
+        <div className="text-center mt-3 border_footer">
           <small>© {new Date().getFullYear()} HUMAN RELIEF CHARITABLE TRUE SANSTHAN. All rights reserved.</small>
         </div>
       </div>
