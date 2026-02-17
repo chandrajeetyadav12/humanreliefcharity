@@ -6,13 +6,13 @@ import Footer from "@/components/Footer";
 
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
-  const hideHeaderFooter = pathname.startsWith("/dashboard");
+  const isDashboard = pathname.startsWith("/dashboard");
 
   return (
-    <div className="app-wrapper">
-      {!hideHeaderFooter && <Header />}
+    <div className={`app-wrapper ${isDashboard?"dashboard":"public"}`}>
+      {!isDashboard && <Header />}
       <main className="main-content">{children}</main>
-      {!hideHeaderFooter && <Footer />}
+      {!isDashboard && <Footer />}
     </div>
   );
 }

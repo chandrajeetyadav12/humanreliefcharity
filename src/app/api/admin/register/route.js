@@ -2,25 +2,29 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
+import { getAuth } from "@/lib/auth";
 
 export async function POST(req) {
   try {
     await dbConnect();
-
-    //  Check if admin already exists
-    const adminExists = await User.findOne({ role: "admin" });
-    if (adminExists) {
-      return NextResponse.json(
-        { message: "Admin already exists" },
-        { status: 403 }
-      );
+  const auth = getAuth(req);
+    if (!auth || auth.role !== "founder") {
+      return NextResponse.json({ message: "Access denied" }, { status: 403 });
     }
+    //  Check if admin already exists
+    // const adminExists = await User.findOne({ role: "admin" });
+    // if (adminExists) {
+    //   return NextResponse.json(
+    //     { message: "Admin already exists" },
+    //     { status: 403 }
+    //   );
+    // }
 
     // Get body JSON
-    const { name, email, password, mobile } = await req.json();
+    const { name, email, password, mobile,adharNumber } = await req.json();
 
     // Validation
-    if (!name || !email || !password || !mobile) {
+    if (!name || !email || !password || !mobile || !adharNumber) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
@@ -45,6 +49,7 @@ export async function POST(req) {
       email,
       password: hashedPassword,
       mobile,
+      adharNumber,
       role: "admin",      // admin role set here
       status: "active",   // always active
     });
