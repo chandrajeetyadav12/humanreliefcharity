@@ -59,6 +59,7 @@ export async function PATCH(req, { params }) {
       "nomineeName",
       "nomineeRelation",
       "nomineeMobile",
+      "status"
     ];
 
     const updates = {};
@@ -103,25 +104,44 @@ export async function PATCH(req, { params }) {
    (FOUNDER ONLY)
 ======================= */
 export async function DELETE(req, { params }) {
-    try {
-        await dbConnect();
+  try {
+    await dbConnect();
 
-        const auth = getAuth(req);
-        if (!auth || auth.role !== "founder") {
-            return NextResponse.json(
-                { message: "Only founder can delete users" },
-                { status: 403 }
-            );
-        }
-        const { id } = await params;
+    const auth = getAuth(req);
 
-        const user = await User.findByIdAndDelete(id);
-        if (!user) {
-            return NextResponse.json({ message: "User not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({ message: "User deleted successfully" });
-    } catch (err) {
-        return NextResponse.json({ message: "Server error" }, { status: 500 });
+    // Only founder allowed
+    if (!auth || auth.role !== "founder") {
+      return NextResponse.json(
+        { message: "Only founder can delete users" },
+        { status: 403 }
+      );
     }
+
+    const { id } =await params;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { status: "deleted" },   //  Only change status
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { message: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "User status changed to deleted",
+    });
+
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { message: "Server error" },
+      { status: 500 }
+    );
+  }
 }
+
