@@ -9,20 +9,20 @@ import Image from "next/image";
 
 const places = [
   {
-    name: "Hawa Mahal",
+    name: "हवा महल",
     image: "/hawamahal.jpg",
   },
   {
-    name: "Jaisalmer Fort",
+    name: "जैसलमेर रो किल्लो",
     image: "/jaisalmer.jpg",
   },
 
   {
-    name: "Vijaystambh",
+    name: "विजय रो स्तंभ",
     image: "/vijaystambh.jpg",
   },
   {
-    name:"Thar Desert",
+    name:"थार रो मरुस्थल",
     image:"/thardesert.jpg"
   }
 
@@ -31,7 +31,7 @@ const places = [
 export default function HeritageSlider() {
   return (
     <section className="heritage-slider">
-      <h2 className="title">Proud Heritage of Rajasthan</h2>
+      <h2 className="title">म्हारो राजस्थान, म्हारी गौरवशाली धरोहर</h2>
 
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
