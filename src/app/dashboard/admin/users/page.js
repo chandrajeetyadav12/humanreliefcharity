@@ -2,35 +2,35 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import EditIcon from '@mui/icons-material/Edit';
+// import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import IconButton from "@mui/material/IconButton";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [editUser, setEditUser] = useState(null);
-  const updateUser = async () => {
-    const res = await fetch(`/api/users/${editUser._id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editUser),
-    });
+  // const [showEditModal, setShowEditModal] = useState(false);
+  // const [editUser, setEditUser] = useState(null);
+  // const updateUser = async () => {
+  //   const res = await fetch(`/api/users/${editUser._id}`, {
+  //     method: "PATCH",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(editUser),
+  //   });
 
-    const data = await res.json();
+  //   const data = await res.json();
 
-    if (res.ok) {
-      toast.success("User updated successfully");
-      setShowEditModal(false);
-      fetchUsers(); // reload list
-    } else {
-      toast.error(data.message || "Failed to update user")
-    }
-  };
+  //   if (res.ok) {
+  //     toast.success("User updated successfully");
+  //     setShowEditModal(false);
+  //     fetchUsers(); // reload list
+  //   } else {
+  //     toast.error(data.message || "Failed to update user")
+  //   }
+  // };
 
   const viewUser = async (id) => {
     const res = await axios.get(`/api/users/${id}`, {
@@ -89,7 +89,7 @@ export default function AdminUsersPage() {
               <th>Transaction Image</th>
               <th>Transaction Id</th>
               <th>View</th>
-              <th>Edit</th>
+              {/* <th>Edit</th> */}
 
             </tr>
           </thead>
@@ -149,7 +149,7 @@ export default function AdminUsersPage() {
                     </IconButton>
 
                   </td>
-                  <td>
+                  {/* <td>
                     <IconButton
                       onClick={() => {
                         setEditUser(u);
@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
 
                       />
                     </IconButton>
-                  </td>
+                  </td> */}
                 </tr>
               )
 
@@ -167,7 +167,7 @@ export default function AdminUsersPage() {
           </tbody>
         </table>
       </div>
-      {showEditModal && editUser && (
+      {/* {showEditModal && editUser && (
         <>
           <div
             className="modal-backdrop fade show"
@@ -265,7 +265,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
         </>
-      )}
+      )} */}
 
       {showModal && selectedUser && (
         <>

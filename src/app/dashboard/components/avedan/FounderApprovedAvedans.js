@@ -39,10 +39,9 @@ console.log(avedans)
 
       <div className="row">
         {avedans.map((av) => {
-          console.log(av?.collectedAmount)
           //  NEW: remaining amount calculation
-          const remainingAmount =
-            av.requiredAmount - (av?.collectedAmount || 0);
+          // const remainingAmount =
+          //   av.requiredAmount - (av?.collectedAmount || 0);
 
           return (
             <div key={av._id} className="col-md-6 col-lg-4 mb-4">
@@ -50,19 +49,19 @@ console.log(avedans)
                 <div className="card-body d-flex flex-column">
                   <p className="card-text">{av.description}</p>
 
-                  <p className="fw-bold text-success">
+                  {/* <p className="fw-bold text-success">
                     Required: ₹{av.requiredAmount}
-                  </p>
+                  </p> */}
 
                   {/*  NEW */}
-                  <p className="fw-bold text-primary">
+                  {/* <p className="fw-bold text-primary">
                     Collected: ₹{av.collectedAmount || 0}
-                  </p>
+                  </p> */}
 
                   {/*  NEW */}
-                  <p className="fw-bold text-danger">
+                  {/* <p className="fw-bold text-danger">
                     Remaining: ₹{remainingAmount}
-                  </p>
+                  </p> */}
 
                   <hr />
 
@@ -98,17 +97,13 @@ console.log(avedans)
                   {/*  UPDATED: disable if completed */}
                   <button
                     className="btn btn-primary mt-auto w-100"
-                    disabled={remainingAmount <= 0}
+                    
                     onClick={() =>
                       router.push(
                         `/dashboard/user/donates/${av._id}`
                       )
                     }
-                  >
-                    {remainingAmount <= 0
-                      ? "Target Completed"
-                      : "Donate Now"}
-                  </button>
+                  >Donate Now</button>
                 </div>
               </div>
             </div>

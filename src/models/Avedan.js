@@ -62,7 +62,7 @@ const AvedanSchema = new mongoose.Schema(
     //  FUNDING DETAILS
     requiredAmount: {
       type: Number,
-      required: true,
+      // required: true,
       min: 1,
     },
 

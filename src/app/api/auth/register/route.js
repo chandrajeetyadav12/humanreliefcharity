@@ -61,9 +61,9 @@ export async function POST(request) {
 
     // Required ONLY for user
     if (role === "user") {
-      if (!transactionId || acceptTerms !== "true" || !block) {
+      if (!transactionId || acceptTerms !== "true") {
         return NextResponse.json(
-          { message: "Transaction ID,block and Accept Terms are required for users" },
+          { message: "Transaction ID and Accept Terms are required for users" },
           { status: 400 }
         );
       }
@@ -164,7 +164,7 @@ export async function POST(request) {
       password: hashedPassword,
       mobile,
       role,
-      block: role === "user" ? block : undefined,
+      block,
       transactionId: role === "user" ? transactionId : undefined,
       acceptTerms: role === "user" ? acceptTerms === "true" : undefined,
       referralCode,

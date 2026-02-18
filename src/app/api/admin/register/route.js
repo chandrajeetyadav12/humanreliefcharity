@@ -53,9 +53,10 @@ export async function POST(req) {
       role: "admin",      // admin role set here
       status: "active",   // always active
     });
-
+    const adminData=admin.toObject()
+   delete adminData.password;
     return NextResponse.json(
-      { message: "Admin registered successfully", admin },
+      { message: "Admin registered successfully", adminData },
       { status: 201 }
     );
   } catch (error) {

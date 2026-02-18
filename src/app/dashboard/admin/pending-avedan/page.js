@@ -98,7 +98,7 @@ export default function PendingAvedanPage() {
             <tr>
               <th>User</th>
               <th>Type</th>
-              <th>Amount</th>
+              {/* <th>Amount</th> */}
               <th>Created</th>
               <th>View</th>
             </tr>
@@ -111,7 +111,7 @@ export default function PendingAvedanPage() {
                   {a.applicant?.mobile}
                 </td>
                 <td>{a.type}</td>
-                <td>₹{a.requiredAmount}</td>
+                {/* <td>₹{a.requiredAmount}</td> */}
                 <td>{new Date(a.createdAt).toLocaleString()}</td>
                 <td>
                   <button
@@ -140,7 +140,7 @@ export default function PendingAvedanPage() {
 
               <div className="modal-body">
                 <p><strong>Description:</strong> {selectedAvedan.description}</p>
-                <p><strong>Required Amount:</strong> ₹{selectedAvedan.requiredAmount}</p>
+                {/* <p><strong>Required Amount:</strong> ₹{selectedAvedan.requiredAmount}</p> */}
                 <p><strong>Applicant Name: </strong>{selectedAvedan.applicant?.name}</p>
 
                 <hr />

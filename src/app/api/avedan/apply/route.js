@@ -47,15 +47,15 @@ export async function POST(req) {
         const type = formData.get("type");
         const description = formData.get("description");
         //  NEW: REQUIRED AMOUNT
-        const requiredAmount = Number(formData.get("requiredAmount"));
-        console.log("REQ AMOUNT:", requiredAmount, typeof requiredAmount);
+        // const requiredAmount = Number(formData.get("requiredAmount"));
+        // console.log("REQ AMOUNT:", requiredAmount, typeof requiredAmount);
 
         // -----------------------------
         // BASIC VALIDATION
         // -----------------------------
-        if (!userId || !type || !requiredAmount || requiredAmount <= 0) {
+        if (!userId || !type) {
             return NextResponse.json(
-                { message: "userId,requiredAmount and type  are required" },
+                { message: "userId and type  are required" },
                 { status: 400 }
             );
         }
@@ -195,7 +195,6 @@ export async function POST(req) {
             applicant: userId,
             type,
             description,
-            requiredAmount,
             collectedAmount: 0,
             isCompleted: false,
             documents,

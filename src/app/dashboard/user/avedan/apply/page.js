@@ -13,11 +13,11 @@ import * as yup from "yup";
 // ----------------------
 const schema = yup.object().shape({
   description: yup.string().required("Description is required"),
-  requiredAmount: yup
-    .number()
-    .typeError("Required amount must be a number")
-    .positive("Amount must be greater than 0")
-    .required("Required amount is required"),
+  // requiredAmount: yup
+  //   .number()
+  //   .typeError("Required amount must be a number")
+  //   .positive("Amount must be greater than 0")
+  //   .required("Required amount is required"),
   accountHolderName: yup.string().required("Account holder name is required"),
   bankName: yup.string().required("Bank name is required"),
   accountNumber: yup.string().required("Account number is required"),
@@ -60,7 +60,7 @@ export default function ApplyAvedanPage() {
     formData.append("type", type);
     formData.append("description", formDataFields.description);
     //  NEW: REQUIRED AMOUNT
-    formData.append("requiredAmount", formDataFields.requiredAmount);
+    // formData.append("requiredAmount", formDataFields.requiredAmount);
 
     // Bank details
     formData.append("accountHolderName", formDataFields.accountHolderName);
@@ -125,7 +125,7 @@ export default function ApplyAvedanPage() {
           />
           <div className="invalid-feedback">{errors.description?.message}</div>
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label>Required Amount (₹)</label>
           <input
             type="number"
@@ -135,7 +135,7 @@ export default function ApplyAvedanPage() {
           <div className="invalid-feedback">
             {errors.requiredAmount?.message}
           </div>
-        </div>
+        </div> */}
 
 
         <h5>Bank Details</h5>

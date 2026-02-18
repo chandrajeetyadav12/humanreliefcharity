@@ -99,9 +99,9 @@ const UserSchema = new mongoose.Schema(
     },
     block: {
       type: String,
-      required: function () {
-        return this.role === "user";
-      },
+      // required: function () {
+      //   return this.role === "user";
+      // },
       trim: true,
     },
 

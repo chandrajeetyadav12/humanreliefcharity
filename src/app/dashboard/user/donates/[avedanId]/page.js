@@ -129,13 +129,13 @@ export default function DonatePage() {
               <p className="card-text">{avedan.description}</p>
 
               <div className="d-flex justify-content-between mt-3">
-                <span><strong>Required:</strong> ₹{avedan.requiredAmount}</span>
-                <span><strong>Collected:</strong> ₹{avedan.collectedAmount}</span>
+                {/* <span><strong>Required:</strong> ₹{avedan.requiredAmount}</span> */}
+                {/* <span><strong>Collected:</strong> ₹{avedan.collectedAmount}</span> */}
               </div>
 
-              <p className="fw-bold text-danger mt-2">
+              {/* <p className="fw-bold text-danger mt-2">
                 Remaining: ₹{remainingAmount}
-              </p>
+              </p> */}
               <p>
                 Bank Holder name:{avedan?.bankDetails?.accountHolderName}
               </p>

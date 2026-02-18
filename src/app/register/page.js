@@ -24,12 +24,14 @@ const schema = yup.object({
       message: "मोबाइल नंबर 10 अंकों का होना चाहिए",
       excludeEmptyString: true,
     })
-    .notRequired(),
+    .required("मोबाइल नंबर आवश्यक है"),
 
   transactionId: yup.string().required("ट्रांजेक्शन आईडी आवश्यक है"),
   district: yup.string().required("जिला आवश्यक है"),
 
-  block: yup.string().required("ब्लॉक आवश्यक है"),
+  block: yup.string().notRequired(),
+  nomineeName:yup.string().required("नामिनी का नाम"),
+  nomineeRelation:yup.string().required("नामिनी से संबंध आवश्यक है"),
   referralCode: yup
     .string()
     .transform((value) => (value === "" ? undefined : value))
@@ -237,10 +239,12 @@ export default function RegisterPage() {
             <div className="col-md-6">
               <label className="form-label">नामिनी का नाम</label>
               <input className="form-control" placeholder="नामिनी का नाम" {...register("nomineeName")} />
+              <p className="text-danger">{errors.nomineeName?.message}</p>
             </div>
             <div className="col-md-6">
               <label className="form-label">नामिनी से संबंध</label>
               <input className="form-control" placeholder="नामिनी से संबंध" {...register("nomineeRelation")} />
+              <p className="text-danger">{errors.nomineeRelation?.message}</p>
             </div>
           </div>
 
