@@ -65,10 +65,10 @@ export default function AdminLayout({ children }) {
 
         <ul className="list-unstyled userAsideUL">
           {/* <li><MdDashboard color="#fff"/></li> */}
-          <li><MdGroup color="#fff"/><a href="/dashboard/admin/users">Users</a></li>
-          <li><CgProfile color="#fff"/><a href="/dashboard/admin/profile">Profile</a></li>
-          <li><MdOutlinePendingActions color="#fff"/><a href="/dashboard/admin/pending-avedan">Pending Avedan</a></li>
-          <li><RiPassPendingFill color="#fff"/><a href="/dashboard/admin/donations/pending">Pending Donations</a></li>
+          <li><MdGroup color="#fff"/><Link href="/dashboard/admin/users">Users</Link></li>
+          <li><CgProfile color="#fff"/><Link href="/dashboard/admin/profile">Profile</Link></li>
+          <li><MdOutlinePendingActions color="#fff"/><Link href="/dashboard/admin/pending-avedan">Pending Avedan</Link></li>
+          <li><RiPassPendingFill color="#fff"/><Link href="/dashboard/admin/donations/pending">Pending Donations</Link></li>
         </ul>
 
         {/* LOGOUT */}

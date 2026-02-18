@@ -61,18 +61,18 @@ export default function UserLayout({ children }) {
 
         <ul className="list-unstyled userAsideUL">
           <li className="mb-2">
-            <MdDashboard color="#fff" /><a href="/dashboard/user">Dashboard</a>
+            <MdDashboard color="#fff" /><Link href="/dashboard/user">Dashboard</Link>
           </li>
 
           <li className="mb-2">
-            <CgProfile color="#fff" /><a href="/dashboard/user/profile">Profile</a>
+            <CgProfile color="#fff" /><Link href="/dashboard/user/profile">Profile</Link>
           </li>
 
           <li className="mb-2">
             {/* <a href="/dashboard/user/status">Application Status</a> */}
           </li>
           <li className="mb-2">
-            <BiSolidDonateBlood color="#fff" /><a href="/dashboard/user/my-donations">My Donations</a>
+            <BiSolidDonateBlood color="#fff" /><Link href="/dashboard/user/my-donations">My Donations</Link>
           </li>
         </ul>
 
