@@ -407,7 +407,7 @@ a {
   color: #222;
 }
 
-.card {
+.heritage_card {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
@@ -415,7 +415,7 @@ a {
   transition: transform 0.3s;
 }
 
-.card:hover {
+.heritage_card:hover {
   transform: scale(1.05);
 }
 

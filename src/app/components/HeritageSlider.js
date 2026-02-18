@@ -47,7 +47,7 @@ export default function HeritageSlider() {
       >
         {places.map((place, index) => (
           <SwiperSlide key={index}>
-            <div className="card">
+            <div className="heritage_card">
               <Image
                 src={place.image}
                 alt={place.name}
