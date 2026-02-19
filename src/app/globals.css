@@ -429,10 +429,46 @@ a {
   padding: 15px;
   font-size: 18px;
 }
-.swiper-wrapper{
-  padding: 20px !important;
-}
+
 /* endssss */
+/* charitybanner */
+.charity-full-banner .slide-left {
+  background-size: cover;
+  background-position: center;
+  min-height: 450px;
+}
+
+.charity-full-banner .overlay {
+  inset: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.charity-full-banner .content-left {
+  position: relative;
+  max-width: 500px;
+}
+
+.charity-full-banner .title-hindi {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.charity-full-banner .title-english {
+  font-size: 32px;
+  margin-top: 5px;
+}
+
+.charity-full-banner .subtitle {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.charity-full-banner .side-img {
+  object-fit: cover;
+}
+
+/* end */
 @media(max-width:1194px) {
   .topheader {
     display: none;
