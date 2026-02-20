@@ -65,7 +65,7 @@ export async function POST(request) {
           url: uploadResult.url,
         };
       } catch (err) {
-        console.error("Founder image upload skipped:", err.message);
+        // Image upload failed, continue without image
       }
     }
 
@@ -87,7 +87,6 @@ export async function POST(request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Founder register error:", error);
     return NextResponse.json(
       { message: "Server error" },
       { status: 500 }

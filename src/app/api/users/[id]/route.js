@@ -93,7 +93,6 @@ export async function PATCH(req, { params }) {
       user: updatedUser,
     });
   } catch (err) {
-    console.error(err);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
@@ -137,7 +136,6 @@ export async function DELETE(req, { params }) {
     });
 
   } catch (err) {
-    console.error(err);
     return NextResponse.json(
       { message: "Server error" },
       { status: 500 }

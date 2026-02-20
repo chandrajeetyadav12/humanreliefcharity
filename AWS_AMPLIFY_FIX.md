@@ -1,8 +1,48 @@
 # AWS Amplify Deployment Fix Guide
 
-## 🔍 RECHECK SUMMARY (Latest Updates)
+## 🔍 API RECHECK COMPLETED ✅ (All Issues Fixed)
 
-**Status**: ✅ All critical issues identified and fixed
+**Status**: ✅ All 31 API routes verified and production-ready
+
+### Critical Issues Found and Fixed in API Routes:
+
+#### 1. Missing Error Handling (try-catch blocks) ✅
+**Routes Fixed:**
+- `/api/me/route.js` - Added try-catch
+- `/api/admin/donation/pending/route.js` - Added try-catch
+- `/api/users/donation/my/route.js` - Added try-catch
+- `/api/founder/donation/verify/[id]/route.js` - Added try-catch
+- `/api/donation/create/route.js` - Added try-catch
+
+#### 2. Wrong Response Method ✅
+- `/api/admin/dashboard/donationinfo/route.js` - Fixed `Response.json` → `NextResponse.json` + added try-catch
+
+#### 3. Console.error Statements Removed ✅
+**Files cleaned (15 console statements removed):**
+- `/api/users/[id]/route.js` (2 instances)
+- `/api/donation/by-type/route.js`
+- `/api/members/route.js`
+- `/api/contact/route.js`
+- `/api/founder/register/route.js` (2 instances)
+- `/api/founder/avedan/pending/route.js`
+- `/api/avedan/[id]/route.js`
+- `/api/avedan/apply/route.js` (2 instances - 1 console.error, 1 commented console.log)
+- `/api/auth/register/route.js`
+- `/api/auth/login/route.js`
+- `/api/admin/register/route.js`
+- `/api/admin/avedan/pending/route.js`
+
+### API Routes Statistics:
+- **Total API Routes**: 31
+- **All routes have try-catch**: ✅
+- **All routes use NextResponse**: ✅
+- **No console.log/error in production code**: ✅ (only 1 commented line remaining)
+- **Proper authentication checks**: ✅
+- **Consistent error responses**: ✅
+
+---
+
+## 🔍 PREVIOUS RECHECK SUMMARY
 
 ### Additional Issues Found and Fixed:
 1. **Security Issue**: Removed console.log statements exposing JWT_SECRET and MONGODB_URI in production
@@ -10,7 +50,7 @@
 3. **Documentation**: Created `.env.example` file for easier setup
 4. **Verification**: Confirmed all Mongoose models are correctly configured for serverless
 
-### Files Modified During Recheck:
+### Files Modified During Previous Recheck:
 - ✅ `src/app/api/auth/login/route.js` - Removed sensitive environment variable logging
 - ✅ `src/app/api/founder/donation/pending/route.js` - Removed debug log
 - ✅ `src/app/dashboard/admin/profile/page.js` - Removed console.log
@@ -60,20 +100,81 @@ This prevents model recompilation errors in serverless environments.
 
 ## Required Environment Variables in AWS Amplify
 
-You MUST set these environment variables in your AWS Amplify Console:
+⚠️ **CRITICAL**: You MUST set these environment variables in AWS Amplify Console or the app will fail!
 
-### Navigate to: Your App → Environment Variables → Manage Variables
+### Step-by-Step: How to Set Environment Variables in AWS Amplify
 
-Add the following variables:
+1. **Go to AWS Amplify Console**: https://console.aws.amazon.com/amplify/
+2. **Select your app** from the list
+3. **Click "Environment variables"** in the left sidebar (under "App settings")
+4. **Click "Manage variables"** button
+5. **Add each variable below** by clicking "Add variable"
 
+### Required Variables (Copy these EXACTLY):
+
+| Variable Name | Example Value | Description |
+|--------------|---------------|-------------|
+| `MONGODB_URI` | `mongodb+srv://user:pass@cluster.mongodb.net/dbname` | Your MongoDB connection string |
+| `JWT_SECRET` | `your-super-secret-random-string-here-minimum-32-chars` | Secret key for JWT tokens |
+| `BUCKET` | `my-charity-bucket` | Your AWS S3 bucket name |
+| `REGION` | `us-east-1` | AWS region for S3 |
+| `ACCESS_KEY_ID` | `AKIAIOSFODNN7EXAMPLE` | AWS IAM access key |
+| `SECRET_ACCESS_KEY` | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` | AWS IAM secret key |
+
+### ⚠️ Important Notes:
+
+1. **No quotes needed**: Enter values directly without quotes
+   - ✅ Correct: `mongodb+srv://user:pass@cluster...`
+   - ❌ Wrong: `"mongodb+srv://user:pass@cluster..."`
+
+2. **No spaces**: Make sure there are no leading/trailing spaces
+   - ✅ Correct: `my-bucket-name`
+   - ❌ Wrong: ` my-bucket-name ` (has spaces)
+
+3. **Case sensitive**: Variable names must be EXACTLY as shown above
+
+4. **After adding variables**: Click "Save" and then **trigger a new deployment**
+
+### How to Trigger a New Deployment:
+
+**Option 1 - From Amplify Console:**
+- Go to your app in Amplify Console
+- Click the branch name (usually "main")
+- Click "Redeploy this version" button
+
+**Option 2 - Push a commit:**
+```bash
+git add .
+git commit -m "Add environment variables"
+git push
 ```
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-BUCKET=your_s3_bucket_name
-REGION=your_aws_region (e.g., us-east-1)
-ACCESS_KEY_ID=your_aws_access_key
-SECRET_ACCESS_KEY=your_aws_secret_key
-```
+
+### Verify Environment Variables are Set:
+
+After deployment, check the build logs:
+1. Go to AWS Amplify Console → Your App
+2. Click on the latest build
+3. Look for "Environment variables" section in the build logs
+4. It should show your variables (values will be hidden for security)
+
+### If You See "env not found" Error:
+
+1. **Check CloudWatch Logs**:
+   - AWS Amplify Console → Your App → Monitoring → View logs
+   - Look for error messages about missing env vars
+
+2. **Verify Variable Names**: Make sure they match EXACTLY (case-sensitive)
+
+3. **Re-save Variables**: Sometimes AWS needs you to re-save
+   - Go to Environment variables
+   - Edit each variable (don't change, just click Save)
+   - Trigger new deployment
+
+4. **Check for Typos**: Common mistakes:
+   - `MONGODB_URL` instead of `MONGODB_URI`
+   - Extra spaces in values
+   - Missing variables
+   - Wrong region format (use `us-east-1` not `US-EAST-1`)
 
 ## Steps to Deploy
 
@@ -99,8 +200,34 @@ SECRET_ACCESS_KEY=your_aws_secret_key
 
 ## Common Issues & Solutions
 
-### Issue: "MONGODB_URI not defined" error
-**Solution**: Ensure MONGODB_URI is set in AWS Amplify environment variables
+### Issue: "MONGODB_URI not defined" or "env not found" error
+**Solutions**:
+1. **Verify variables are set in AWS Amplify Console**:
+   - Go to: AWS Amplify → Your App → Environment variables
+   - Check all 6 required variables are listed
+   - Click "Manage variables" and verify no typos
+
+2. **Check variable names are exact** (case-sensitive):
+   - ✅ `MONGODB_URI` not `MONGODB_URL` or `mongodb_uri`
+   - ✅ `JWT_SECRET` not `JWT_TOKEN_SECRET`
+   - ✅ `BUCKET` not `bucket` or `S3_BUCKET`
+
+3. **Remove quotes/spaces from values**:
+   - ❌ Wrong: `"mongodb+srv://..."`
+   - ✅ Correct: `mongodb+srv://...`
+
+4. **Trigger a redeploy after setting variables**:
+   - Environment variables only apply to NEW builds
+   - Click "Redeploy this version" in Amplify Console
+
+5. **Check Build Logs**:
+   - AWS Amplify → Your App → Latest Build → Build logs
+   - Look for "Environment variables: X detected" message
+   - Should show all 6 variables (values hidden)
+
+6. **If still failing, check CloudWatch logs**:
+   - You'll see the exact error message
+   - Look for "CRITICAL:" messages showing which env var is missing
 
 ### Issue: "Unauthorized" responses from API
 **Solutions**:

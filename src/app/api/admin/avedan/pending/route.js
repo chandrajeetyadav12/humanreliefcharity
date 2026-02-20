@@ -24,7 +24,6 @@ export async function GET(req) {
 
     return NextResponse.json({ avedans }, { status: 200 });
   } catch (err) {
-    console.error(err);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

@@ -1,52 +1,58 @@
 import dbConnect from "@/lib/dbConnect";
 import Donation from "@/models/Donation";
 import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export async function GET(req) {
-        const token = req.cookies.get("token")?.value;
-    
-        if (!token) {
-          return NextResponse.json(
-            { success: false, message: "Not logged in" },
-            { status: 401 }
-          );
-        }
-    
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-        if (!["admin", "founder"].includes(decoded.role)) {
-          return NextResponse.json(
-            { success: false, message: "Access denied" },
-            { status: 403 }
-          );
-        }
-  await dbConnect();
+  try {
+    const token = req.cookies.get("token")?.value;
 
-  const [
-    totalDonations,
-    pendingDonations,
-    rejectedDonations,
-    donationAmount,
-  ] = await Promise.all([
-    Donation.countDocuments(),
-    Donation.countDocuments({ status: "pending" }),
-    Donation.countDocuments({ status: "rejected" }),
+    if (!token) {
+      return NextResponse.json(
+        { success: false, message: "Not logged in" },
+        { status: 401 }
+      );
+    }
 
-    Donation.aggregate([
-      { $match: { status: "founder_approved" } },
-      { $group: { _id: null, total: { $sum: "$amount" } } },
-    ]),
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    if (!["admin", "founder"].includes(decoded.role)) {
+      return NextResponse.json(
+        { success: false, message: "Access denied" },
+        { status: 403 }
+      );
+    }
 
-  ]);
+    await dbConnect();
 
-  return Response.json({
-    donations: {
-      total: totalDonations,
-      pending: pendingDonations,
-      rejected: rejectedDonations,
-      amount: donationAmount[0]?.total || 0,
-    },
+    const [
+      totalDonations,
+      pendingDonations,
+      rejectedDonations,
+      donationAmount,
+    ] = await Promise.all([
+      Donation.countDocuments(),
+      Donation.countDocuments({ status: "pending" }),
+      Donation.countDocuments({ status: "rejected" }),
 
-  });
+      Donation.aggregate([
+        { $match: { status: "founder_approved" } },
+        { $group: { _id: null, total: { $sum: "$amount" } } },
+      ]),
+    ]);
+
+    return NextResponse.json({
+      donations: {
+        total: totalDonations,
+        pending: pendingDonations,
+        rejected: rejectedDonations,
+        amount: donationAmount[0]?.total || 0,
+      },
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, message: "Server error" },
+      { status: 500 }
+    );
+  }
 }

@@ -62,7 +62,6 @@ export async function GET(req) {
 
     return NextResponse.json({ donations }, { status: 200 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
