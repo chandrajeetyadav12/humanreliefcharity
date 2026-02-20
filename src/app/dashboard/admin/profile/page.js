@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 export default function AdminProfile() {
     const { user, isAuthenticated, loading } = useContext(AuthContext);
     const router = useRouter();
-    console.log(user);
 
     useEffect(() => {
         if (!loading) {

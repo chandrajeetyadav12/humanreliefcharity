@@ -24,7 +24,6 @@ export default function FounderApprovedAvedans() {
 
     fetchAvedans();
   }, []);
-console.log(avedans)
   if (loading) return <p>Loading...</p>;
 
   return (

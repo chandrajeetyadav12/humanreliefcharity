@@ -29,7 +29,6 @@ export const AvedanInfo = ({ role }) => {
       })
       .finally(() => setLoading(false));
   }, []);
-  console.log(stats)
     if (loading) {
     return (
       <div className="text-center mt-5">
