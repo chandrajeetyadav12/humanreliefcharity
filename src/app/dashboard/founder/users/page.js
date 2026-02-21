@@ -115,103 +115,104 @@ export default function UserVerificationPage() {
                     ? "Founder – User Verification"
                     : "Admin – User Verification"}
             </h3>
-
-            <div className="table-responsive">
-                <table className="table table-bordered table-striped">
-                    <thead className="table-dark">
-                        <tr>
-                            <th>S.N</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                            <th>Transaction Image</th>
-                            <th>Transaction Id</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {users.filter((u) => u.status !== "deleted")
-                       . map((u, i) => (
-                            <tr key={u._id}>
-                                <td>{i + 1}</td>
-                                <td>{u?.name}</td>
-                                <td>{u?.email}</td>
-
-                                <td>
-                                    <span
-                                        className={`badge ${u?.status === "active"
-                                            ? "bg-success"
-                                            : u?.status === "pending"
-                                                ? "bg-warning text-dark"
-                                                : "bg-danger"
-                                            }`}
-                                    >
-                                        {u?.status}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    {u?.status === "pending" && (
-                                        <>
-                                            <button
-                                                className="btn btn-success btn-sm me-2"
-                                                onClick={() => updateStatus(u._id, "active")}
-                                            >
-                                                Approve
-                                            </button>
-
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => updateStatus(u._id, "rejected")}
-                                            >
-                                                Reject
-                                            </button>
-                                        </>
-                                    )}
-                                </td>
-
-                                <td>
-                                    {u?.paymentReceipt?.url ? (
-                                        <img
-                                            src={u.paymentReceipt.url}
-                                            alt="payment slip"
-                                            width="100"
-                                            height="50"
-                                            style={{ objectFit: "cover" }}
-                                            onClick={() => setPreviewImage(u.paymentReceipt.url)}
-                                        />
-                                    ) : (
-                                        "-"
-                                    )}
-                                </td>
-
-                                <td>{u?.transactionId || "-"}</td>
-                                <td>
-                                    <IconButton
-                                        onClick={() => {
-                                            setEditUser(u);
-                                            setShowEditModal(true);
-                                        }}>
-                                        <EditIcon color="success"/>
-                                    </IconButton>
-                                </td>
-                                <td>
-                                    <IconButton
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() => confirmDelete(u._id)}
-                                    >
-                                        <DeleteIcon color="error"/>
-                                    </IconButton>
-
-
-                                </td>
+            <div className="bg-white p-3 rounded shadow-sm border">
+                <div className="table-responsive">
+                    <table className="table table-bordered table-striped">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>S.N</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                <th>Transaction Image</th>
+                                <th>Transaction Id</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {users.filter((u) => u.status !== "deleted")
+                                .map((u, i) => (
+                                    <tr key={u._id}>
+                                        <td>{i + 1}</td>
+                                        <td>{u?.name}</td>
+                                        <td>{u?.email}</td>
+
+                                        <td>
+                                            <span
+                                                className={`badge ${u?.status === "active"
+                                                    ? "bg-success"
+                                                    : u?.status === "pending"
+                                                        ? "bg-warning text-dark"
+                                                        : "bg-danger"
+                                                    }`}
+                                            >
+                                                {u?.status}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {u?.status === "pending" && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-success btn-sm me-2"
+                                                        onClick={() => updateStatus(u._id, "active")}
+                                                    >
+                                                        Approve
+                                                    </button>
+
+                                                    <button
+                                                        className="btn btn-danger btn-sm my-2"
+                                                        onClick={() => updateStatus(u._id, "rejected")}
+                                                    >
+                                                        Reject
+                                                    </button>
+                                                </>
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {u?.paymentReceipt?.url ? (
+                                                <img
+                                                    src={u.paymentReceipt.url}
+                                                    alt="payment slip"
+                                                    width="100"
+                                                    height="50"
+                                                    style={{ objectFit: "cover" }}
+                                                    onClick={() => setPreviewImage(u.paymentReceipt.url)}
+                                                />
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </td>
+
+                                        <td>{u?.transactionId || "-"}</td>
+                                        <td>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setEditUser(u);
+                                                    setShowEditModal(true);
+                                                }}>
+                                                <EditIcon color="success" />
+                                            </IconButton>
+                                        </td>
+                                        <td>
+                                            <IconButton
+                                                className="btn btn-danger btn-sm"
+                                                onClick={() => confirmDelete(u._id)}
+                                            >
+                                                <DeleteIcon color="error" />
+                                            </IconButton>
+
+
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {showEditModal && editUser && (
                 <>

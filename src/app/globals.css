@@ -473,7 +473,9 @@ a {
   .topheader {
     display: none;
   }
-
+.public .main-content {
+    padding-top: 80px;
+}
   .desktopMenu {
     gap: 10px;
   }

@@ -47,7 +47,7 @@ export default function SahyogPage() {
             </h2>
 
             {/* Filters */}
-          
+
             <div className="row mb-4 g-3">
                 <div className="col-md-2">
                     <label className="form-label fw-semibold">
@@ -93,34 +93,36 @@ export default function SahyogPage() {
             ) : donations.length === 0 ? (
                 <p>No donations found for this selection.</p>
             ) : (
+                <div className="bg-white p-3 rounded shadow-sm border">
 
-                <div className="table-responsive">
-                    <table className="table table-bordered table-striped table-hover">
-                        <thead className="thead-light">
-                            <tr>
-                                <th>Donor</th>
-                                <th>Avedan</th>
-                                <th>Amount</th>
-                                <th>Sahyog Date</th>
-                                <th>Status</th>
-                                <th>District</th>
-                                <th>Block</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {donations.map((d, idx) => (
-                                <tr key={idx}>
-                                    <td>{d.donorName}</td>
-                                    <td>{d.avedanTitle}</td>
-                                    <td>{d.amount}</td>
-                                    <td>{new Date(d.donatedAt).toLocaleDateString()}</td>
-                                    <td>{d.status}</td>
-                                    <td>{d.donorDistrict}</td>
-                                    <td>{d.donorBlock}</td>
+                    <div className="table-responsive ">
+                        <table className="table table-bordered table-striped table-hover">
+                            <thead className="thead-light">
+                                <tr>
+                                    <th>Donor</th>
+                                    <th>Avedan</th>
+                                    <th>Amount</th>
+                                    <th>Sahyog Date</th>
+                                    <th>Status</th>
+                                    <th>District</th>
+                                    <th>Block</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {donations.map((d, idx) => (
+                                    <tr key={idx}>
+                                        <td>{d.donorName}</td>
+                                        <td>{d.avedanTitle}</td>
+                                        <td>{d.amount}</td>
+                                        <td>{new Date(d.donatedAt).toLocaleDateString()}</td>
+                                        <td>{d.status}</td>
+                                        <td>{d.donorDistrict}</td>
+                                        <td>{d.donorBlock}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             )}

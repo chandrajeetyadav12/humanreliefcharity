@@ -24,6 +24,7 @@ export default function MembersPage() {
   return (
     <div className="container my-5">
       <h3 className="text-center mb-4">Our Members List</h3>
+      <div className="bg-white p-3 rounded shadow-sm border">
       <div className="table-responsive">
         <table className="table table-striped table-bordered">
           <thead className="table-dark">
@@ -67,6 +68,7 @@ export default function MembersPage() {
           </tbody>
 
         </table>
+      </div>
       </div>
     </div>
   );
