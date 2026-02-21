@@ -96,7 +96,6 @@ export default function AdminUsersPage() {
 
           <tbody>
             {users.map((u, i) => {
-              console.log(u)
               return (
                 <tr key={u._id}>
                   <td>{i + 1}</td>

@@ -52,7 +52,7 @@ export async function GET(req, { params }) {
 
     return NextResponse.json({ avedan }, { status: 200 });
   } catch (error) {
-    console.error("GET AVEDAN ERROR:", error);
+
     return NextResponse.json(
       { message: "Server error" },
       { status: 500 }

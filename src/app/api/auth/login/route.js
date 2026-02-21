@@ -6,8 +6,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    console.log("JWT_SECRET:", process.env.JWT_SECRET);
-    console.log("MONGODB_URI:", process.env.MONGODB_URI);
     await dbConnect();
     const { identifier, password } = await req.json();
     if (!identifier || !password) {
@@ -65,7 +63,6 @@ export async function POST(req) {
     return res;
 
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { message: error.message },
       { status: 500 }

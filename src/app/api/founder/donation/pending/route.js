@@ -26,6 +26,5 @@ export async function GET(req) {
         })
         // .populate("avedan", "type")
         .sort({ createdAt: -1 });
-    console.log("FOUND DONATIONS:", donations.length);
     return NextResponse.json({ donations });
 }

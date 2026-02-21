@@ -6,25 +6,29 @@ import { getAuth } from "@/lib/auth";
 import "@/models/Avedan";
 import "@/models/User";
 export async function GET(req) {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const auth = getAuth(req);
-  if (!auth || auth.role !== "admin") {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    const auth = getAuth(req);
+    if (!auth || auth.role !== "admin") {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const donations = await Donation.find({ status: "pending" })
+      .populate("donor", "name email")
+      .populate({
+        path: "avedan",
+        select: "type requiredAmount collectedAmount status applicant",
+        populate: {
+          path: "applicant",
+          select: "name email mobile",
+        },
+      })
+      // .populate("avedan", "type")
+      .sort({ createdAt: -1 });
+
+    return NextResponse.json({ donations });
+  } catch (error) {
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
-
-  const donations = await Donation.find({ status: "pending" })
-    .populate("donor", "name email")
-    .populate({
-      path: "avedan",
-      select: "type requiredAmount collectedAmount status applicant",
-      populate: {
-        path: "applicant",
-        select: "name email mobile",
-      },
-    })
-    // .populate("avedan", "type")
-    .sort({ createdAt: -1 });
-
-  return NextResponse.json({ donations });
 }

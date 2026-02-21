@@ -10,20 +10,27 @@ export function middleware(request) {
   }
 
   try {
+    // Ensure JWT_SECRET is available
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is not defined in environment variables");
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Not admin +founder allowed
-      if (!["admin", "founder"].includes(decoded.role)) {
+    // Not admin + founder allowed
+    if (!["admin", "founder"].includes(decoded.role)) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.next();
   } catch (err) {
+    console.error("Middleware JWT verification error:", err.message);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 
 // Only protect admin routes
 export const config = {
-  matcher: ["/admin/:path*", "/founder/:path*"],
+  matcher: ["/dashboard/admin/:path*", "/dashboard/founder/:path*"],
 };

@@ -207,7 +207,6 @@ export async function POST(req) {
             { status: 201 }
         );
     } catch (error) {
-        console.error("AVEDAN APPLY ERROR:", error);
         return NextResponse.json(
             { message: "Internal server error" },
             { status: 500 }
