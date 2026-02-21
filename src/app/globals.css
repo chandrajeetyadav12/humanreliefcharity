@@ -14,7 +14,10 @@
     --foreground: #ededed;
   }
 }
+.conmmonBorderLeft{
+  border-left: 4px solid #667eea !important;
 
+}
 html {
   scrollbar-gutter: stable;
 }

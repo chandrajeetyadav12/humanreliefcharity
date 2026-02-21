@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="row">
 
           {/* Column 1: Logo */}
-          <div className="col-md-4 mb-3 mb-md-0 text-center text-md-start">
+          <div className="col-md-4 mb-3 mb-md-0 text-center text-md-start lh-base">
             <h5>HUMAN RELIEF CHARITABLE TEAM  </h5>
             <p>Making the world better together with HUMAN RELIEF CHARITABLE TRUE SANSTHAN</p>
             <Link href="/register" className="text-white text-decoration-none">Register</Link>
@@ -20,7 +20,7 @@ const Footer = () => {
           {/* Column 2: Links */}
           <div className="col-md-4 mb-3 mb-md-0 text-start">
             <h5>Quick Links</h5>
-            <ul className="list-unstyled">
+            <ul className="list-unstyled lh-base">
               <li>
                 <Link href="/member" className="text-white text-decoration-none">Member List</Link>
               </li>
@@ -39,12 +39,11 @@ const Footer = () => {
           </div>
 
           {/* Column 3: Contact Info */}
-          <div className="col-md-4 text-center text-md-start">
+          <div className="col-md-4 text-center text-md-start lh-lg">
             
 
             <p className="mb-1"><HomeIcon sx={{color:"white"}}/>  Plot no.15 , block -A, Natvar singh ki kothi,
-              Krishna Nagar Bharatpur
-              Rajasthan 321001</p>
+             Krishna Nagar Bharatpur Rajasthan 321001</p>
             <p className="mb-0"><CallIcon sx={{ color: "white" }} /> +91 7599382068</p>
             <p className="mb-0"><EmailIcon sx={{color:"white"}}/> hrctrajasthanofficial@gmail.com</p>
           </div>

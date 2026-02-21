@@ -4,8 +4,8 @@ export default function HumanReliefInfo() {
     return (
         <div className="container my-5">
             <div className="row justify-content-center">
-                <div className="col-10">
-                    <div className="card shadow p-4">
+                <div className="col-10 ">
+                    <div className="card shadow p-4 conmmonBorderLeft">
                         <div className="card-body">
                             <h1 className="card-title text-center mb-4">
                                 ह्यूमन रिलीफ चैरिटेबल टीम

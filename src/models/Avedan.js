@@ -93,6 +93,7 @@ const AvedanSchema = new mongoose.Schema(
         "admin_verified",
         "founder_approved",
         "rejected",
+        "closed"
       ],
       default: "pending",
     },
