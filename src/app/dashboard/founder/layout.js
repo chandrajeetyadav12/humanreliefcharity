@@ -74,11 +74,11 @@ export default function FounderLayout({ children }) {
               Pending Avedan
             </Link>
           </li>
-            <li>
+            {/* <li>
             <RiPassPendingFill color="#fff" /> <Link href="/dashboard/founder/avedan/approved">
               All Avedan
             </Link>
-            </li>
+            </li> */}
           {/* <li>
             <Link href="/dashboard/founder/admins">Admins</Link>
           </li> */}
