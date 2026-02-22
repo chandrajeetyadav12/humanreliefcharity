@@ -11,7 +11,7 @@ export default function FounderApprovedPage() {
     const fetchApproved = async () => {
         try {
             setLoading(true);
-            const res = await fetch("/api/founder/avedan/approved");
+            const res = await fetch("/api/founder/avedan/approved",{credentials: "include"});
             const data = await res.json();
             setAvedans(data.avedans || []);
         } catch (error) {
@@ -39,6 +39,7 @@ export default function FounderApprovedPage() {
             const res = await fetch("/api/founder/avedan/close", {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({ avedanId: id }),
             });
 
