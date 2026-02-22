@@ -16,25 +16,40 @@ export default function FounderLayout({ children }) {
     useContext(AuthContext);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!loading) {
-      if (!isAuthenticated) {
-        router.replace("/login");
-      }
+  // useEffect(() => {
+  //   if (!loading) {
+  //     if (!isAuthenticated) {
+  //       router.replace("/login");
+  //     }
 
-      if (isAuthenticated && user?.role !== "founder") {
-        router.replace("/");
-      }
+  //     if (isAuthenticated && user?.role !== "founder") {
+  //       router.replace("/");
+  //     }
+  //   }
+  // }, [isAuthenticated, user, loading, router]);
+  useEffect(() => {
+    if (loading) return;
+
+    if (!user) {
+      router.replace("/login");
+      return;
     }
-  }, [isAuthenticated, user, loading, router]);
+
+    if (user.role !== "founder") {
+      router.replace("/");
+    }
+  }, [user, loading, router]);
 
   const handleLogout = async () => {
     await logout();
     router.replace("/login");
   };
 
+  // if (loading) return <p>Loading...</p>;
+  // if (!isAuthenticated || user?.role !== "founder") return null;
   if (loading) return <p>Loading...</p>;
-  if (!isAuthenticated || user?.role !== "founder") return null;
+  if (!user) return null;
+  if (user.role !== "founder") return null;
 
   return (
     <div className="userLayout">
@@ -74,11 +89,11 @@ export default function FounderLayout({ children }) {
               Pending Avedan
             </Link>
           </li>
-            <li>
+          <li>
             <RiPassPendingFill color="#fff" /> <Link href="/dashboard/founder/avedan/approved">
               All Avedan
             </Link>
-            </li>
+          </li>
           {/* <li>
             <Link href="/dashboard/founder/admins">Admins</Link>
           </li> */}
