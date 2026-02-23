@@ -4,7 +4,7 @@ import User from "@/models/User";
 import s3 from "@/lib/s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import crypto from "crypto";
-
+import { getAuth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 
@@ -41,9 +41,21 @@ export async function POST(req) {
     try {
         await dbConnect();
 
+        // -----------------------------
+        // AUTHENTICATION CHECK
+        // -----------------------------
+        const auth = getAuth(req);
+        if (!auth || auth.role !== "user") {
+            return NextResponse.json(
+                { message: "Unauthorized" },
+                { status: 401 }
+            );
+        }
+
+        const userId = auth.userId;  // Get userId from JWT token
+
         const formData = await req.formData();
 
-        const userId = formData.get("userId");
         const type = formData.get("type");
         const description = formData.get("description");
         //  NEW: REQUIRED AMOUNT
@@ -53,9 +65,9 @@ export async function POST(req) {
         // -----------------------------
         // BASIC VALIDATION
         // -----------------------------
-        if (!userId || !type) {
+        if (!type) {
             return NextResponse.json(
-                { message: "userId and type  are required" },
+                { message: "type is required" },
                 { status: 400 }
             );
         }

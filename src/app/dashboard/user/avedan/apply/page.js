@@ -31,32 +31,19 @@ export default function ApplyAvedanPage() {
   const [files, setFiles] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [userId, setUserId] = useState(null);
   const [fileKey, setFileKey] = useState(Date.now());
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    axios.get("/api/me", { withCredentials: true })
-      .then(res => setUserId(res.data.user?._id))
-      .catch(err => console.error(err));
-  }, []);
-
   const handleFileChange = (e) => {
     setFiles({ ...files, [e.target.name]: e.target.files[0] });
   };
 
   const onSubmit = async (formDataFields) => {
-    if (!userId) {
-      setMessage("User not logged in.");
-      return;
-    }
-
     const formData = new FormData();
 
-    formData.append("userId", userId);
     formData.append("type", type);
     formData.append("description", formDataFields.description);
     //  NEW: REQUIRED AMOUNT
