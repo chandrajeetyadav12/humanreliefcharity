@@ -17,17 +17,17 @@ export default function AdminLayout({ children }) {
   const [open, setOpen] = useState(false);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // useEffect(() => {
-  //   if (!loading) {
-  //     if (!isAuthenticated) {
-  //       router.replace("/login");
-  //     }
+  useEffect(() => {
+    if (!loading) {
+      if (!isAuthenticated) {
+        router.replace("/login");
+      }
 
-  //     if (isAuthenticated && user?.role !== "admin") {
-  //       router.replace("/");
-  //     }
-  //   }
-  // }, [isAuthenticated, user, loading, router]);
+      if (isAuthenticated && user?.role !== "admin") {
+        router.replace("/");
+      }
+    }
+  }, [isAuthenticated, user, loading, router]);
 
   const handleLogout = async () => {
     await logout();

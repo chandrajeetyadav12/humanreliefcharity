@@ -10,13 +10,13 @@ export default function FounderDashboard() {
   const { user, loading } = useContext(AuthContext);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!loading && (!user || user.role !== "founder")) {
-      router.replace("/login");
-    }
-  }, [user, loading]);
+  // useEffect(() => {
+  //   if (!loading && (!user || user.role !== "founder")) {
+  //     router.replace("/login");
+  //   }
+  // }, [user, loading]);
 
-  if (loading || !user) return null;
+  // if (loading || !user) return null;
 
   return <div>
     <UserInfo panel="Founder Dashboard"/>
