@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext,useEffect,useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ const schema = yup.object({
 });
 
 export default function LoginPage() {
-  const { login,user, loading, isAuthenticated } = useContext(AuthContext);
+  const { login, user, loading, isAuthenticated } = useContext(AuthContext);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   const router = useRouter();
@@ -46,17 +46,20 @@ export default function LoginPage() {
         identifier: data?.identifier,
         password: data?.password,
       });
-       console.log(user)
+      //  console.log(user)
       toast.success("Login successful");
       if (user?.role === "admin") {
-        console.log(user?.role)
+        console.log("admin", user?.role)
         router.push("/dashboard/admin");
       }
-      else if(user?.role === "founder"){
-        console.log(user?.role)
-         router.push("/dashboard/founder");
+      else if (user?.role === "founder") {
+        console.log("founder", user?.role)
+
+        router.push("/dashboard/founder");
       }
-       else {
+      else {
+        console.log("user",user?.role)
+
         router.push("/dashboard/user");
       }
     } catch (error) {
@@ -65,12 +68,12 @@ export default function LoginPage() {
       toast.error(msg);
       toast.error("Invalid credentials");
     }
-     finally {
+    finally {
       setButtonLoading(false); // stop button loading
     }
 
   };
-if (loading || isAuthenticated) return null;
+  if (loading || isAuthenticated) return null;
   return (
     <div className="container my-5">
       <div className="col-md-5 mx-auto my-4">

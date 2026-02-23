@@ -10,7 +10,7 @@ import { AuthContext } from "@/context/AuthContext";
 import Niyamwali from "@/app/Niyamawali/page";
 export const MainHeader = () => {
     const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
-    console.log(user?.role)
+    // console.log(user?.role)
     const [isMobile, setIsMobile] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const sidebarRef = useRef(null);
