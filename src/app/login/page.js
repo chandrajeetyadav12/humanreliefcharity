@@ -43,15 +43,15 @@ export default function LoginPage() {
     try {
       setButtonLoading(true)
       const user = await login({
-        identifier: data.identifier,
-        password: data.password,
+        identifier: data?.identifier,
+        password: data?.password,
       });
-
+       console.log(user)
       toast.success("Login successful");
-      if (user.role === "admin") {
+      if (user?.role === "admin") {
         router.push("/dashboard/admin");
       }
-      else if(user.role === "founder"){
+      else if(user?.role === "founder"){
          router.push("/dashboard/founder");
       }
        else {
