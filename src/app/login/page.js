@@ -28,11 +28,11 @@ export default function LoginPage() {
 
   const router = useRouter();
   // Redirect if already logged in
-  useEffect(() => {
-    if (!loading && isAuthenticated && user) {
-      router.replace(`/dashboard/${user.role}`);
-    }
-  }, [loading, isAuthenticated, user, router]);
+  // useEffect(() => {
+  //   if (!loading && isAuthenticated && user) {
+  //     router.replace(`/dashboard/${user.role}`);
+  //   }
+  // }, [loading, isAuthenticated, user, router]);
   const {
     register,
     handleSubmit,
