@@ -16,17 +16,17 @@ export default function FounderLayout({ children }) {
     useContext(AuthContext);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     if (!isAuthenticated) {
-  //       router.replace("/login");
-  //     }
+  useEffect(() => {
+    if (!loading) {
+      if (!isAuthenticated) {
+        router.replace("/login");
+      }
 
-  //     if (isAuthenticated && user?.role !== "founder") {
-  //       router.replace("/");
-  //     }
-  //   }
-  // }, [isAuthenticated, user, loading, router]);
+      if (isAuthenticated && user?.role !== "founder") {
+        router.replace("/");
+      }
+    }
+  }, [isAuthenticated, user, loading, router]);
   useEffect(() => {
     if (loading) return;
 
