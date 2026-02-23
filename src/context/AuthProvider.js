@@ -16,8 +16,14 @@ export default function AuthProvider({ children }) {
       });
 
       dispatch({ type: "SET_USER", payload: res.data.user });
-    } catch {
-      dispatch({ type: "LOGOUT" });
+    } catch (error) {
+      // dispatch({ type: "LOGOUT" });
+      // Only logout if token truly invalid
+      if (error.response?.status === 401) {
+        dispatch({ type: "LOGOUT" });
+      } else {
+        dispatch({ type: "LOGOUT" });
+      }
     }
   };
   useEffect(() => {
@@ -43,19 +49,19 @@ export default function AuthProvider({ children }) {
   //   dispatch({ type: "LOGOUT" });
   // };
   const logout = async () => {
-  try {
-    // Call API to destroy session / clear cookie
-    await axios.post("/api/auth/logout", {}, { withCredentials: true });
+    try {
+      // Call API to destroy session / clear cookie
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
 
-    // Clear React state
-    dispatch({ type: "LOGOUT" });
+      // Clear React state
+      dispatch({ type: "LOGOUT" });
 
-    // Force reload to login page — prevents browser back from showing dashboard
-    window.location.href = "/login";
-  } catch (err) {
-    console.error("Logout failed:", err);
-  }
-};
+      // Force reload to login page — prevents browser back from showing dashboard
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
 
   return (
