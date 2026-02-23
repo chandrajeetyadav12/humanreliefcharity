@@ -7,7 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
-
+import Niyamwali from "@/app/Niyamawali/page";
 export const MainHeader = () => {
     const { user, isAuthenticated, loading, logout } = useContext(AuthContext);
     console.log(user?.role)
@@ -84,6 +84,7 @@ export const MainHeader = () => {
                         <Link href="/sahyog/beti_vivah">Beti Vivah Sahyog Suchi</Link>
                         <Link href="/sahyog/untimely_death">Untimely Death Sahyog Suchi</Link>
                         <Link href="/member">Registered Members</Link>
+                        <Link href="/Niyamawali">Niyamawali</Link>
                         {/* AUTH SECTION */}
                         {loading ? (
                             // while auth is checking
@@ -128,6 +129,7 @@ export const MainHeader = () => {
                 <Link href="/">Home</Link>
                 <Link href="/aboutus">About us</Link>
                 <Link href="/contact">Contact us</Link>
+                <Link href="/Niyamawali">Niyamawali</Link>
                 <Link href="/sahyog/beti_vivah">Beti Vivah Sahyog Suchi</Link>
                 <Link href="/sahyog/untimely_death">Untimely Death Sahyog Suchi</Link>
                 <Link href="/member">Registered Members</Link>
