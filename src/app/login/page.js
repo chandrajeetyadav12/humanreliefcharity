@@ -49,9 +49,11 @@ export default function LoginPage() {
        console.log(user)
       toast.success("Login successful");
       if (user?.role === "admin") {
+        console.log(user?.role)
         router.push("/dashboard/admin");
       }
       else if(user?.role === "founder"){
+        console.log(user?.role)
          router.push("/dashboard/founder");
       }
        else {
