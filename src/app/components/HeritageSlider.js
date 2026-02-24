@@ -22,8 +22,24 @@ const places = [
     image: "/vijaystambh.jpg",
   },
   {
-    name:"थार रो मरुस्थल",
-    image:"/thardesert.jpg"
+    name: "थार रो मरुस्थल",
+    image: "/thardesert.jpg"
+  },
+  {
+    name: "केवला देव घणा पक्षी विहार, भरतपुर",
+    image: "/kewaladev_Ghana.jpeg"
+  },
+  {
+    name: "कोटा शहर - राजस्थान",
+    image: "/kota_city.jpeg"
+  },
+  {
+    name: "रणथंभौर किला - राजस्थान",
+    image: "/ranthamBhor_kila.jpeg"
+  },
+    {
+    name: "खूबसूरत झीलों की नगरी उदयपुर, राजस्थान",
+    image: "/Udaypur_jheel.jpeg"
   }
 
 ];
