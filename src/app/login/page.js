@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const schema = yup.object({
   identifier: yup
@@ -25,6 +26,7 @@ const schema = yup.object({
 export default function LoginPage() {
   const { login, user, loading, isAuthenticated } = useContext(AuthContext);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
   // Redirect if already logged in
@@ -58,7 +60,7 @@ export default function LoginPage() {
         router.push("/dashboard/founder");
       }
       else {
-        console.log("user",user?.role)
+        console.log("user", user?.role)
 
         router.push("/dashboard/user");
       }
@@ -87,13 +89,27 @@ export default function LoginPage() {
               {...register("identifier")}
             />
             <p className="text-danger">{errors.identifier?.message}</p>
-
+            <div className="position-relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="form-control mb-2"
               placeholder="Password"
               {...register("password")}
             />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "15px",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#6c757d",
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+            </div>
             <p className="text-danger">{errors.password?.message}</p>
 
             <button className="globalBtnColor">{buttonLoading ? "Logging in..." : "Login"}</button>

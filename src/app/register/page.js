@@ -7,7 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
+import Image from "next/image";
 // Yup validation schema
 const schema = yup.object({
   name: yup.string().required("नाम आवश्यक है"),
@@ -30,8 +32,8 @@ const schema = yup.object({
   district: yup.string().required("जिला आवश्यक है"),
 
   block: yup.string().notRequired(),
-  nomineeName:yup.string().required("नामिनी का नाम"),
-  nomineeRelation:yup.string().required("नामिनी से संबंध आवश्यक है"),
+  nomineeName: yup.string().required("नामिनी का नाम"),
+  nomineeRelation: yup.string().required("नामिनी से संबंध आवश्यक है"),
   referralCode: yup
     .string()
     .transform((value) => (value === "" ? undefined : value))
@@ -51,6 +53,7 @@ const schema = yup.object({
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -110,6 +113,15 @@ export default function RegisterPage() {
 
   return (
     <div className="container my-5">
+      <div className=" mx-auto d-flex justify-content-center align-items-center bg-light py-4 my-3">
+        <Image
+          src="/hrctQrcod.jpeg"
+          alt="My Image"
+          width={500}
+          height={300}
+          className="img-fluid"
+        />
+      </div>
       <div className="mx-auto p-4 border rounded shadow bg-white" style={{ maxWidth: "1000px" }}>
         <h4 className="text-center mb-4">नया पंजीकरण</h4>
 
@@ -284,8 +296,23 @@ export default function RegisterPage() {
 
           {/* Password */}
           <div className="mb-3">
-            <label className="form-label">पासवर्ड</label>
-            <input type="password" className="form-control" placeholder="पासवर्ड" {...register("password")} />
+            <div className="position-relative">
+              <label className="form-label">पासवर्ड</label>
+              <input type={showPassword ? "text" : "password"} className="form-control" placeholder="पासवर्ड" {...register("password")} />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  top: "71%",
+                  right: "15px",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                  color: "#6c757d",
+                }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
             <p className="text-danger">{errors.password?.message}</p>
           </div>
 

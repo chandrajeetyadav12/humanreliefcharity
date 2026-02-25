@@ -7,7 +7,7 @@ export default function Home() {
       bgImage: "/bg1.jpg",
       titleHindi: "मानव राहत चैरिटेबल टीम",
       titleEnglish: "Human Relief Charitable Team",
-      subtitle: "Help For Helpless",
+      subtitle: "Helping One Another",
     },
     {
       bgImage: "/banner2.jpg",
