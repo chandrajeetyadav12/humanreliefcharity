@@ -113,7 +113,7 @@ export default function RegisterPage() {
 
   return (
     <div className="container my-5">
-      <div className=" mx-auto d-flex justify-content-center align-items-center bg-light py-4 my-3">
+      <div className=" mx-auto d-flex flex-column justify-content-center align-items-center bg-light py-4 my-3">
         <Image
           src="/hrctQrcod.jpeg"
           alt="My Image"
@@ -121,6 +121,13 @@ export default function RegisterPage() {
           height={300}
           className="img-fluid"
         />
+        <div className="card  p-3 border-0 bg-light">
+          <p className="mb-0 text-start text-md-center fw-semibold text-dark">
+            आप संस्था के इस खाते में निर्धारित रजिस्ट्रेशन शुल्क
+            <span className="text-danger fw-bold"> ₹100 </span>
+            जमा कर के अपना ट्रांजेक्शन नंबर भरकर संस्था के सदस्य बन सकते हैं।
+          </p>
+        </div>
       </div>
       <div className="mx-auto p-4 border rounded shadow bg-white" style={{ maxWidth: "1000px" }}>
         <h4 className="text-center mb-4">नया पंजीकरण</h4>

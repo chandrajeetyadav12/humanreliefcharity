@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-
+import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useContext } from "react";
@@ -70,8 +70,16 @@ export const MainHeader = () => {
     return (
         <>
             {/* MAIN HEADER */}
-            <header className="mainHeader">
-                <div className="logo">HUMAN RELIEF CHARITABLE TEAM</div>
+            <header className="mainHeader py-4">
+                <div className="logo center">
+                            <Image
+                              src="/hrct_logo.jpeg"
+                              alt="My Image"
+                              width={90}
+                              height={90}
+                            //   className="img-fluid"
+                            />
+                </div>
 
 
 
