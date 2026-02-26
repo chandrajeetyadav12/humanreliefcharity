@@ -73,7 +73,7 @@ export const MainHeader = () => {
             <header className="mainHeader py-4">
                 <div className="logo center">
                             <Image
-                              src="/hrct_logo.jpeg"
+                              src="/hrct_logo_white.png"
                               alt="My Image"
                               width={90}
                               height={90}
