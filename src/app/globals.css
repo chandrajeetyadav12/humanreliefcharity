@@ -435,7 +435,11 @@ a {
   padding: 15px;
   font-size: 18px;
 }
-
+.pagination-btn {
+  width: 40px;
+  height: 37px;
+  padding: 0;
+}
 /* endssss */
 /* charitybanner */
 .charity-full-banner .slide-left {
