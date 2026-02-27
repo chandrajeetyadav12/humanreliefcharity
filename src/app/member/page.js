@@ -6,7 +6,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 export default function MembersPage() {
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState("");
-  console.log(members)
+  // console.log(members)
   const [currentPage, setCurrentPage] = useState(1);
 
   const membersPerPage = 10;
