@@ -29,6 +29,10 @@ export default function UserDashboard() {
   return (
     <div className="container mt-4">
       <h2>Welcome, {user.name}</h2>
+      <p className="mb-1 text-muted fw-semibold">
+        <span className="text-dark">Joining Date:</span>{" "}
+        {new Date(user.createdAt).toLocaleDateString()}
+      </p>
 
       {user.status !== "active" && (
         <div className="alert alert-warning mt-3">
