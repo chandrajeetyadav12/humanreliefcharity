@@ -11,8 +11,8 @@ export default function SahyogPage() {
     const [loading, setLoading] = useState(true);
     const [district, setDistrict] = useState("");
     const [block, setBlock] = useState("");
-    const [districts, setDistricts] = useState([]);
-    const [blocks, setBlocks] = useState([]);
+    // const [districts, setDistricts] = useState([]);
+    // const [blocks, setBlocks] = useState([]);
 
     // Fetch donations
     const fetchDonations = async () => {
@@ -28,16 +28,27 @@ export default function SahyogPage() {
         setLoading(false);
 
         // Fill dropdowns dynamically
-        const uniqueDistricts = [...new Set(res.data.donations.map(d => d.donorDistrict))];
-        const uniqueBlocks = [...new Set(res.data.donations.map(d => d.donorBlock))];
-        setDistricts(uniqueDistricts);
-        setBlocks(uniqueBlocks);
+        // const uniqueDistricts = [...new Set(res.data.donations.map(d => d.donorDistrict))];
+        // const uniqueBlocks = [...new Set(res.data.donations.map(d => d.donorBlock))];
+        // setDistricts(uniqueDistricts);
+        // setBlocks(uniqueBlocks);
     };
 
     useEffect(() => {
         fetchDonations();
     }, [type, district, block]);
+    const approvedDonations = donations.filter(
+        (d) => d.status === "founder_approved"
+    );
+    //  UPDATED: District dropdown from approved donations only
+    const districts = [
+        ...new Set(approvedDonations.map((d) => d.donorDistrict)),
+    ];
 
+    //  UPDATED: Block dropdown from approved donations only
+    const blocks = [
+        ...new Set(approvedDonations.map((d) => d.donorBlock)),
+    ];
     if (!type) return <p>Loading type...</p>;
 
     return (
@@ -90,7 +101,7 @@ export default function SahyogPage() {
             {/* Table */}
             {loading ? (
                 <p>Loading donations...</p>
-            ) : donations.length === 0 ? (
+            ) : approvedDonations.length === 0 ? (
                 <p>No donations found for this selection.</p>
             ) : (
                 <div className="bg-white p-3 rounded shadow-sm border">
@@ -109,7 +120,7 @@ export default function SahyogPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {donations.map((d, idx) => (
+                                {approvedDonations.map((d, idx) => (
                                     <tr key={idx}>
                                         <td>{d.donorName}</td>
                                         <td>{d.avedanTitle}</td>

@@ -8,7 +8,7 @@ export async function GET() {
 
     const users = await User.find({ role: "user" })
       .select("-password") 
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 });
 
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
