@@ -26,10 +26,10 @@ export async function POST(request) {
     const email = formData.get("email");
     const mobile = formData.get("mobile");
     const password = formData.get("password");
-
-    if (!name || !email || !mobile || !password) {
+    const adharNumber= formData.get("adharNumber");
+    if (!name || !email || !mobile || !password || !adharNumber || !adharNumber.match(/^\d{12}$/)) {
       return NextResponse.json(
-        { message: "All fields are required" },
+        { message: "All fields are required and Aadhar must be 12 digits" },
         { status: 400 }
       );
     }
@@ -77,6 +77,7 @@ export async function POST(request) {
       email,
       mobile,
       password: hashedPassword,
+      adharNumber,
       role: "founder",
       status: "active",
       userImage, // undefined if no image / failed upload
@@ -88,7 +89,7 @@ export async function POST(request) {
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Server error" },
+      { message: error.message },
       { status: 500 }
     );
   }
