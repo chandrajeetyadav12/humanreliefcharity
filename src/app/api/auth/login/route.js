@@ -49,8 +49,11 @@ export async function POST(req) {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-
-    const res = NextResponse.json({ user });
+    //  REMOVE PASSWORD BEFORE RESPONSE
+    const userData = user.toObject();
+    delete userData.password;
+    const res = NextResponse.json({ user: userData });
+    // const res = NextResponse.json({ user });
 
     res.cookies.set("token", token, {
       httpOnly: true,
