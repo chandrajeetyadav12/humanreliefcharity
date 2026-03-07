@@ -29,7 +29,7 @@ export default function MemberDashboard() {
 
         {/* Profile Image */}
         <img
-          src={user?.userImage?.url || "/file.svg"}
+          src={user?.userImage?.url || "/hrct_logo_white.png"}
           alt="User Profile"
           className="rounded-circle mb-3 border"
           width="120"

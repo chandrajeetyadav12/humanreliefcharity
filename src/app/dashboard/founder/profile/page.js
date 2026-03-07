@@ -32,7 +32,7 @@ export default function FounderProfile() {
             <div className="card-body text-center">
               {/* Founder Profile Image */}
               <img
-                src={user?.userImage?.url || "/file.svg"}
+                src={user?.userImage?.url || "/hrct_logo_white.png"}
                 alt="Founder Profile"
                 className="rounded-circle mb-3 border"
                 width="120"

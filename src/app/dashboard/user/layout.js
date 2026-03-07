@@ -92,7 +92,7 @@ export default function UserLayout({ children }) {
         <div className="text-end profileContainer">
           {/* <Link href="/dashboard/user/profile"> */}
           <img
-            src={user?.userImage?.url || "/file.svg"}
+            src={user?.userImage?.url || "/hrct_logo_white.png"}
             alt="Profile"
             className="rounded-circle"
             width="40"
