@@ -25,13 +25,21 @@ export default function UserDashboard() {
   }, [user, loading, router]);
 
   if (loading || !user) return <p>Loading dashboard...</p>;
+  const joiningDate = new Date(user.createdAt);
+
+  const renewalDate = new Date(joiningDate);
+  renewalDate.setFullYear(renewalDate.getFullYear() + 1);
 
   return (
     <div className="container mt-4">
       <h2>Welcome, {user.name}</h2>
       <p className="mb-1 text-muted fw-semibold">
         <span className="text-dark">Joining Date:</span>{" "}
-        {new Date(user.createdAt).toLocaleDateString()}
+        {joiningDate.toLocaleDateString("en-IN")}
+      </p>
+      <p className="mb-1 text-muted fw-semibold">
+        <span className="text-dark">Renewal Date:</span>{" "}
+        {renewalDate.toLocaleDateString("en-IN")}
       </p>
 
       {user.status !== "active" && (

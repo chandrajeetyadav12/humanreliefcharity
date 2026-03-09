@@ -384,7 +384,7 @@ a {
   z-index: 1040;
 }
 .userAsideUL{
-  line-height: 43px;
+  line-height: 30px;
 }
 .userAsideUL li {
   display: flex;
