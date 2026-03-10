@@ -6,7 +6,7 @@ import { AuthContext } from "@/context/AuthContext";
 // import { useRouter } from "next/navigation";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import IconButton from "@mui/material/IconButton";
 import { toast } from "react-toastify";
@@ -18,6 +18,12 @@ export default function UserVerificationPage() {
 
     const [showEditModal, setShowEditModal] = useState(false);
     const [editUser, setEditUser] = useState(null);
+
+    //  NEW STATES
+    const [search, setSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 10;
+
     const updateUser = async () => {
         const res = await fetch(`/api/users/${editUser._id}`, {
             method: "PATCH",
@@ -108,6 +114,48 @@ export default function UserVerificationPage() {
 
     if (loading) return <p>Loading...</p>;
 
+    //  SEARCH FILTER
+    const filteredUsers = users
+        .filter((u) => u.status !== "deleted")
+        .filter(
+            (u) =>
+                u.name?.toLowerCase().includes(search.toLowerCase()) ||
+                u.adharNumber?.includes(search)
+        );
+
+    //  PAGINATION
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+    const indexOfLast = currentPage * usersPerPage;
+    const indexOfFirst = indexOfLast - usersPerPage;
+
+    const currentUsers = filteredUsers.slice(indexOfFirst, indexOfLast);
+    //  RESET PAGE WHEN SEARCH
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search]);
+    //  PAGE NUMBERS
+    const getPageNumbers = () => {
+        const pages = [];
+        const siblingCount = 1;
+
+        const leftSibling = Math.max(currentPage - siblingCount, 1);
+        const rightSibling = Math.min(currentPage + siblingCount, totalPages);
+
+        pages.push(1);
+
+        if (leftSibling > 2) pages.push("...");
+
+        for (let i = leftSibling; i <= rightSibling; i++) {
+            if (i !== 1 && i !== totalPages) pages.push(i);
+        }
+
+        if (rightSibling < totalPages - 1) pages.push("...");
+
+        if (totalPages > 1) pages.push(totalPages);
+
+        return pages;
+    };
     return (
         <div className="container my-5">
             <h3 className="mb-4">
@@ -115,6 +163,15 @@ export default function UserVerificationPage() {
                     ? "Founder – User Verification"
                     : "Admin – User Verification"}
             </h3>
+            {/*  SEARCH */}
+            <div className="mb-3">
+                <input
+                    className="form-control"
+                    placeholder="Search by Name or Aadhaar"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
             <div className="bg-white p-3 rounded shadow-sm border">
                 <div className="table-responsive">
                     <table className="table table-bordered table-striped">
@@ -133,10 +190,10 @@ export default function UserVerificationPage() {
                         </thead>
 
                         <tbody>
-                            {users.filter((u) => u.status !== "deleted")
+                            {currentUsers.filter((u) => u.status !== "deleted")
                                 .map((u, i) => (
                                     <tr key={u._id}>
-                                        <td>{i + 1}</td>
+                                        <td> {(currentPage - 1) * usersPerPage + i + 1}</td>
                                         <td>{u?.name}</td>
                                         <td>{u?.email}</td>
 
@@ -213,6 +270,52 @@ export default function UserVerificationPage() {
                         </tbody>
                     </table>
                 </div>
+                {totalPages > 1 && (
+
+                    <nav className="mt-3">
+                        <ul className="pagination justify-content-center flex-wrap">
+
+                            {/* PREVIOUS */}
+                            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                                <button
+                                    className="page-link"
+                                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                                >
+                                    <FiChevronLeft />
+                                </button>
+                            </li>
+
+                            {getPageNumbers().map((page, index) => (
+                                <li
+                                    key={index}
+                                    className={`page-item 
+                    ${currentPage === page ? "active" : ""} 
+                    ${page === "..." ? "disabled" : ""}`}
+                                >
+                                    <button
+                                        className="page-link"
+                                        onClick={() =>
+                                            page !== "..." && setCurrentPage(page)
+                                        }
+                                    >
+                                        {page}
+                                    </button>
+                                </li>
+                            ))}
+
+                            {/* NEXT */}
+                            <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                                <button
+                                    className="page-link"
+                                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                                >
+                                    <FiChevronRight />
+                                </button>
+                            </li>
+
+                        </ul>
+                    </nav>
+                )}
             </div>
             {showEditModal && editUser && (
                 <>
