@@ -8,32 +8,32 @@ import bcrypt from "bcryptjs";
     AUTH HELPER
 ======================= */
 function getAuth(req) {
-    const token = req.cookies.get("token")?.value;
-    if (!token) return null;
-    return jwt.verify(token, process.env.JWT_SECRET);
+  const token = req.cookies.get("token")?.value;
+  if (!token) return null;
+  return jwt.verify(token, process.env.JWT_SECRET);
 }
 
 /* =======================
     VIEW USER (ADMIN + FOUNDER)
 ======================= */
 export async function GET(req, { params }) {
-    try {
-        await dbConnect();
+  try {
+    await dbConnect();
 
-        const auth = getAuth(req);
-        if (!auth || !["admin", "founder"].includes(auth.role)) {
-            return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-        }
-        const { id } = await params;
-        const user = await User.findById(id).select("-password");
-        if (!user) {
-            return NextResponse.json({ message: "User not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({ user });
-    } catch (err) {
-        return NextResponse.json({ message: "Server error" }, { status: 500 });
+    const auth = getAuth(req);
+    if (!auth || !["admin", "founder"].includes(auth.role)) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
+    const { id } = await params;
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ user });
+  } catch (err) {
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
 }
 
 /* =======================
@@ -56,6 +56,16 @@ export async function PATCH(req, { params }) {
       "email",
       "password",
       "mobile",
+      "dob",
+      "gender",
+      "fatherorhusbandname",
+      "occupation",
+      "governmentDepartment",
+      "officeNameAddress",
+      "permanentAddress",
+      "district",
+      "block",
+      "transactionId",
       "nomineeName",
       "nomineeRelation",
       "nomineeMobile",
@@ -73,7 +83,7 @@ export async function PATCH(req, { params }) {
       updates.password = await bcrypt.hash(updates.password, 10);
     }
 
-    const { id } =await params;
+    const { id } = await params;
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
@@ -116,7 +126,7 @@ export async function DELETE(req, { params }) {
       );
     }
 
-    const { id } =await params;
+    const { id } = await params;
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
@@ -137,7 +147,7 @@ export async function DELETE(req, { params }) {
 
   } catch (err) {
     return NextResponse.json(
-      { message: "Server error" },
+      { message: err.message || "Server error" },
       { status: 500 }
     );
   }

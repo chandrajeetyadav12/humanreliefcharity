@@ -10,6 +10,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import IconButton from "@mui/material/IconButton";
 import { toast } from "react-toastify";
+import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
 
 export default function UserVerificationPage() {
     const [users, setUsers] = useState([]);
@@ -230,13 +231,13 @@ export default function UserVerificationPage() {
                                             <td>{u?.nomineeName || "-"}</td>
                                             <td>{u?.nomineeRelation || "-"}</td>
                                             <td>{u?.occupation || "-"}</td>
-                                            
+
                                             <td>{u?.officeNameAddress || "-"}</td>
-                                            
+
                                             <td>{u?.role || "-"}</td>
 
                                             <td>{u?.permanentAddress || "-"}</td>
-                                            
+
                                             <td>
                                                 <span
                                                     className={`badge ${u?.status === "active"
@@ -375,7 +376,7 @@ export default function UserVerificationPage() {
                                 </div>
 
                                 <div className="modal-body">
-
+                                    <label className="form-label fw-semibold">Name</label>
                                     <input
                                         className="form-control mb-2"
                                         value={editUser.name || ""}
@@ -384,7 +385,7 @@ export default function UserVerificationPage() {
                                         }
                                         placeholder="Name"
                                     />
-
+                                    <label className="form-label fw-semibold">Email</label>
                                     <input
                                         className="form-control mb-2"
                                         value={editUser.email || ""}
@@ -393,7 +394,7 @@ export default function UserVerificationPage() {
                                         }
                                         placeholder="Email"
                                     />
-
+                                    <label className="form-label fw-semibold">Mobile</label>
                                     <input
                                         className="form-control mb-2"
                                         value={editUser.mobile || ""}
@@ -404,7 +405,132 @@ export default function UserVerificationPage() {
                                     />
 
                                     <hr />
+                                    <label className="form-label fw-semibold">Date of Birth</label>
+                                    <input
+                                        type="date"
+                                        className="form-control mb-2"
+                                        value={editUser.dob || ""}
+                                        onChange={(e) =>
+                                            setEditUser({ ...editUser, dob: e.target.value })
+                                        }
+                                    />
+                                    <label className="form-label fw-semibold">Gender</label>
+                                    <select
+                                        className="form-control mb-2"
+                                        value={editUser.gender || ""}
+                                        onChange={(e) =>
+                                            setEditUser({ ...editUser, gender: e.target.value })
+                                        }
+                                    >
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <label className="form-label fw-semibold">Father / Husband Name</label>
+                                    <input
+                                        className="form-control mb-2"
+                                        value={editUser.fatherorhusbandname || ""}
+                                        onChange={(e) =>
+                                            setEditUser({
+                                                ...editUser,
+                                                fatherorhusbandname: e.target.value,
+                                            })
+                                        }
+                                        placeholder="Father/Husband Name"
+                                    />
+                                    <label className="form-label fw-semibold">Occupation</label>
+                                    <select
+                                        className="form-control mb-2"
+                                        value={editUser.occupation || ""}
+                                        onChange={(e) =>
+                                            setEditUser({ ...editUser, occupation: e.target.value })
+                                        }
+                                    >
+                                        <option value="">Select Occupation</option>
+                                        <option value="government">Government</option>
+                                        <option value="private">Private</option>
+                                        <option value="business">Business</option>
+                                        <option value="agriculture">Agriculture</option>
+                                        <option value="housewife">Housewife</option>
+                                        <option value="student">Student</option>
+                                        <option value="contract">Contract</option>
+                                        <option value="public_representative">Public Representative</option>
+                                    </select>
+                                    <label className="form-label fw-semibold">Government Department</label>
+                                    <input
+                                        className="form-control mb-2"
+                                        value={editUser.governmentDepartment || ""}
+                                        onChange={(e) =>
+                                            setEditUser({
+                                                ...editUser,
+                                                governmentDepartment: e.target.value,
+                                            })
+                                        }
+                                        placeholder="Government Department"
+                                    />
+                                    <label className="form-label fw-semibold">District</label>
+                                    <select
+                                        className="form-control mb-2"
+                                        value={editUser.district || ""}
+                                        onChange={(e) =>
+                                            setEditUser({ ...editUser, district: e.target.value })
+                                        }
+                                    >
+                                        <option value="">Select District</option>
+                                        {rajasthanDistricts.map((d) => (
+                                            <option key={d} value={d}>
+                                                {d}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <label className="form-label fw-semibold">Block</label>
+                                    <input
+                                        className="form-control mb-2"
+                                        value={editUser.block || ""}
+                                        onChange={(e) =>
+                                            setEditUser({ ...editUser, block: e.target.value })
+                                        }
+                                        placeholder="Block"
+                                    />
+                                    <label className="form-label fw-semibold">Permanent Address</label>
+                                    <textarea
+                                        className="form-control mb-2"
+                                        value={editUser.permanentAddress || ""}
+                                        onChange={(e) =>
+                                            setEditUser({
+                                                ...editUser,
+                                                permanentAddress: e.target.value,
+                                            })
+                                        }
+                                        placeholder="Permanent Address"
+                                    />
+                                    <label className="form-label fw-semibold">Office Address</label>
+                                    <input
+                                        className="form-control mb-2"
+                                        value={editUser.officeNameAddress || ""}
+                                        onChange={(e) =>
+                                            setEditUser({
+                                                ...editUser,
+                                                officeNameAddress: e.target.value,
+                                            })
+                                        }
+                                        placeholder="Office Address"
+                                    />
 
+                                    <label className="form-label fw-semibold">Transaction ID</label>
+                                    <input
+                                        className="form-control mb-2"
+                                        value={editUser.transactionId || ""}
+                                        onChange={(e) =>
+                                            setEditUser({
+                                                ...editUser,
+                                                transactionId: e.target.value,
+                                            })
+                                        }
+                                        placeholder="Transaction ID"
+                                    />
+                                    <label className="form-label fw-semibold">Nominee Name</label>
                                     <input
                                         className="form-control mb-2"
                                         value={editUser.nomineeName || ""}
@@ -413,7 +539,7 @@ export default function UserVerificationPage() {
                                         }
                                         placeholder="Nominee Name"
                                     />
-
+                                    <label className="form-label fw-semibold">Nominee Relation</label>
                                     <input
                                         className="form-control mb-2"
                                         value={editUser.nomineeRelation || ""}
@@ -422,7 +548,7 @@ export default function UserVerificationPage() {
                                         }
                                         placeholder="Nominee Relation"
                                     />
-
+                                    <label className="form-label fw-semibold">Nominee Mobile</label>
                                     <input
                                         className="form-control mb-2"
                                         value={editUser.nomineeMobile || ""}
@@ -431,7 +557,7 @@ export default function UserVerificationPage() {
                                         }
                                         placeholder="Nominee Mobile"
                                     />
-
+                                    <label className="form-label fw-semibold">New Password (Optional)</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -441,7 +567,7 @@ export default function UserVerificationPage() {
                                         }
                                     />
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold mb-0">Status</label>
+                                        <label className="form-label fw-bold my-2">Status</label>
                                         <select
                                             className="form-control"
                                             value={editUser.status || "pending"}
