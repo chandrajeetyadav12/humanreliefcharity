@@ -180,6 +180,24 @@ export default function UserVerificationPage() {
                                 <th>S.N</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Adhaar Number</th>
+                                <th>Block Number</th>
+                                <th>created date</th>
+                                <th>district</th>
+                                <th>state</th>
+
+                                <th>DOB</th>
+                                <th>fatherorhusbandname</th>
+                                <th>gender</th>
+                                <th>governmentDepartment</th>
+                                <th>mobile</th>
+                                <th>nomineeMobile</th>
+                                <th>nomineeName</th>
+                                <th>nomineeRelation</th>
+                                <th>occupation</th>
+                                <th>office Address</th>
+                                <th>role</th>
+                                <th>permanentAddress</th>
                                 <th>Status</th>
                                 <th>Action</th>
                                 <th>Transaction Image</th>
@@ -191,82 +209,105 @@ export default function UserVerificationPage() {
 
                         <tbody>
                             {currentUsers.filter((u) => u.status !== "deleted")
-                                .map((u, i) => (
-                                    <tr key={u._id}>
-                                        <td> {(currentPage - 1) * usersPerPage + i + 1}</td>
-                                        <td>{u?.name}</td>
-                                        <td>{u?.email}</td>
+                                .map((u, i) => {
+                                    return (
+                                        <tr key={u._id}>
+                                            <td> {(currentPage - 1) * usersPerPage + i + 1}</td>
+                                            <td>{u?.name}</td>
+                                            <td>{u?.email}</td>
+                                            <td>{u?.adharNumber}</td>
+                                            <td>{u?.blockNumber || "-"}</td>
+                                            <td>{new Date(u.createdAt).toLocaleDateString()}</td>
+                                            <td>{u?.district || "-"}</td>
+                                            <td>{u?.state || "-"}</td>
 
-                                        <td>
-                                            <span
-                                                className={`badge ${u?.status === "active"
-                                                    ? "bg-success"
-                                                    : u?.status === "pending"
-                                                        ? "bg-warning text-dark"
-                                                        : "bg-danger"
-                                                    }`}
-                                            >
-                                                {u?.status}
-                                            </span>
-                                        </td>
+                                            <td>{u?.dob || "-"}</td>
+                                            <td>{u?.fatherorhusbandname || "-"}</td>
+                                            <td>{u?.gender || "-"}</td>
+                                            <td>{u?.governmentDepartment || "-"}</td>
+                                            <td>{u?.mobile || "-"}</td>
+                                            <td>{u?.nomineeMobile || "-"}</td>
+                                            <td>{u?.nomineeName || "-"}</td>
+                                            <td>{u?.nomineeRelation || "-"}</td>
+                                            <td>{u?.occupation || "-"}</td>
+                                            
+                                            <td>{u?.officeNameAddress || "-"}</td>
+                                            
+                                            <td>{u?.role || "-"}</td>
 
-                                        <td>
-                                            {u?.status === "pending" && (
-                                                <>
-                                                    <button
-                                                        className="btn btn-success btn-sm me-2"
-                                                        onClick={() => updateStatus(u._id, "active")}
-                                                    >
-                                                        Approve
-                                                    </button>
+                                            <td>{u?.permanentAddress || "-"}</td>
+                                            
+                                            <td>
+                                                <span
+                                                    className={`badge ${u?.status === "active"
+                                                        ? "bg-success"
+                                                        : u?.status === "pending"
+                                                            ? "bg-warning text-dark"
+                                                            : "bg-danger"
+                                                        }`}
+                                                >
+                                                    {u?.status}
+                                                </span>
+                                            </td>
 
-                                                    <button
-                                                        className="btn btn-danger btn-sm my-2"
-                                                        onClick={() => updateStatus(u._id, "rejected")}
-                                                    >
-                                                        Reject
-                                                    </button>
-                                                </>
-                                            )}
-                                        </td>
+                                            <td>
+                                                {u?.status === "pending" && (
+                                                    <>
+                                                        <button
+                                                            className="btn btn-success btn-sm me-2"
+                                                            onClick={() => updateStatus(u._id, "active")}
+                                                        >
+                                                            Approve
+                                                        </button>
 
-                                        <td>
-                                            {u?.paymentReceipt?.url ? (
-                                                <img
-                                                    src={u.paymentReceipt.url}
-                                                    alt="payment slip"
-                                                    width="100"
-                                                    height="50"
-                                                    style={{ objectFit: "cover" }}
-                                                    onClick={() => setPreviewImage(u.paymentReceipt.url)}
-                                                />
-                                            ) : (
-                                                "-"
-                                            )}
-                                        </td>
+                                                        <button
+                                                            className="btn btn-danger btn-sm my-2"
+                                                            onClick={() => updateStatus(u._id, "rejected")}
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </td>
 
-                                        <td>{u?.transactionId || "-"}</td>
-                                        <td>
-                                            <IconButton
-                                                onClick={() => {
-                                                    setEditUser(u);
-                                                    setShowEditModal(true);
-                                                }}>
-                                                <EditIcon color="success" />
-                                            </IconButton>
-                                        </td>
-                                        <td>
-                                            <IconButton
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => confirmDelete(u._id)}
-                                            >
-                                                <DeleteIcon color="error" />
-                                            </IconButton>
+                                            <td>
+                                                {u?.paymentReceipt?.url ? (
+                                                    <img
+                                                        src={u.paymentReceipt.url}
+                                                        alt="payment slip"
+                                                        width="100"
+                                                        height="50"
+                                                        style={{ objectFit: "cover" }}
+                                                        onClick={() => setPreviewImage(u.paymentReceipt.url)}
+                                                    />
+                                                ) : (
+                                                    "-"
+                                                )}
+                                            </td>
+
+                                            <td>{u?.transactionId || "-"}</td>
+                                            <td>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        setEditUser(u);
+                                                        setShowEditModal(true);
+                                                    }}>
+                                                    <EditIcon color="success" />
+                                                </IconButton>
+                                            </td>
+                                            <td>
+                                                <IconButton
+                                                    className="btn btn-danger btn-sm"
+                                                    onClick={() => confirmDelete(u._id)}
+                                                >
+                                                    <DeleteIcon color="error" />
+                                                </IconButton>
 
 
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                         </tbody>
                     </table>
                 </div>
