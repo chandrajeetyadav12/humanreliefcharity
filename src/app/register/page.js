@@ -122,6 +122,12 @@ export default function RegisterPage() {
           className="img-fluid"
         />
         <div className="card  p-3 border-0 bg-light">
+          <marquee direction="left" behavior="scroll">
+            <p className="mb-0 text-start text-md-center fw-semibold text-dark">
+              विशेष सूचना:- सदस्यता अभियान को गति देने के उद्देश्य से नवीन सदस्यता शुल्क 30 जून तक <span className="text-danger fw-bold">100</span> रुपये के स्थान पर
+              <span className="text-danger fw-bold"> 51</span>  रुपए किया जा रहा है।
+            </p>
+          </marquee>
           <p className="mb-0 text-start text-md-center fw-semibold text-dark">
             आप संस्था के इस खाते में निर्धारित रजिस्ट्रेशन शुल्क
             <span className="text-danger fw-bold"> ₹100 </span>
