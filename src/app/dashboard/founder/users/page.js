@@ -213,7 +213,7 @@ export default function UserVerificationPage() {
                                 .map((u, i) => {
                                     return (
                                         <tr key={u._id}>
-                                            <td> {(currentPage - 1) * usersPerPage + i + 1}</td>
+                                            <td> {filteredUsers.length-((currentPage - 1) * usersPerPage + i)}</td>
                                             <td>{u?.name}</td>
                                             <td>{u?.email}</td>
                                             <td>{u?.adharNumber}</td>
@@ -449,6 +449,7 @@ export default function UserVerificationPage() {
                                     >
                                         <option value="">Select Occupation</option>
                                         <option value="government">Government</option>
+                                        <option value="worker">श्रमिक</option>
                                         <option value="private">Private</option>
                                         <option value="business">Business</option>
                                         <option value="agriculture">Agriculture</option>

@@ -151,7 +151,7 @@ export default function MembersPage() {
                 currentMembers.map((m, i) => (
                   <tr key={m._id}>
                     <td>
-                      {(currentPage - 1) * membersPerPage + i + 1}
+                      {displayedMembers.length -((currentPage - 1) * membersPerPage + i)}
                     </td>
                     <td>{m.name || "Member"}</td>
                     <td>{m.occupation}</td>

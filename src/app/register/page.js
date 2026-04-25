@@ -191,6 +191,7 @@ export default function RegisterPage() {
               <select className="form-control" {...register("occupation")}>
                 <option value="">व्यवसाय चुनें</option>
                 <option value="government">सरकारी नौकरी</option>
+                <option value="worker">श्रमिक</option>
                 <option value="private">प्राइवेट नौकरी</option>
                 <option value="business">व्यवसाय</option>
                 <option value="agriculture">कृषि</option>
