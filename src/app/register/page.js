@@ -143,7 +143,7 @@ export default function RegisterPage() {
           {/* Name & Email */}
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label">पूरा नाम</label>
+              <label className="form-label">पूरा नाम<span className="text-danger">*</span></label>
               <input className="form-control" placeholder="पूरा नाम" {...register("name")} />
               <p className="text-danger">{errors.name?.message}</p>
             </div>
@@ -169,7 +169,7 @@ export default function RegisterPage() {
           {/* Mobile & Gender */}
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label">मोबाइल नंबर</label>
+              <label className="form-label">मोबाइल नंबर<span className="text-danger">*</span></label>
               <input className="form-control" placeholder="मोबाइल नंबर" {...register("mobile")} />
               <p className="text-danger">{errors.mobile?.message}</p>
             </div>
@@ -210,7 +210,7 @@ export default function RegisterPage() {
           {/* Aadhaar & Office */}
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label">आधार नंबर</label>
+              <label className="form-label">आधार नंबर<span className="text-danger">*</span></label>
               <input className="form-control" placeholder="12 अंकों का आधार नंबर"  {...register("adharNumber")} />
               <p className="text-danger">{errors.adharNumber?.message}</p>
             </div>
@@ -230,7 +230,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">जिला</label>
+              <label className="form-label">जिला<span className="text-danger">*</span></label>
               {/* <input className="form-control" placeholder="जिला" {...register("district")} /> */}
               <select className="form-control" {...register("district")}>
                 <option value="">जिला चुनें</option>
@@ -263,12 +263,12 @@ export default function RegisterPage() {
           {/* Nominee Fields */}
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label">नामिनी का नाम</label>
+              <label className="form-label">नामिनी का नाम<span className="text-danger">*</span></label>
               <input className="form-control" placeholder="नामिनी का नाम" {...register("nomineeName")} />
               <p className="text-danger">{errors.nomineeName?.message}</p>
             </div>
             <div className="col-md-6">
-              <label className="form-label">नामिनी से संबंध</label>
+              <label className="form-label">नामिनी से संबंध<span className="text-danger">*</span></label>
               <input className="form-control" placeholder="नामिनी से संबंध" {...register("nomineeRelation")} />
               <p className="text-danger">{errors.nomineeRelation?.message}</p>
             </div>
@@ -280,7 +280,7 @@ export default function RegisterPage() {
               <input className="form-control" placeholder="नामिनी मोबाइल नंबर" {...register("nomineeMobile")} />
             </div>
             <div className="col-md-6">
-              <label className="form-label">ट्रांजेक्शन आईडी</label>
+              <label className="form-label">ट्रांजेक्शन आईडी<span className="text-danger">*</span></label>
               <input className="form-control" placeholder="ट्रांजेक्शन आईडी" {...register("transactionId")} />
               <p className="text-danger">{errors.transactionId?.message}</p>
             </div>
@@ -311,7 +311,7 @@ export default function RegisterPage() {
           {/* Password */}
           <div className="mb-3">
             <div className="position-relative">
-              <label className="form-label">पासवर्ड</label>
+              <label className="form-label">पासवर्ड<span className="text-danger">*</span></label>
               <input type={showPassword ? "text" : "password"} className="form-control" placeholder="पासवर्ड" {...register("password")} />
               <span
                 onClick={() => setShowPassword(!showPassword)}
@@ -334,7 +334,7 @@ export default function RegisterPage() {
           {/* Accept Terms */}
           <div className="form-check mb-3">
             <input type="checkbox" className="form-check-input" {...register("acceptTerms")} />
-            <label className="form-check-label">मैं नियम व शर्तें स्वीकार करता हूँ </label>
+            <label className="form-check-label">मैं नियम व शर्तें स्वीकार करता हूँ<span className="text-danger">*</span> </label>
             <p className="text-danger">{errors.acceptTerms?.message}</p>
           </div>
 
