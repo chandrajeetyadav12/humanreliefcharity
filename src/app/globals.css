@@ -512,3 +512,56 @@ a {
 
 
 }
+
+.print-table {
+    display: none;
+}
+
+@media print {
+
+    body * {
+        visibility: hidden;
+    }
+
+    .print-table,
+    .print-table * {
+        visibility: visible;
+    }
+
+    .print-table {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        overflow: visible;
+    }
+
+    @page {
+        size: landscape;
+        margin: 10mm;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 4px;
+        font-size: 8px;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+}

@@ -12,9 +12,6 @@ import IconButton from "@mui/material/IconButton";
 import { toast } from "react-toastify";
 import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
 import { useRef } from "react";
-
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 export default function UserVerificationPage() {
     const [users, setUsers] = useState([]);
     const { user, loading } = useContext(AuthContext);
@@ -158,47 +155,47 @@ export default function UserVerificationPage() {
 
     // DOWNLOAD PDF
 
-    const downloadPDF = () => {
+    // const downloadPDF = () => {
 
-        const doc = new jsPDF({
-            orientation: "landscape",
-            unit: "pt",
-            format: "a1", // BIG PAGE
-        });
+    //     const doc = new jsPDF({
+    //         orientation: "landscape",
+    //         unit: "pt",
+    //         format: "a1", // BIG PAGE
+    //     });
 
-        autoTable(doc, {
+    //     autoTable(doc, {
 
-            html: "#full-users-table", // TABLE ID
+    //         html: "#full-users-table", // TABLE ID
 
-            startY: 20,
+    //         startY: 20,
 
-            styles: {
-                fontSize: 6,
-                cellPadding: 2,
-                overflow: "linebreak",
-            },
+    //         styles: {
+    //             fontSize: 6,
+    //             cellPadding: 2,
+    //             overflow: "linebreak",
+    //         },
 
-            headStyles: {
-                fillColor: [33, 37, 41],
-                textColor: 255,
-                fontSize: 7,
-            },
+    //         headStyles: {
+    //             fillColor: [33, 37, 41],
+    //             textColor: 255,
+    //             fontSize: 7,
+    //         },
 
-            bodyStyles: {
-                fontSize: 6,
-            },
+    //         bodyStyles: {
+    //             fontSize: 6,
+    //         },
 
-            tableWidth: "auto",
+    //         tableWidth: "auto",
 
-            theme: "grid",
+    //         theme: "grid",
 
-            horizontalPageBreak: true,
+    //         horizontalPageBreak: true,
 
-            horizontalPageBreakRepeat: 0,
-        });
+    //         horizontalPageBreakRepeat: 0,
+    //     });
 
-        doc.save("users.pdf");
-    };
+    //     doc.save("users.pdf");
+    // };
     if (loading) return <p>Loading...</p>;
 
     //  SEARCH FILTER
@@ -248,7 +245,7 @@ export default function UserVerificationPage() {
             <div className="d-flex justify-content-end mb-3">
                 <button
                     className="btn btn-primary"
-                    onClick={downloadPDF}
+                    onClick={() => window.print()}
                 >
                     Download PDF
                 </button>
@@ -420,12 +417,10 @@ export default function UserVerificationPage() {
                         </tbody>
                     </table>
                     {/* HIDDEN TABLE FOR PDF EXPORT */}
+                    <div className="print-table">
 
-                    <div style={{ display: "none" }}>
-                        <table
-                            id="full-users-table"
-                            className="table table-bordered"
-                        >
+                        <table className="table table-bordered">
+
                             <thead>
                                 <tr>
                                     <th>S.N</th>
@@ -433,58 +428,89 @@ export default function UserVerificationPage() {
                                     <th>Email</th>
                                     <th>Adhaar Number</th>
                                     <th>Block Number</th>
-                                    <th>created date</th>
-                                    <th>district</th>
-                                    <th>state</th>
+                                    <th>Created Date</th>
+                                    <th>District</th>
+                                    <th>State</th>
                                     <th>DOB</th>
-                                    <th>fatherorhusbandname</th>
-                                    <th>gender</th>
-                                    <th>governmentDepartment</th>
-                                    <th>mobile</th>
-                                    <th>nomineeMobile</th>
-                                    <th>nomineeName</th>
-                                    <th>nomineeRelation</th>
-                                    <th>occupation</th>
-                                    <th>office Address</th>
-                                    <th>role</th>
-                                    <th>permanentAddress</th>
+                                    <th>Father/Husband Name</th>
+                                    <th>Gender</th>
+                                    <th>Government Department</th>
+                                    <th>Mobile</th>
+                                    <th>Nominee Mobile</th>
+                                    <th>Nominee Name</th>
+                                    <th>Nominee Relation</th>
+                                    <th>Occupation</th>
+                                    <th>Office Address</th>
+                                    <th>Role</th>
+                                    <th>Permanent Address</th>
                                     <th>Status</th>
                                     <th>Transaction Id</th>
                                 </tr>
                             </thead>
 
                             <tbody>
+
                                 {filteredUsers.map((u, i) => (
+
                                     <tr key={u._id}>
+
                                         <td>{filteredUsers.length - i}</td>
-                                        <td>{u?.name}</td>
-                                        <td>{u?.email}</td>
-                                        <td>{u?.adharNumber}</td>
+
+                                        <td>{u?.name || "-"}</td>
+
+                                        <td>{u?.email || "-"}</td>
+
+                                        <td>{u?.adharNumber || "-"}</td>
+
                                         <td>{u?.blockNumber || "-"}</td>
+
                                         <td>
-                                            {new Date(u.createdAt).toLocaleDateString()}
+                                            {u?.createdAt
+                                                ? new Date(u.createdAt).toLocaleDateString()
+                                                : "-"}
                                         </td>
+
                                         <td>{u?.district || "-"}</td>
+
                                         <td>{u?.state || "-"}</td>
+
                                         <td>{u?.dob || "-"}</td>
+
                                         <td>{u?.fatherorhusbandname || "-"}</td>
+
                                         <td>{u?.gender || "-"}</td>
+
                                         <td>{u?.governmentDepartment || "-"}</td>
+
                                         <td>{u?.mobile || "-"}</td>
+
                                         <td>{u?.nomineeMobile || "-"}</td>
+
                                         <td>{u?.nomineeName || "-"}</td>
+
                                         <td>{u?.nomineeRelation || "-"}</td>
+
                                         <td>{u?.occupation || "-"}</td>
+
                                         <td>{u?.officeNameAddress || "-"}</td>
+
                                         <td>{u?.role || "-"}</td>
+
                                         <td>{u?.permanentAddress || "-"}</td>
+
                                         <td>{u?.status || "-"}</td>
+
                                         <td>{u?.transactionId || "-"}</td>
+
                                     </tr>
                                 ))}
+
                             </tbody>
+
                         </table>
+
                     </div>
+
                 </div>
                 {totalPages > 1 && (
 
