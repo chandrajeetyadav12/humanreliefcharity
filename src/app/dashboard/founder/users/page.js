@@ -11,7 +11,10 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import IconButton from "@mui/material/IconButton";
 import { toast } from "react-toastify";
 import { rajasthanDistricts } from "@/constants/rajasthanDistricts";
+import { useRef } from "react";
 
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 export default function UserVerificationPage() {
     const [users, setUsers] = useState([]);
     const { user, loading } = useContext(AuthContext);
@@ -23,6 +26,13 @@ export default function UserVerificationPage() {
     //  NEW STATES
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    // PDF + DRAG SCROLL STATES
+    const tableRef = useRef(null);
+
+    const [isDown, setIsDown] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
     const usersPerPage = 10;
 
     const updateUser = async () => {
@@ -92,7 +102,41 @@ export default function UserVerificationPage() {
             }
         );
     };
+    // DRAG SCROLL FUNCTIONS
 
+    const handleMouseDown = (e) => {
+        setIsDown(true);
+
+        setStartX(
+            e.pageX - tableRef.current.offsetLeft
+        );
+
+        setScrollLeft(
+            tableRef.current.scrollLeft
+        );
+    };
+
+    const handleMouseLeave = () => {
+        setIsDown(false);
+    };
+
+    const handleMouseUp = () => {
+        setIsDown(false);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDown) return;
+
+        e.preventDefault();
+
+        const x =
+            e.pageX - tableRef.current.offsetLeft;
+
+        const walk = (x - startX) * 2;
+
+        tableRef.current.scrollLeft =
+            scrollLeft - walk;
+    };
     const deleteUser = async (id) => {
         try {
             const res = await fetch(`/api/users/${id}`, {
@@ -112,7 +156,49 @@ export default function UserVerificationPage() {
         }
     };
 
+    // DOWNLOAD PDF
 
+    const downloadPDF = () => {
+
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "pt",
+            format: "a1", // BIG PAGE
+        });
+
+        autoTable(doc, {
+
+            html: "#full-users-table", // TABLE ID
+
+            startY: 20,
+
+            styles: {
+                fontSize: 6,
+                cellPadding: 2,
+                overflow: "linebreak",
+            },
+
+            headStyles: {
+                fillColor: [33, 37, 41],
+                textColor: 255,
+                fontSize: 7,
+            },
+
+            bodyStyles: {
+                fontSize: 6,
+            },
+
+            tableWidth: "auto",
+
+            theme: "grid",
+
+            horizontalPageBreak: true,
+
+            horizontalPageBreakRepeat: 0,
+        });
+
+        doc.save("users.pdf");
+    };
     if (loading) return <p>Loading...</p>;
 
     //  SEARCH FILTER
@@ -159,6 +245,14 @@ export default function UserVerificationPage() {
     };
     return (
         <div className="container my-5">
+            <div className="d-flex justify-content-end mb-3">
+                <button
+                    className="btn btn-primary"
+                    onClick={downloadPDF}
+                >
+                    Download PDF
+                </button>
+            </div>
             <h3 className="mb-4">
                 {user?.role === "founder"
                     ? "Founder – User Verification"
@@ -174,7 +268,21 @@ export default function UserVerificationPage() {
                 />
             </div>
             <div className="bg-white p-3 rounded shadow-sm border">
-                <div className="table-responsive">
+                {/* <div className="table-responsive"> */}
+                <div
+                    ref={tableRef}
+                    className="table-responsive"
+                    style={{
+                        overflowX: "auto",
+                        cursor: isDown ? "grabbing" : "grab",
+                        whiteSpace: "nowrap",
+                        userSelect: "none",
+                    }}
+                    onMouseDown={handleMouseDown}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                >
                     <table className="table table-bordered table-striped">
                         <thead className="table-dark">
                             <tr>
@@ -213,7 +321,7 @@ export default function UserVerificationPage() {
                                 .map((u, i) => {
                                     return (
                                         <tr key={u._id}>
-                                            <td> {filteredUsers.length-((currentPage - 1) * usersPerPage + i)}</td>
+                                            <td> {filteredUsers.length - ((currentPage - 1) * usersPerPage + i)}</td>
                                             <td>{u?.name}</td>
                                             <td>{u?.email}</td>
                                             <td>{u?.adharNumber}</td>
@@ -311,6 +419,72 @@ export default function UserVerificationPage() {
                                 })}
                         </tbody>
                     </table>
+                    {/* HIDDEN TABLE FOR PDF EXPORT */}
+
+                    <div style={{ display: "none" }}>
+                        <table
+                            id="full-users-table"
+                            className="table table-bordered"
+                        >
+                            <thead>
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Adhaar Number</th>
+                                    <th>Block Number</th>
+                                    <th>created date</th>
+                                    <th>district</th>
+                                    <th>state</th>
+                                    <th>DOB</th>
+                                    <th>fatherorhusbandname</th>
+                                    <th>gender</th>
+                                    <th>governmentDepartment</th>
+                                    <th>mobile</th>
+                                    <th>nomineeMobile</th>
+                                    <th>nomineeName</th>
+                                    <th>nomineeRelation</th>
+                                    <th>occupation</th>
+                                    <th>office Address</th>
+                                    <th>role</th>
+                                    <th>permanentAddress</th>
+                                    <th>Status</th>
+                                    <th>Transaction Id</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {filteredUsers.map((u, i) => (
+                                    <tr key={u._id}>
+                                        <td>{filteredUsers.length - i}</td>
+                                        <td>{u?.name}</td>
+                                        <td>{u?.email}</td>
+                                        <td>{u?.adharNumber}</td>
+                                        <td>{u?.blockNumber || "-"}</td>
+                                        <td>
+                                            {new Date(u.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td>{u?.district || "-"}</td>
+                                        <td>{u?.state || "-"}</td>
+                                        <td>{u?.dob || "-"}</td>
+                                        <td>{u?.fatherorhusbandname || "-"}</td>
+                                        <td>{u?.gender || "-"}</td>
+                                        <td>{u?.governmentDepartment || "-"}</td>
+                                        <td>{u?.mobile || "-"}</td>
+                                        <td>{u?.nomineeMobile || "-"}</td>
+                                        <td>{u?.nomineeName || "-"}</td>
+                                        <td>{u?.nomineeRelation || "-"}</td>
+                                        <td>{u?.occupation || "-"}</td>
+                                        <td>{u?.officeNameAddress || "-"}</td>
+                                        <td>{u?.role || "-"}</td>
+                                        <td>{u?.permanentAddress || "-"}</td>
+                                        <td>{u?.status || "-"}</td>
+                                        <td>{u?.transactionId || "-"}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 {totalPages > 1 && (
 
