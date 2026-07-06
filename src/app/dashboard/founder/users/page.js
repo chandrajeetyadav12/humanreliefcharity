@@ -594,6 +594,19 @@ export default function UserVerificationPage() {
                                         }
                                         placeholder="Email"
                                     />
+                                    <label className="form-label fw-semibold">Aadhaar Number</label>
+                                    <input
+                                        type="text"
+                                        className="form-control mb-2"
+                                        value={editUser.adharNumber || ""}
+                                        onChange={(e) =>
+                                            setEditUser({
+                                                ...editUser,
+                                                adharNumber: e.target.value,
+                                            })
+                                        }
+                                        placeholder="Enter Aadhaar Number"
+                                    />
                                     <label className="form-label fw-semibold">Mobile</label>
                                     <input
                                         className="form-control mb-2"

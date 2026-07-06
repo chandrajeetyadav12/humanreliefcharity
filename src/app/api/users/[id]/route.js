@@ -55,6 +55,7 @@ export async function PATCH(req, { params }) {
       "name",
       "email",
       "password",
+      "adharNumber",
       "mobile",
       "dob",
       "gender",
