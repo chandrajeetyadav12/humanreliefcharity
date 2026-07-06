@@ -204,7 +204,8 @@ export default function UserVerificationPage() {
         .filter(
             (u) =>
                 u.name?.toLowerCase().includes(search.toLowerCase()) ||
-                u.adharNumber?.includes(search)
+                u.adharNumber?.includes(search)||
+                u.district?.toLowerCase().includes(search.toLowerCase())
         );
 
     //  PAGINATION
@@ -259,7 +260,7 @@ export default function UserVerificationPage() {
             <div className="mb-3">
                 <input
                     className="form-control"
-                    placeholder="Search by Name or Aadhaar"
+                    placeholder="Search by Name , Aadhaar or District"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
